@@ -1,10 +1,20 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import "@fontsource/inter";
+import LoginOne from "./login/pages/LoginOne";
 
 function App() {
   return (
     <>
-      <h1 className="text-3xl font-bold ">Hello world!</h1>{" "}
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={<LoginOne />}
+          />
+          <Route></Route>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
