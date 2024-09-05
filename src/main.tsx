@@ -5,7 +5,7 @@ import "./index.css";
 import { CssVarsProvider, ThemeProvider } from "@mui/joy/styles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import { BrowserRouter } from "react-router-dom";
-import theme from "./utils/themeOne.tsx";
+import theme from "./utils/themeOne.ts";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

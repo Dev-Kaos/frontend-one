@@ -13,10 +13,12 @@ import Link from "@mui/joy/Link";
 import Input from "@mui/joy/Input";
 import Typography from "@mui/joy/Typography";
 import Stack from "@mui/joy/Stack";
-import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
-import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import BadgeRoundedIcon from "@mui/icons-material/BadgeRounded";
-import GoogleIcon from "./GoogleIcon";
+import { TbBrandReact, TbMoonFilled, TbSunFilled } from "react-icons/tb";
+import { FcLike } from "react-icons/fc";
+import { SiSpringboot } from "react-icons/si";
+import { useEffect } from "react";
+import { FormHelperText } from "@mui/joy";
 
 interface FormElements extends HTMLFormControlsCollection {
   email: HTMLInputElement;
@@ -32,7 +34,7 @@ function ColorSchemeToggle(props: IconButtonProps) {
   const { mode, setMode } = useColorScheme();
   const [mounted, setMounted] = React.useState(false);
 
-  React.useEffect(() => setMounted(true), []);
+  useEffect(() => setMounted(true), []);
 
   return (
     <IconButton
@@ -46,14 +48,14 @@ function ColorSchemeToggle(props: IconButtonProps) {
       }}
       {...other}
     >
-      {mode === "light" ? <DarkModeRoundedIcon /> : <LightModeRoundedIcon />}
+      {mode === "light" ? <TbMoonFilled /> : <TbSunFilled />}
     </IconButton>
   );
 }
 
 const customTheme = extendTheme({ defaultColorScheme: "dark" });
 
-export default function JoySignInSideTemplate() {
+export default function LoginOne() {
   return (
     <CssVarsProvider
       theme={customTheme}
@@ -105,7 +107,7 @@ export default function JoySignInSideTemplate() {
               >
                 <BadgeRoundedIcon />
               </IconButton>
-              <Typography level="title-lg">Company logo</Typography>
+              <Typography level="title-lg">Colegio Instituto Inscap</Typography>
             </Box>
             <ColorSchemeToggle />
           </Box>
@@ -138,26 +140,19 @@ export default function JoySignInSideTemplate() {
                   component="h1"
                   level="h3"
                 >
-                  Sign in
+                  Bienvenido
                 </Typography>
                 <Typography level="body-sm">
-                  New to company?{" "}
+                  ¿Necesitas Información o Tienes Algun Problema?{" "}
+                  {/* //TODO: cambiar por un toogle */}
                   <Link
                     href="#replace-with-a-link"
                     level="title-sm"
                   >
-                    Sign up!
+                    Contactanos
                   </Link>
                 </Typography>
               </Stack>
-              <Button
-                variant="soft"
-                color="neutral"
-                fullWidth
-                startDecorator={<BadgeRoundedIcon />}
-              >
-                Continue with Google
-              </Button>
             </Stack>
             <Divider
               sx={(theme) => ({
@@ -165,28 +160,16 @@ export default function JoySignInSideTemplate() {
                   color: { xs: "#FFF", md: "text.tertiary" },
                 },
               })}
-            >
-              or
-            </Divider>
+            ></Divider>
             <Stack sx={{ gap: 4, mt: 2 }}>
-              <form
-                onSubmit={(event: React.FormEvent<SignInFormElement>) => {
-                  event.preventDefault();
-                  const formElements = event.currentTarget.elements;
-                  const data = {
-                    email: formElements.email.value,
-                    password: formElements.password.value,
-                    persistent: formElements.persistent.checked,
-                  };
-                  alert(JSON.stringify(data, null, 2));
-                }}
-              >
+              <form>
                 <FormControl required>
                   <FormLabel>Email</FormLabel>
                   <Input
                     type="email"
                     name="email"
                   />
+                  <FormHelperText>Aqui van las validaciones</FormHelperText>
                 </FormControl>
                 <FormControl required>
                   <FormLabel>Password</FormLabel>
@@ -205,14 +188,14 @@ export default function JoySignInSideTemplate() {
                   >
                     <Checkbox
                       size="sm"
-                      label="Remember me"
+                      label="Recuerdame"
                       name="persistent"
                     />
                     <Link
                       level="title-sm"
                       href="#replace-with-a-link"
                     >
-                      Forgot your password?
+                      ¿Olvidaste tu contraseña?
                     </Link>
                   </Box>
                   <Button
@@ -225,16 +208,57 @@ export default function JoySignInSideTemplate() {
               </form>
             </Stack>
           </Box>
+
           <Box
             component="footer"
-            sx={{ py: 3 }}
+            sx={{
+              py: 2,
+              gap: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
             <Typography
               level="body-xs"
-              sx={{ textAlign: "center" }}
+              textAlign="center"
             >
-              © Your company {new Date().getFullYear()}
+              © Made by Kaos with
             </Typography>
+            <IconButton
+              className=""
+              color="danger"
+              size="lg"
+            >
+              <FcLike />
+            </IconButton>
+            <Typography
+              level="body-xs"
+              textAlign="center"
+            >
+              +
+            </Typography>
+            <IconButton
+              className="size-4"
+              size="lg"
+              sx={{ color: "#08d9ff" }}
+            >
+              <TbBrandReact />
+            </IconButton>
+            <Typography
+              level="body-xs"
+              textAlign="center"
+            >
+              +
+            </Typography>
+            <IconButton
+              className=""
+              color="success"
+              size="lg"
+              sx={{ color: "#8fc550" }}
+            >
+              <SiSpringboot />
+            </IconButton>
           </Box>
         </Box>
       </Box>
