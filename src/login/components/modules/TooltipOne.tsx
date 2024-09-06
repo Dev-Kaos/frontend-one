@@ -1,14 +1,13 @@
 import Box from "@mui/joy/Box";
 import Tooltip from "@mui/joy/Tooltip";
 import Typography from "@mui/joy/Typography";
-import Link from "@mui/joy/Link";
+
 import Chip from "@mui/joy/Chip";
 import { Button, Divider, IconButton } from "@mui/joy";
 import {
   TbAlertTriangleFilled,
   TbInfoCircle,
   TbInfoTriangle,
-  TbTriangleFilled,
 } from "react-icons/tb";
 
 export default function TooltipOne() {
@@ -74,7 +73,7 @@ export default function TooltipOne() {
                   mt: 3,
                   mb: 2,
                 }}
-                startDecorator={<TbTriangleFilled />}
+                startDecorator={<TbAlertTriangleFilled />}
               >
                 - Aun no consigo ingresar
               </Chip>

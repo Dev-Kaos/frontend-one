@@ -1,4 +1,3 @@
-import * as React from "react";
 import { CssVarsProvider, useColorScheme } from "@mui/joy/styles";
 import GlobalStyles from "@mui/joy/GlobalStyles";
 import CssBaseline from "@mui/joy/CssBaseline";
@@ -14,17 +13,25 @@ import Input from "@mui/joy/Input";
 import Typography from "@mui/joy/Typography";
 import Stack from "@mui/joy/Stack";
 import BadgeRoundedIcon from "@mui/icons-material/BadgeRounded";
-import { TbBrandReact, TbMoonFilled, TbSunFilled } from "react-icons/tb";
+import {
+  TbAlertTriangle,
+  TbBrandReact,
+  TbLock,
+  TbLockOpen2,
+  TbMoonFilled,
+  TbSunFilled,
+} from "react-icons/tb";
 import { FcLike } from "react-icons/fc";
 import { SiSpringboot } from "react-icons/si";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FormHelperText } from "@mui/joy";
 import TooltipOne from "../components/modules/TooltipOne";
+import { useForm } from "react-hook-form";
 
 function ColorSchemeToggle(props: IconButtonProps) {
   const { onClick, ...other } = props;
   const { mode, setMode } = useColorScheme();
-  const [mounted, setMounted] = React.useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
 
@@ -46,9 +53,27 @@ function ColorSchemeToggle(props: IconButtonProps) {
 }
 
 {
-  /* //TODO: Component */
+  /* //FIXME: Crear la validacion al baceknd */
 }
 export default function LoginOne() {
+  // TODO: Password
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handlePasswordClick = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  // TODO: react-hook-form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = handleSubmit((data) => {
+    // Aquí puedes hacer lo que quieras con los datos del formulario
+  });
+
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
@@ -138,7 +163,7 @@ export default function LoginOne() {
                   alignItems="center"
                 >
                   <Typography level="body-sm">
-                    ¿Necesitas Información o Tienes Algun Problema?
+                    ¿Necesitas información o tienes algún problema?
                   </Typography>
                   <TooltipOne />
                 </Stack>
@@ -153,22 +178,72 @@ export default function LoginOne() {
             ></Divider>
             <Stack sx={{ gap: 4, mt: 2 }}>
               {/* //TODO: Forms */}
-              <form>
-                <FormControl required>
+              <form onSubmit={onSubmit}>
+                <FormControl error={errors.cuenta ? true : false}>
                   <FormLabel>Cuenta</FormLabel>
                   <Input
-                    type="email"
+                    type="text"
+                    {...register("cuenta", {
+                      required: {
+                        value: true,
+                        message: "El campo cuenta no puede estar vacio",
+                      },
+                      minLength: {
+                        value: 6,
+                        message:
+                          "el campo cuenta debe tener al menos 6 caracteres",
+                      },
+                      maxLength: {
+                        value: 15,
+                        message:
+                          "el campo cuenta no puede contener mas de 15 caracteres",
+                      },
+                    })}
                     name="cuenta"
                   />
-                  <FormHelperText>Aqui van las validaciones</FormHelperText>
+                  {errors.cuenta && (
+                    <FormHelperText sx={{ gap: 1 }}>
+                      <TbAlertTriangle />
+                      <span>{errors.cuenta.message as string}</span>
+                    </FormHelperText>
+                  )}
                 </FormControl>
-                <FormControl required>
+                <FormControl error={errors.contra ? true : false}>
                   <FormLabel>Contraseña</FormLabel>
                   <Input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
+                    {...register("contra", {
+                      required: {
+                        value: true,
+                        message: "El campo contraseña no puede estar vacio",
+                      },
+                      minLength: {
+                        value: 6,
+                        message:
+                          "el campo contraseña debe tener al menos 6 caracteres",
+                      },
+                      maxLength: {
+                        value: 15,
+                        message:
+                          "el campo contraseña no puede contener mas de 15 caracteres",
+                      },
+                    })}
                     name="contra"
+                    endDecorator={
+                      <IconButton
+                        variant="plain"
+                        onClick={handlePasswordClick}
+                      >
+                        {showPassword ? <TbLockOpen2 /> : <TbLock />}
+                      </IconButton>
+                    }
                   />
-                  <FormHelperText>Aqui van las validaciones</FormHelperText>
+                  {errors.contra && (
+                    <FormHelperText sx={{ gap: 1 }}>
+                      <TbAlertTriangle />
+                      <span>{errors.contra.message as string}</span>
+                    </FormHelperText>
+                  )}
                 </FormControl>
                 <Stack sx={{ gap: 4, mt: 2 }}>
                   <Box
@@ -194,7 +269,7 @@ export default function LoginOne() {
                     type="submit"
                     fullWidth
                   >
-                    Sign in
+                    Entrar
                   </Button>
                 </Stack>
               </form>
