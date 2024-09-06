@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CssVarsProvider, extendTheme, useColorScheme } from "@mui/joy/styles";
+import { CssVarsProvider, useColorScheme } from "@mui/joy/styles";
 import GlobalStyles from "@mui/joy/GlobalStyles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
@@ -19,15 +19,7 @@ import { FcLike } from "react-icons/fc";
 import { SiSpringboot } from "react-icons/si";
 import { useEffect } from "react";
 import { FormHelperText } from "@mui/joy";
-
-interface FormElements extends HTMLFormControlsCollection {
-  email: HTMLInputElement;
-  password: HTMLInputElement;
-  persistent: HTMLInputElement;
-}
-interface SignInFormElement extends HTMLFormElement {
-  readonly elements: FormElements;
-}
+import TooltipOne from "../components/modules/TooltipOne";
 
 function ColorSchemeToggle(props: IconButtonProps) {
   const { onClick, ...other } = props;
@@ -53,14 +45,12 @@ function ColorSchemeToggle(props: IconButtonProps) {
   );
 }
 
-const customTheme = extendTheme({ defaultColorScheme: "dark" });
-
+{
+  /* //TODO: Component */
+}
 export default function LoginOne() {
   return (
-    <CssVarsProvider
-      theme={customTheme}
-      disableTransitionOnChange
-    >
+    <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
       <GlobalStyles
         styles={{
@@ -142,16 +132,16 @@ export default function LoginOne() {
                 >
                   Bienvenido
                 </Typography>
-                <Typography level="body-sm">
-                  ¿Necesitas Información o Tienes Algun Problema?{" "}
-                  {/* //TODO: cambiar por un toogle */}
-                  <Link
-                    href="#replace-with-a-link"
-                    level="title-sm"
-                  >
-                    Contactanos
-                  </Link>
-                </Typography>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Typography level="body-sm">
+                    ¿Necesitas Información o Tienes Algun Problema?
+                  </Typography>
+                  <TooltipOne />
+                </Stack>
               </Stack>
             </Stack>
             <Divider
@@ -162,21 +152,23 @@ export default function LoginOne() {
               })}
             ></Divider>
             <Stack sx={{ gap: 4, mt: 2 }}>
+              {/* //TODO: Forms */}
               <form>
                 <FormControl required>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Cuenta</FormLabel>
                   <Input
                     type="email"
-                    name="email"
+                    name="cuenta"
                   />
                   <FormHelperText>Aqui van las validaciones</FormHelperText>
                 </FormControl>
                 <FormControl required>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Contraseña</FormLabel>
                   <Input
                     type="password"
-                    name="password"
+                    name="contra"
                   />
+                  <FormHelperText>Aqui van las validaciones</FormHelperText>
                 </FormControl>
                 <Stack sx={{ gap: 4, mt: 2 }}>
                   <Box
@@ -208,7 +200,7 @@ export default function LoginOne() {
               </form>
             </Stack>
           </Box>
-
+          {/* TODO:footer */}
           <Box
             component="footer"
             sx={{
