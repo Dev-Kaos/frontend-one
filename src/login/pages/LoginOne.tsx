@@ -27,6 +27,7 @@ import { useEffect, useState } from "react";
 import { FormHelperText } from "@mui/joy";
 import TooltipOne from "../components/modules/TooltipOne";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 function ColorSchemeToggle(props: IconButtonProps) {
   const { onClick, ...other } = props;
@@ -70,8 +71,13 @@ export default function LoginOne() {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
+
   const onSubmit = handleSubmit((data) => {
     // Aquí puedes hacer lo que quieras con los datos del formulario
+    // Coregir la redireccion
+
+    navigate("/administrador");
   });
 
   return (

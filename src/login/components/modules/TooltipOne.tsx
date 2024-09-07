@@ -12,6 +12,7 @@ import {
 
 export default function TooltipOne() {
   return (
+    // TODO: Revisar el tooltip crear card, mejor estilo
     <Tooltip
       placement="top-end"
       variant="outlined"
