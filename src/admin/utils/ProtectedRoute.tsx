@@ -1,11 +1,15 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function ProtectedRoute({
-  isAunthenticated,
+  isAuthenticated,
+  role,
+  allowedRoles,
 }: {
-  isAunthenticated: boolean;
+  isAuthenticated: boolean;
+  role: string;
+  allowedRoles: string[];
 }) {
-  if (!isAunthenticated) {
+  if (!isAuthenticated || !allowedRoles.includes(role)) {
     return <Navigate to="/" />;
   } else {
     return <Outlet />;

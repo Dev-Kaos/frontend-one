@@ -76,6 +76,15 @@ export default function LoginOne() {
   const onSubmit = handleSubmit((data) => {
     // Aquí puedes hacer lo que quieras con los datos del formulario
     // Coregir la redireccion
+    // console.log(data);
+
+    // const { username, password } = data;
+
+    // const dataToSend = { username, password };
+    // console.log(JSON.stringify(dataToSend));
+
+    // Aquí podrías hacer una llamada a tu API o realizar otras acciones
+    // ...
 
     navigate("/administrador");
   });

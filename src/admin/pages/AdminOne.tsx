@@ -1,16 +1,14 @@
 import { Box, CssBaseline, CssVarsProvider } from "@mui/joy";
 import { Outlet } from "react-router-dom";
+import SidebarOne from "../../components/modules/SidebarOne";
 
 function AdminOne() {
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
       <Box sx={{ display: "flex", minHeight: "100dvh" }}>
-        {/* <SidebarFour
-          data={sidebarData}
-          user={sidebarUserData}
-        />
-        <Header /> */}
+        <SidebarOne />
+        {/* <Header /> */}
         <Box
           component="main"
           className="MainContent"

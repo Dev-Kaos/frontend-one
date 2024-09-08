@@ -6,8 +6,24 @@ import AdminOne from "./admin/pages/AdminOne";
 import AusersOne from "./admin/pages/AusersOne";
 import AnewsOne from "./admin/pages/AnewsOne";
 import ProtectedRoute from "./admin/utils/ProtectedRoute";
+import { useAuthStore } from "./store/authStore";
 
 function App() {
+  // TODO: Cargar la configuracion del backend
+
+  // TODO: Cargar el token
+
+  // TODO: Cargar el rol
+
+  // TODO: Cargar el usuario
+
+  // TODO: Cargar el tema
+
+  // TODO: Cargar el idioma
+
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const role = useAuthStore((state) => state.role);
+
   return (
     <>
       <Routes>
@@ -15,7 +31,15 @@ function App() {
           path=""
           element={<LoginOne />}
         />
-        <Route element={<ProtectedRoute isAunthenticated={true} />}>
+        <Route
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              role={role}
+              allowedRoles={["administrador"]}
+            />
+          }
+        >
           <Route
             path="/administrador/"
             element={<AdminOne />}
