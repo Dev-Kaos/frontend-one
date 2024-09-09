@@ -1,4 +1,3 @@
-import * as React from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
@@ -13,22 +12,13 @@ import Stack from "@mui/joy/Stack";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import Typography from "@mui/joy/Typography";
-import Tabs from "@mui/joy/Tabs";
-import TabList from "@mui/joy/TabList";
-import Tab, { tabClasses } from "@mui/joy/Tab";
-import Breadcrumbs from "@mui/joy/Breadcrumbs";
-import Link from "@mui/joy/Link";
 import Card from "@mui/joy/Card";
 import CardActions from "@mui/joy/CardActions";
 import CardOverflow from "@mui/joy/CardOverflow";
-
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
-import VideocamRoundedIcon from "@mui/icons-material/VideocamRounded";
-import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import { InfoOutlined } from "@mui/icons-material";
 
 // import DropZone from './DropZone';
 // import FileUpload from './FileUpload';
@@ -46,7 +36,10 @@ export default function FormUserOne() {
           zIndex: 9995,
         }}
       >
-        <Box sx={{ px: { xs: 1 } }}>
+        <Box
+          component="form"
+          sx={{ px: { xs: 1 } }}
+        >
           <Stack
             spacing={4}
             sx={{
@@ -66,247 +59,161 @@ export default function FormUserOne() {
               variant="outlined"
             >
               <Box sx={{ mb: 1 }}>
-                <Typography level="title-md">Informacion personal</Typography>
-                <Typography level="body-sm">
-                  Customize how your profile information will apper to the
-                  networks.
+                <Typography
+                  level="title-md"
+                  startDecorator={<InfoOutlined />}
+                >
+                  Información personal
                 </Typography>
               </Box>
               <Divider />
-              <Stack
-                direction="row"
-                spacing={3}
-                sx={{ display: { xs: "none", md: "flex" }, my: 1 }}
+
+              {/* // TODO: GRID */}
+              <Box
+                sx={{
+                  mt: 1,
+                  display: "grid",
+                  gridTemplateColumns: "repeat(12, 1fr)",
+                  gap: 2,
+                }}
               >
-                <Stack
-                  direction="column"
-                  spacing={1}
+                <Box
+                  sx={{
+                    gridColumn: { xs: "span 12", md: "span 3", lg: "span 3" },
+                    // border: "1px solid red",
+                  }}
                 >
-                  <AspectRatio
-                    ratio="1"
-                    maxHeight={200}
-                    sx={{ flex: 1, minWidth: 120, borderRadius: "100%" }}
-                  >
-                    <img
-                      src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                      srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                      loading="lazy"
-                      alt=""
-                    />
-                  </AspectRatio>
-                  <IconButton
-                    aria-label="upload new picture"
-                    size="sm"
-                    variant="outlined"
-                    color="neutral"
-                    sx={{
-                      bgcolor: "background.body",
-                      position: "absolute",
-                      zIndex: 2,
-                      borderRadius: "50%",
-                      left: 100,
-                      top: 170,
-                      boxShadow: "sm",
-                    }}
-                  >
-                    <EditRoundedIcon />
-                  </IconButton>
-                </Stack>
-                <Stack
-                  spacing={2}
-                  sx={{ flexGrow: 1 }}
-                >
-                  <Stack spacing={1}>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl
-                      sx={{
-                        display: { sm: "flex-column", md: "flex-row" },
-                        gap: 2,
-                      }}
-                    >
-                      <Input
-                        size="sm"
-                        placeholder="First name"
-                      />
-                      <Input
-                        size="sm"
-                        placeholder="Last name"
-                        sx={{ flexGrow: 1 }}
-                      />
-                    </FormControl>
-                  </Stack>
-                  <Stack
-                    direction="row"
-                    spacing={2}
-                  >
-                    <FormControl>
-                      <FormLabel>Role</FormLabel>
-                      <Input
-                        size="sm"
-                        defaultValue="UI Developer"
-                      />
-                    </FormControl>
-                    <FormControl sx={{ flexGrow: 1 }}>
-                      <FormLabel>Email</FormLabel>
-                      <Input
-                        size="sm"
-                        type="email"
-                        startDecorator={<EmailRoundedIcon />}
-                        placeholder="email"
-                        defaultValue="siriwatk@test.com"
-                        sx={{ flexGrow: 1 }}
-                      />
-                    </FormControl>
-                  </Stack>
-                  <div>{/* <CountrySelector /> */}</div>
-                  <div>
-                    <FormControl sx={{ display: { sm: "contents" } }}>
-                      <FormLabel>Timezone</FormLabel>
-                      <Select
-                        size="sm"
-                        startDecorator={<AccessTimeFilledRoundedIcon />}
-                        defaultValue="1"
-                      >
-                        <Option value="1">
-                          Indochina Time (Bangkok){" "}
-                          <Typography
-                            textColor="text.tertiary"
-                            sx={{ ml: 0.5 }}
-                          >
-                            — GMT+07:00
-                          </Typography>
-                        </Option>
-                        <Option value="2">
-                          Indochina Time (Ho Chi Minh City){" "}
-                          <Typography
-                            textColor="text.tertiary"
-                            sx={{ ml: 0.5 }}
-                          >
-                            — GMT+07:00
-                          </Typography>
-                        </Option>
-                      </Select>
-                    </FormControl>
-                  </div>
-                </Stack>
-              </Stack>
-              <Stack
-                direction="column"
-                spacing={2}
-                sx={{ display: { xs: "flex", md: "none" }, my: 1 }}
-              >
-                <Stack
-                  direction="row"
-                  spacing={2}
-                >
-                  <Stack
-                    direction="column"
-                    spacing={1}
-                  >
-                    <AspectRatio
-                      ratio="1"
-                      maxHeight={108}
-                      sx={{ flex: 1, minWidth: 108, borderRadius: "100%" }}
-                    >
-                      <img
-                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                        srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                        loading="lazy"
-                        alt=""
-                      />
-                    </AspectRatio>
-                    <IconButton
-                      aria-label="upload new picture"
-                      size="sm"
+                  <FormControl sx={{ mb: 1 }}>
+                    <FormLabel>primer nombre</FormLabel>
+                    <Input
+                      type="text"
+                      placeholder="manuel"
                       variant="outlined"
-                      color="neutral"
-                      sx={{
-                        bgcolor: "background.body",
-                        position: "absolute",
-                        zIndex: 2,
-                        borderRadius: "50%",
-                        left: 85,
-                        top: 180,
-                        boxShadow: "sm",
-                      }}
-                    >
-                      <EditRoundedIcon />
-                    </IconButton>
-                  </Stack>
-                  <Stack
-                    spacing={1}
-                    sx={{ flexGrow: 1 }}
-                  >
-                    <FormLabel>Name</FormLabel>
-                    <FormControl
-                      sx={{
-                        display: {
-                          sm: "flex-column",
-                          md: "flex-row",
-                        },
-                        gap: 2,
-                      }}
-                    >
-                      <Input
-                        size="sm"
-                        placeholder="First name"
-                      />
-                      <Input
-                        size="sm"
-                        placeholder="Last name"
-                      />
-                    </FormControl>
-                  </Stack>
-                </Stack>
-                <FormControl>
-                  <FormLabel>Role</FormLabel>
-                  <Input
-                    size="sm"
-                    defaultValue="UI Developer"
-                  />
-                </FormControl>
-                <FormControl sx={{ flexGrow: 1 }}>
-                  <FormLabel>Email</FormLabel>
-                  <Input
-                    size="sm"
-                    type="email"
-                    startDecorator={<EmailRoundedIcon />}
-                    placeholder="email"
-                    defaultValue="siriwatk@test.com"
-                    sx={{ flexGrow: 1 }}
-                  />
-                </FormControl>
-                <div>{/* <CountrySelector /> */}</div>
-                <div>
-                  <FormControl sx={{ display: { sm: "contents" } }}>
-                    <FormLabel>Timezone</FormLabel>
-                    <Select
                       size="sm"
-                      startDecorator={<AccessTimeFilledRoundedIcon />}
-                      defaultValue="1"
-                    >
-                      <Option value="1">
-                        Indochina Time (Bangkok){" "}
-                        <Typography
-                          textColor="text.tertiary"
-                          sx={{ ml: 0.5 }}
-                        >
-                          — GMT+07:00
-                        </Typography>
-                      </Option>
-                      <Option value="2">
-                        Indochina Time (Ho Chi Minh City){" "}
-                        <Typography
-                          textColor="text.tertiary"
-                          sx={{ ml: 0.5 }}
-                        >
-                          — GMT+07:00
-                        </Typography>
-                      </Option>
-                    </Select>
+                    />
+                    <FormHelperText>Helper text</FormHelperText>
                   </FormControl>
-                </div>
-              </Stack>
+                </Box>
+                <Box
+                  sx={{
+                    gridColumn: { xs: "span 12", md: "span 3", lg: "span 3" },
+                    // border: "1px solid red",
+                  }}
+                >
+                  <FormControl sx={{ mb: 1 }}>
+                    <FormLabel>segundo nombre</FormLabel>
+                    <Input
+                      type="text"
+                      placeholder="fernando"
+                      variant="outlined"
+                      size="sm"
+                    />
+                    <FormHelperText>Helper text</FormHelperText>
+                  </FormControl>
+                </Box>{" "}
+                <Box
+                  sx={{
+                    gridColumn: { xs: "span 12", md: "span 3", lg: "span 3" },
+                    // border: "1px solid red",
+                  }}
+                >
+                  <FormControl sx={{ mb: 1 }}>
+                    <FormLabel>primer apellido</FormLabel>
+                    <Input
+                      type="text"
+                      placeholder="vela"
+                      variant="outlined"
+                      size="sm"
+                    />
+                    <FormHelperText>Helper text</FormHelperText>
+                  </FormControl>
+                </Box>{" "}
+                <Box
+                  sx={{
+                    gridColumn: { xs: "span 12", md: "span 3", lg: "span 3" },
+                    // border: "1px solid red",
+                  }}
+                >
+                  <FormControl sx={{ mb: 1 }}>
+                    <FormLabel>primer apellido</FormLabel>
+                    <Input
+                      type="text"
+                      placeholder="osorio"
+                      variant="outlined"
+                      size="sm"
+                    />
+                    <FormHelperText>15 caracteres maximo</FormHelperText>
+                  </FormControl>
+                </Box>
+                {/* documento */}
+                <Box
+                  sx={{
+                    gridColumn: { xs: "span 12", md: "span 2", lg: "span 2" },
+                    // border: "1px solid red",
+                  }}
+                >
+                  <FormControl sx={{ mb: 1 }}>
+                    <FormLabel>documento</FormLabel>
+                    <Input
+                      type="text"
+                      placeholder="1234567890"
+                      variant="outlined"
+                      size="sm"
+                    />
+                    <FormHelperText>Helper text</FormHelperText>
+                  </FormControl>
+                </Box>
+                <Box
+                  sx={{
+                    gridColumn: { xs: "span 12", md: "span 4", lg: "span 4" },
+                    // border: "1px solid red",
+                  }}
+                >
+                  <FormControl sx={{ mb: 1 }}>
+                    <FormLabel>lugar de expedición</FormLabel>
+                    <Input
+                      type="text"
+                      placeholder="velez(santander)"
+                      variant="outlined"
+                      size="sm"
+                    />
+                    <FormHelperText>Helper text</FormHelperText>
+                  </FormControl>
+                </Box>{" "}
+                <Box
+                  sx={{
+                    gridColumn: { xs: "span 12", md: "span 3", lg: "span 3" },
+                    // border: "1px solid red",
+                  }}
+                >
+                  <FormControl sx={{ mb: 1 }}>
+                    <FormLabel>fecha de expedición</FormLabel>
+                    <Input
+                      type="date"
+                      variant="outlined"
+                      size="sm"
+                    />
+                    <FormHelperText>Helper text</FormHelperText>
+                  </FormControl>
+                </Box>{" "}
+                <Box
+                  sx={{
+                    gridColumn: { xs: "span 12", md: "span 3", lg: "span 3" },
+                    // border: "1px solid red",
+                  }}
+                >
+                  <FormControl sx={{ mb: 1 }}>
+                    <FormLabel>tipo documento</FormLabel>
+
+                    <FormHelperText>15 caracteres maximo</FormHelperText>
+                  </FormControl>
+                </Box>
+              </Box>
+
+              {/* fin del grid */}
+
+              <Divider />
+
               <CardOverflow
                 sx={{ borderTop: "1px solid", borderColor: "divider" }}
               >
@@ -316,13 +223,13 @@ export default function FormUserOne() {
                     variant="outlined"
                     color="neutral"
                   >
-                    Cancel
+                    Eliminar
                   </Button>
                   <Button
                     size="sm"
                     variant="solid"
                   >
-                    Save
+                    Agregar
                   </Button>
                 </CardActions>
               </CardOverflow>

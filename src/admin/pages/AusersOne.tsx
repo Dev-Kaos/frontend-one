@@ -1,11 +1,11 @@
 import { Box } from "@mui/joy";
-import FormUserOne from "../components/modules/FormUserOne";
+import FormUserTwo from "../components/modules/FormUserTwo";
 
 export default function AusersOne() {
   return (
     <>
       <Box sx={{ width: "100%" }}>
-        <FormUserOne />
+        <FormUserTwo />
       </Box>
     </>
   );
