@@ -25,12 +25,26 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
-import VideocamRoundedIcon from "@mui/icons-material/VideocamRounded";
-import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
+
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import { SetStateAction, useState } from "react";
-import { TabPanel } from "@mui/joy";
-import { TbAlertTriangle, TbUserEdit } from "react-icons/tb";
+import { Chip, LinearProgress, TabPanel } from "@mui/joy";
+import {
+  TbAlertTriangle,
+  TbInfoCircle,
+  TbKey,
+  TbMail,
+  TbPhone,
+  TbTrash,
+  TbUser,
+  TbUserCog,
+  TbUserEdit,
+  TbUserMinus,
+  TbUserPlus,
+  TbUserQuestion,
+  TbUserSearch,
+} from "react-icons/tb";
+import { Key } from "@mui/icons-material";
 
 // import DropZone from './DropZone';
 // import FileUpload from './FileUpload';
@@ -51,10 +65,20 @@ export default function MyProfile() {
     setTabValue(newValue);
   };
 
+  // TODO: password meter
+
+  const [passwordMeter, setPasswordMeter] = useState("");
+
+  // TODO: password meter
+
+  const [passwordMeterConfirm, setPasswordMeterConfirm] = useState("");
+
+  const minLength = 10;
+
   return (
     <Box sx={{ flex: 1, width: "100%" }}>
       <Box sx={{ px: { xs: 2, md: 2 } }}>
-        <Breadcrumbs
+        {/* <Breadcrumbs
           size="sm"
           aria-label="breadcrumbs"
           separator={<ChevronRightRoundedIcon sx={{ fontSize: 12 }} />}
@@ -82,7 +106,7 @@ export default function MyProfile() {
           >
             My profile
           </Typography>
-        </Breadcrumbs>
+        </Breadcrumbs> */}
         {/* <Button
             onClick={() => {
               handleTabClick(1);
@@ -141,7 +165,7 @@ export default function MyProfile() {
             indicatorInset
             value={0}
           >
-            <TbUserEdit size={20} />
+            <TbUserSearch size={20} />
             Buscar
           </Tab>
           <Tab
@@ -149,7 +173,7 @@ export default function MyProfile() {
             indicatorInset
             value={1}
           >
-            <TbUserEdit size={20} /> Editar
+            <TbUserPlus size={20} /> Crear
           </Tab>
         </TabList>
 
@@ -385,94 +409,434 @@ export default function MyProfile() {
                 {/* // TODO:  fin del GRID */}
               </Box>
             </Card>
-          </Stack>
-        </TabPanel>
-      </Tabs>
 
-      <Stack
-        spacing={4}
-        sx={{
-          display: "flex",
-          maxWidth: "800px",
-          mx: "auto",
-          px: { xs: 2, md: 6 },
-          py: { xs: 2, md: 3 },
-        }}
-      >
-        <Card>
-          <Box sx={{ mb: 1 }}>
-            <Typography level="title-md">Personal info</Typography>
-            <Typography level="body-sm">
-              Customize how your profile information will apper to the networks.
-            </Typography>
-          </Box>
-          <Divider />
-          <Stack
-            direction="row"
-            spacing={3}
-            sx={{ display: { xs: "none", md: "flex" }, my: 1 }}
-          >
-            <Stack
-              direction="column"
-              spacing={1}
-            >
-              <AspectRatio
-                ratio="1"
-                maxHeight={200}
-                sx={{ flex: 1, minWidth: 120, borderRadius: "100%" }}
+            {/* // TODO:  datos de cuenta */}
+            <Card>
+              <Box sx={{ mb: 1 }}>
+                <Typography
+                  level="title-md"
+                  startDecorator={<TbInfoCircle />}
+                >
+                  Información de la cuenta{" "}
+                </Typography>
+              </Box>
+              <Divider />
+
+              <Stack
+                direction="row"
+                spacing={3}
+                sx={{ display: { xs: "flex", md: "flex" }, my: 1 }}
               >
-                <img
-                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                  srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                  loading="lazy"
-                  alt=""
-                />
-              </AspectRatio>
-              <IconButton
-                aria-label="upload new picture"
-                size="sm"
-                variant="outlined"
-                color="neutral"
-                sx={{
-                  bgcolor: "background.body",
-                  position: "absolute",
-                  zIndex: 2,
-                  borderRadius: "50%",
-                  left: 100,
-                  top: 170,
-                  boxShadow: "sm",
-                }}
-              >
-                <EditRoundedIcon />
-              </IconButton>
-            </Stack>
-            <Stack
-              spacing={2}
-              sx={{ flexGrow: 1 }}
-            >
-              <Stack spacing={1}>
-                <FormLabel>Name</FormLabel>
-                <FormControl
+                <Stack
+                  direction="column"
+                  spacing={1}
+                  sx={{}}
+                >
+                  <AspectRatio
+                    ratio="1"
+                    maxHeight={200}
+                    sx={{ flex: 1, minWidth: 120, borderRadius: "100%" }}
+                  >
+                    <img
+                      src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
+                      srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
+                      loading="lazy"
+                      alt=""
+                    />
+                  </AspectRatio>
+                  <IconButton
+                    aria-label="upload new picture"
+                    size="sm"
+                    variant="outlined"
+                    color="neutral"
+                    sx={{
+                      bgcolor: "background.body",
+                      position: "absolute",
+                      zIndex: 2,
+                      borderRadius: "50%",
+                      left: 100,
+                      top: 170,
+                      boxShadow: "sm",
+                    }}
+                  >
+                    <EditRoundedIcon />
+                  </IconButton>
+                </Stack>
+
+                <Box
                   sx={{
-                    display: { sm: "flex-column", md: "flex-row" },
+                    width: "100%",
+                    mt: 1,
+                    display: "grid",
+                    gridTemplateColumns: "repeat(12, 1fr)",
                     gap: 2,
                   }}
                 >
-                  <Input
-                    size="sm"
-                    placeholder="First name"
-                  />
-                  <Input
-                    size="sm"
-                    placeholder="Last name"
-                    sx={{ flexGrow: 1 }}
-                  />
-                </FormControl>
+                  <Box
+                    gridColumn={{ xs: "span 12", md: "span 4", lg: "span 4" }}
+                  >
+                    <FormControl sx={{ mb: 1 }}>
+                      <FormLabel>cuenta</FormLabel>
+                      <Input
+                        type="text"
+                        placeholder="manuel123"
+                        variant="outlined"
+                        size="sm"
+                        startDecorator={<TbUser />}
+                      />
+                      <FormHelperText>
+                        <TbAlertTriangle />
+                        Validaciones
+                      </FormHelperText>
+                    </FormControl>
+                  </Box>
+                  <Box
+                    gridColumn={{ xs: "span 12", md: "span 4", lg: "span 4" }}
+                  >
+                    <FormControl sx={{ mb: 1 }}>
+                      <FormLabel>correo</FormLabel>
+                      <Input
+                        type="email"
+                        placeholder="manuel123@gmail.com"
+                        variant="outlined"
+                        size="sm"
+                        startDecorator={<TbMail />}
+                      />
+                      <FormHelperText>
+                        <TbAlertTriangle />
+                        Validaciones
+                      </FormHelperText>
+                    </FormControl>
+                  </Box>
+                  <Box
+                    gridColumn={{ xs: "span 12", md: "span 4", lg: "span 4" }}
+                  >
+                    <FormControl sx={{ mb: 1 }}>
+                      <FormLabel>telefono</FormLabel>
+                      <Input
+                        type="text"
+                        placeholder="312..."
+                        variant="outlined"
+                        size="sm"
+                        startDecorator={<TbPhone />}
+                      />
+                      <FormHelperText>
+                        <TbAlertTriangle />
+                        Validaciones
+                      </FormHelperText>
+                    </FormControl>
+                  </Box>
+                  {/* sgunda linea */}
+                  <Box
+                    gridColumn={{ xs: "span 12", md: "span 4", lg: "span 4" }}
+                  >
+                    <FormControl sx={{ mb: 1 }}>
+                      <FormLabel>nombre usuario</FormLabel>
+                      <Input
+                        type="text"
+                        placeholder="manuel123"
+                        variant="outlined"
+                        size="sm"
+                        startDecorator={<TbUser />}
+                      />
+                      <FormHelperText>
+                        <TbAlertTriangle />
+                        Validaciones
+                      </FormHelperText>
+                    </FormControl>
+                  </Box>{" "}
+                  <Box
+                    gridColumn={{ xs: "span 12", md: "span 8", lg: "span 8" }}
+                  >
+                    <FormControl sx={{ mb: 1 }}>
+                      <FormLabel>rol</FormLabel>
+                      <Select
+                        placeholder="..."
+                        variant="outlined"
+                        size="sm"
+                        startDecorator={<TbUserCog />}
+                        multiple
+                        renderValue={(selected) => (
+                          <Box sx={{ display: "flex", gap: "0.25rem" }}>
+                            {selected.map((selectedOption) => (
+                              <Chip
+                                variant="soft"
+                                color="primary"
+                              >
+                                {selectedOption.label}
+                              </Chip>
+                            ))}
+                          </Box>
+                        )}
+                        sx={{ minWidth: "15rem" }}
+                        slotProps={{
+                          listbox: {
+                            sx: {
+                              width: "100%",
+                            },
+                          },
+                        }}
+                      >
+                        <Option value="1">administrador</Option>
+                        <Option value="2">docente</Option>
+                        <Option value="3">estudiante</Option>
+                        <Option value="4">acudiente</Option>
+                      </Select>
+                      <FormHelperText>
+                        <TbAlertTriangle />
+                        Validaciones
+                      </FormHelperText>
+                    </FormControl>
+                  </Box>{" "}
+                </Box>
               </Stack>
-              <Stack
-                direction="row"
-                spacing={2}
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(12, 1fr)",
+                  gap: 2,
+                }}
               >
+                <Box gridColumn={{ xs: "span 12", md: "span 2", lg: "span 2" }}>
+                  <FormControl sx={{ mb: 1 }}>
+                    <FormLabel>estado</FormLabel>
+                    <Select
+                      placeholder="estado"
+                      variant="outlined"
+                      size="sm"
+                    >
+                      <Option value="1">activo</Option>
+                      <Option value="2">inactivo</Option>
+                      <Option value="1">suspendido</Option>
+                      <Option value="2">certificado</Option>
+                    </Select>
+                    <FormHelperText>
+                      <TbAlertTriangle />
+                      Elige un tipo
+                    </FormHelperText>
+                  </FormControl>
+                </Box>
+                <Box gridColumn={{ xs: "span 12", md: "span 4", lg: "span 4" }}>
+                  <FormControl sx={{ mb: 1 }}>
+                    <FormLabel>pregunta de recuperación</FormLabel>
+                    <Select
+                      placeholder="elige una pregunta"
+                      variant="outlined"
+                      size="sm"
+                    >
+                      <Option value="1">
+                        ¿Como se llamaba tu primer maestro?
+                      </Option>
+                      <Option value="2">
+                        ¿Título del primer libro que leíste?
+                      </Option>
+                      <Option value="3">¿Nombre de tu Abuelo favorito?</Option>
+                    </Select>
+                    <FormHelperText>
+                      <TbAlertTriangle />
+                      Validaciones
+                    </FormHelperText>
+                  </FormControl>
+                </Box>{" "}
+                <Box gridColumn={{ xs: "span 12", md: "span 6", lg: "span 6" }}>
+                  <FormControl sx={{ mb: 1 }}>
+                    <FormLabel>Respuesta</FormLabel>
+                    <Input
+                      type="text"
+                      placeholder="mi primer..."
+                      variant="outlined"
+                      size="sm"
+                      startDecorator={<TbUserQuestion />}
+                    />
+                    <FormHelperText>
+                      <TbAlertTriangle />
+                      Validaciones
+                    </FormHelperText>
+                  </FormControl>
+                </Box>
+                <Box gridColumn={{ xs: "span 12", md: "span 6", lg: "span 6" }}>
+                  <FormControl sx={{ mb: 1 }}>
+                    <FormLabel>contraseña</FormLabel>
+                    <Stack
+                      spacing={0.5}
+                      sx={{
+                        "--hue": Math.min(passwordMeter.length * 10, 120),
+                      }}
+                    >
+                      <Input
+                        size="sm"
+                        type="password"
+                        placeholder="contraseña"
+                        startDecorator={<TbKey />}
+                        value={passwordMeter}
+                        onChange={(event) =>
+                          setPasswordMeter(event.target.value)
+                        }
+                      />
+                      <LinearProgress
+                        determinate
+                        size="sm"
+                        value={Math.min(
+                          (passwordMeter.length * 100) / minLength,
+                          100
+                        )}
+                        sx={{
+                          bgcolor: "background.level3",
+                          color: "hsl(var(--hue) 80% 40%)",
+                        }}
+                      />
+                      <Typography
+                        level="body-xs"
+                        sx={{
+                          alignSelf: "flex-end",
+                          color: "hsl(var(--hue) 80% 30%)",
+                        }}
+                      >
+                        {passwordMeter.length < 3 && "Muy débil"}
+                        {passwordMeter.length >= 3 &&
+                          passwordMeter.length < 6 &&
+                          "débil"}
+                        {passwordMeter.length >= 6 &&
+                          passwordMeter.length < 10 &&
+                          "fuerte"}
+                        {passwordMeter.length >= 10 && "Muy fuerte"}
+                      </Typography>
+                    </Stack>
+                    <FormHelperText>
+                      <TbAlertTriangle />
+                      Validaciones
+                    </FormHelperText>
+                  </FormControl>
+                </Box>
+                <Box gridColumn={{ xs: "span 12", md: "span 6", lg: "span 6" }}>
+                  <FormControl sx={{ mb: 1 }}>
+                    <FormLabel>confirmar contraseña</FormLabel>
+                    <Stack
+                      spacing={0.5}
+                      sx={{
+                        "--hue": Math.min(
+                          passwordMeterConfirm.length * 10,
+                          120
+                        ),
+                      }}
+                    >
+                      <Input
+                        size="sm"
+                        type="password"
+                        placeholder="repite la contraseña"
+                        startDecorator={<TbKey />}
+                        value={passwordMeterConfirm}
+                        onChange={(event) =>
+                          setPasswordMeterConfirm(event.target.value)
+                        }
+                      />
+                      <LinearProgress
+                        determinate
+                        size="sm"
+                        value={Math.min(
+                          (passwordMeterConfirm.length * 100) / minLength,
+                          100
+                        )}
+                        sx={{
+                          bgcolor: "background.level3",
+                          color: "hsl(var(--hue) 80% 40%)",
+                        }}
+                      />
+                      <Typography
+                        level="body-xs"
+                        sx={{
+                          alignSelf: "flex-end",
+                          color: "hsl(var(--hue) 80% 30%)",
+                        }}
+                      >
+                        {passwordMeterConfirm.length < 3 && "Muy débil"}
+                        {passwordMeterConfirm.length >= 3 &&
+                          passwordMeterConfirm.length < 6 &&
+                          "débil"}
+                        {passwordMeterConfirm.length >= 6 &&
+                          passwordMeterConfirm.length < 10 &&
+                          "fuerte"}
+                        {passwordMeterConfirm.length >= 10 && "Muy fuerte"}
+                      </Typography>
+                    </Stack>
+                    <FormHelperText>
+                      <TbAlertTriangle />
+                      Validaciones
+                    </FormHelperText>
+                  </FormControl>
+                </Box>
+              </Box>
+
+              {/* movil */}
+
+              <Stack
+                direction="column"
+                spacing={2}
+                sx={{ display: { xs: "flex", md: "none" }, my: 1 }}
+              >
+                <Stack
+                  direction="row"
+                  spacing={2}
+                >
+                  <Stack
+                    direction="column"
+                    spacing={1}
+                  >
+                    <AspectRatio
+                      ratio="1"
+                      maxHeight={108}
+                      sx={{ flex: 1, minWidth: 108, borderRadius: "100%" }}
+                    >
+                      <img
+                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
+                        srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
+                        loading="lazy"
+                        alt=""
+                      />
+                    </AspectRatio>
+                    <IconButton
+                      aria-label="upload new picture"
+                      size="sm"
+                      variant="outlined"
+                      color="neutral"
+                      sx={{
+                        bgcolor: "background.body",
+                        position: "absolute",
+                        zIndex: 2,
+                        borderRadius: "50%",
+                        left: 85,
+                        top: 180,
+                        boxShadow: "sm",
+                      }}
+                    >
+                      <EditRoundedIcon />
+                    </IconButton>
+                  </Stack>
+                  <Stack
+                    spacing={1}
+                    sx={{ flexGrow: 1 }}
+                  >
+                    <FormLabel>Name</FormLabel>
+                    <FormControl
+                      sx={{
+                        display: {
+                          sm: "flex-column",
+                          md: "flex-row",
+                        },
+                        gap: 2,
+                      }}
+                    >
+                      <Input
+                        size="sm"
+                        placeholder="First name"
+                      />
+                      <Input
+                        size="sm"
+                        placeholder="Last name"
+                      />
+                    </FormControl>
+                  </Stack>
+                </Stack>
                 <FormControl>
                   <FormLabel>Role</FormLabel>
                   <Input
@@ -491,260 +855,69 @@ export default function MyProfile() {
                     sx={{ flexGrow: 1 }}
                   />
                 </FormControl>
+                <div>{/* <CountrySelector /> */}</div>
+                <div>
+                  <FormControl sx={{ display: { sm: "contents" } }}>
+                    <FormLabel>Timezone</FormLabel>
+                    <Select
+                      size="sm"
+                      startDecorator={<AccessTimeFilledRoundedIcon />}
+                      defaultValue="1"
+                    >
+                      <Option value="1">
+                        Indochina Time (Bangkok){" "}
+                        <Typography
+                          textColor="text.tertiary"
+                          sx={{ ml: 0.5 }}
+                        >
+                          — GMT+07:00
+                        </Typography>
+                      </Option>
+                      <Option value="2">
+                        Indochina Time (Ho Chi Minh City){" "}
+                        <Typography
+                          textColor="text.tertiary"
+                          sx={{ ml: 0.5 }}
+                        >
+                          — GMT+07:00
+                        </Typography>
+                      </Option>
+                    </Select>
+                  </FormControl>
+                </div>
               </Stack>
-              <div>{/* <CountrySelector /> */}</div>
-              <div>
-                <FormControl sx={{ display: { sm: "contents" } }}>
-                  <FormLabel>Timezone</FormLabel>
-                  <Select
+              <CardOverflow
+                sx={{ borderTop: "1px solid", borderColor: "divider" }}
+              >
+                <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
+                  <Button
                     size="sm"
-                    startDecorator={<AccessTimeFilledRoundedIcon />}
-                    defaultValue="1"
+                    variant="outlined"
+                    color="danger"
+                    startDecorator={<TbTrash size={20} />}
                   >
-                    <Option value="1">
-                      Indochina Time (Bangkok){" "}
-                      <Typography
-                        textColor="text.tertiary"
-                        sx={{ ml: 0.5 }}
-                      >
-                        — GMT+07:00
-                      </Typography>
-                    </Option>
-                    <Option value="2">
-                      Indochina Time (Ho Chi Minh City){" "}
-                      <Typography
-                        textColor="text.tertiary"
-                        sx={{ ml: 0.5 }}
-                      >
-                        — GMT+07:00
-                      </Typography>
-                    </Option>
-                  </Select>
-                </FormControl>
-              </div>
-            </Stack>
-          </Stack>
-          <Stack
-            direction="column"
-            spacing={2}
-            sx={{ display: { xs: "flex", md: "none" }, my: 1 }}
+                    Borrar
+                  </Button>
+                  {/* <Button
+            onClick={() => {
+              handleTabClick(1);
+            }}
           >
-            <Stack
-              direction="row"
-              spacing={2}
-            >
-              <Stack
-                direction="column"
-                spacing={1}
-              >
-                <AspectRatio
-                  ratio="1"
-                  maxHeight={108}
-                  sx={{ flex: 1, minWidth: 108, borderRadius: "100%" }}
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                    srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                    loading="lazy"
-                    alt=""
-                  />
-                </AspectRatio>
-                <IconButton
-                  aria-label="upload new picture"
-                  size="sm"
-                  variant="outlined"
-                  color="neutral"
-                  sx={{
-                    bgcolor: "background.body",
-                    position: "absolute",
-                    zIndex: 2,
-                    borderRadius: "50%",
-                    left: 85,
-                    top: 180,
-                    boxShadow: "sm",
-                  }}
-                >
-                  <EditRoundedIcon />
-                </IconButton>
-              </Stack>
-              <Stack
-                spacing={1}
-                sx={{ flexGrow: 1 }}
-              >
-                <FormLabel>Name</FormLabel>
-                <FormControl
-                  sx={{
-                    display: {
-                      sm: "flex-column",
-                      md: "flex-row",
-                    },
-                    gap: 2,
-                  }}
-                >
-                  <Input
+            abrir tab
+          </Button> */}
+                  <Button
                     size="sm"
-                    placeholder="First name"
-                  />
-                  <Input
-                    size="sm"
-                    placeholder="Last name"
-                  />
-                </FormControl>
-              </Stack>
-            </Stack>
-            <FormControl>
-              <FormLabel>Role</FormLabel>
-              <Input
-                size="sm"
-                defaultValue="UI Developer"
-              />
-            </FormControl>
-            <FormControl sx={{ flexGrow: 1 }}>
-              <FormLabel>Email</FormLabel>
-              <Input
-                size="sm"
-                type="email"
-                startDecorator={<EmailRoundedIcon />}
-                placeholder="email"
-                defaultValue="siriwatk@test.com"
-                sx={{ flexGrow: 1 }}
-              />
-            </FormControl>
-            <div>{/* <CountrySelector /> */}</div>
-            <div>
-              <FormControl sx={{ display: { sm: "contents" } }}>
-                <FormLabel>Timezone</FormLabel>
-                <Select
-                  size="sm"
-                  startDecorator={<AccessTimeFilledRoundedIcon />}
-                  defaultValue="1"
-                >
-                  <Option value="1">
-                    Indochina Time (Bangkok){" "}
-                    <Typography
-                      textColor="text.tertiary"
-                      sx={{ ml: 0.5 }}
-                    >
-                      — GMT+07:00
-                    </Typography>
-                  </Option>
-                  <Option value="2">
-                    Indochina Time (Ho Chi Minh City){" "}
-                    <Typography
-                      textColor="text.tertiary"
-                      sx={{ ml: 0.5 }}
-                    >
-                      — GMT+07:00
-                    </Typography>
-                  </Option>
-                </Select>
-              </FormControl>
-            </div>
+                    variant="solid"
+                    startDecorator={<TbUserPlus size={20} />}
+                  >
+                    Crear
+                  </Button>
+                </CardActions>
+              </CardOverflow>
+            </Card>
           </Stack>
-          <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
-            <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
-              <Button
-                size="sm"
-                variant="outlined"
-                color="neutral"
-              >
-                Cancel
-              </Button>
-              <Button
-                size="sm"
-                variant="solid"
-              >
-                Save
-              </Button>
-            </CardActions>
-          </CardOverflow>
-        </Card>
-        <Card>
-          <Box sx={{ mb: 1 }}>
-            <Typography level="title-md">Bio</Typography>
-            <Typography level="body-sm">
-              Write a short introduction to be displayed on your profile
-            </Typography>
-          </Box>
-          <Divider />
-          <Stack
-            spacing={2}
-            sx={{ my: 1 }}
-          >
-            {/* <EditorToolbar /> */}
-            <Textarea
-              size="sm"
-              minRows={4}
-              sx={{ mt: 1.5 }}
-              defaultValue="I'm a software developer based in Bangkok, Thailand. My goal is to solve UI problems with neat CSS without using too much JavaScript."
-            />
-            <FormHelperText sx={{ mt: 0.75, fontSize: "xs" }}>
-              275 characters left
-            </FormHelperText>
-          </Stack>
-          <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
-            <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
-              <Button
-                size="sm"
-                variant="outlined"
-                color="neutral"
-              >
-                Cancel
-              </Button>
-              <Button
-                size="sm"
-                variant="solid"
-              >
-                Save
-              </Button>
-            </CardActions>
-          </CardOverflow>
-        </Card>
-        <Card>
-          <Box sx={{ mb: 1 }}>
-            <Typography level="title-md">Portfolio projects</Typography>
-            <Typography level="body-sm">
-              Share a few snippets of your work.
-            </Typography>
-          </Box>
-          <Divider />
-          <Stack
-            spacing={2}
-            sx={{ my: 1 }}
-          >
-            {/* <DropZone /> */}
-            {/* <FileUpload
-              icon={<InsertDriveFileRoundedIcon />}
-              fileName="Tech design requirements.pdf"
-              fileSize="200 kB"
-              progress={100}
-            />
-            <FileUpload
-              icon={<VideocamRoundedIcon />}
-              fileName="Dashboard prototype recording.mp4"
-              fileSize="16 MB"
-              progress={40}
-            /> */}
-          </Stack>
-          <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
-            <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
-              <Button
-                size="sm"
-                variant="outlined"
-                color="neutral"
-              >
-                Cancel
-              </Button>
-              <Button
-                size="sm"
-                variant="solid"
-              >
-                Save
-              </Button>
-            </CardActions>
-          </CardOverflow>
-        </Card>
-      </Stack>
+        </TabPanel>
+      </Tabs>
     </Box>
   );
 }
