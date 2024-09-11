@@ -36,6 +36,7 @@ import {
   TbUserSearch,
 } from "react-icons/tb";
 import { useForm } from "react-hook-form";
+import UserTableOne from "./UserTableOne";
 
 // import DropZone from './DropZone';
 // import FileUpload from './FileUpload';
@@ -194,7 +195,7 @@ export default function MyProfile() {
         </TabList>
 
         <TabPanel value={0}>
-          <b>First</b> tab panel
+          <UserTableOne />
         </TabPanel>
         <TabPanel value={1}>
           <Stack
@@ -481,6 +482,7 @@ export default function MyProfile() {
                 <Box gridColumn={{ xs: "span 12", md: "span 2", lg: "span 2" }}>
                   <FormControl sx={{ mb: 1 }}>
                     <FormLabel>tipo documento</FormLabel>
+
                     <Select
                       placeholder="tipo"
                       variant="outlined"
@@ -501,9 +503,16 @@ export default function MyProfile() {
                   <FormControl sx={{ mb: 1 }}>
                     <FormLabel>sexo</FormLabel>
                     <Select
+                      defaultValue="1"
                       placeholder="tipo"
                       variant="outlined"
                       size="sm"
+                      // {...register("sexo", {
+                      //   required: {
+                      //     value: true,
+                      //     message: "el sexo no puede estar vacio",
+                      //   },
+                      // })}
                     >
                       <Option value="1">masculino</Option>
                       <Option value="2">femenino</Option>
