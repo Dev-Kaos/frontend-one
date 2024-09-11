@@ -7,7 +7,6 @@ import FormLabel from "@mui/joy/FormLabel";
 import FormHelperText from "@mui/joy/FormHelperText";
 import Input from "@mui/joy/Input";
 import IconButton from "@mui/joy/IconButton";
-import Textarea from "@mui/joy/Textarea";
 import Stack from "@mui/joy/Stack";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
@@ -15,17 +14,11 @@ import Typography from "@mui/joy/Typography";
 import Tabs from "@mui/joy/Tabs";
 import TabList from "@mui/joy/TabList";
 import Tab, { tabClasses } from "@mui/joy/Tab";
-import Breadcrumbs from "@mui/joy/Breadcrumbs";
-import Link from "@mui/joy/Link";
 import Card from "@mui/joy/Card";
 import CardActions from "@mui/joy/CardActions";
 import CardOverflow from "@mui/joy/CardOverflow";
-
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
-
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import { SetStateAction, useState } from "react";
 import { Chip, LinearProgress, TabPanel } from "@mui/joy";
@@ -38,13 +31,11 @@ import {
   TbTrash,
   TbUser,
   TbUserCog,
-  TbUserEdit,
-  TbUserMinus,
   TbUserPlus,
   TbUserQuestion,
   TbUserSearch,
 } from "react-icons/tb";
-import { Key } from "@mui/icons-material";
+import { useForm } from "react-hook-form";
 
 // import DropZone from './DropZone';
 // import FileUpload from './FileUpload';
@@ -65,6 +56,13 @@ export default function MyProfile() {
     setTabValue(newValue);
   };
 
+  // TODO: Password
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handlePasswordClick = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   // TODO: password meter
 
   const [passwordMeter, setPasswordMeter] = useState("");
@@ -73,8 +71,26 @@ export default function MyProfile() {
 
   const [passwordMeterConfirm, setPasswordMeterConfirm] = useState("");
 
-  const minLength = 10;
+  const minLength = 8;
 
+  // TODO: react-hook-form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = handleSubmit((data) => {
+    // Aquí puedes hacer lo que quieras con los datos del formulario
+    // Coregir la redireccion
+    // console.log(data);
+    // const { username, password } = data;
+    // const dataToSend = { username, password };
+    // console.log(JSON.stringify(dataToSend));
+    // Aquí podrías hacer una llamada a tu API o realizar otras acciones
+    // ...
+    // navigate("/administrador");
+  });
   return (
     <Box sx={{ flex: 1, width: "100%" }}>
       <Box sx={{ px: { xs: 2, md: 2 } }}>
@@ -183,6 +199,7 @@ export default function MyProfile() {
         <TabPanel value={1}>
           <Stack
             component="form"
+            onSubmit={onSubmit}
             spacing={4}
             sx={{
               display: "flex",
@@ -210,110 +227,255 @@ export default function MyProfile() {
                 {/* fila 1 */}
 
                 <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
-                  <FormControl sx={{ mb: 1 }}>
+                  <FormControl
+                    sx={{ mb: 1 }}
+                    error={errors.primerNombre ? true : false}
+                  >
                     <FormLabel>primer nombre</FormLabel>
                     <Input
                       type="text"
                       placeholder="jose"
                       variant="outlined"
                       size="sm"
+                      {...register("primerNombre", {
+                        required: {
+                          value: true,
+                          message: "el nombre no puede estar vacio",
+                        },
+                        minLength: {
+                          value: 3,
+                          message: "el nombre debe tener 3 letras minimo",
+                        },
+                        maxLength: {
+                          value: 12,
+                          message: "el nombre puede tener 12 letras maximo",
+                        },
+                        pattern: {
+                          value: /^[a-zA-Z]+$/,
+                          message: "El nombre solo puede contener letras",
+                        },
+                      })}
+                      name="primerNombre"
                     />
-                    <FormHelperText>
-                      <TbAlertTriangle />
-                      Validaciones
-                    </FormHelperText>
+                    {errors.primerNombre && (
+                      <FormHelperText sx={{ gap: 1 }}>
+                        <TbAlertTriangle />
+                        <span>{errors.primerNombre.message as string}</span>
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Box>
                 <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
-                  <FormControl sx={{ mb: 1 }}>
+                  <FormControl
+                    sx={{ mb: 1 }}
+                    error={errors.segundoNombre ? true : false}
+                  >
                     <FormLabel>segundo nombre</FormLabel>
                     <Input
                       type="text"
-                      placeholder="jesus"
+                      placeholder="opcional"
                       variant="outlined"
                       size="sm"
+                      {...register("segundoNombre", {
+                        maxLength: {
+                          value: 12,
+                          message: "el nombre puede tener 12 letras maximo",
+                        },
+                        pattern: {
+                          value: /^[a-zA-Z]+$/,
+                          message: "El nombre solo puede contener letras",
+                        },
+                      })}
+                      name="segundoNombre"
                     />
-                    <FormHelperText>
-                      <TbAlertTriangle />
-                      Validaciones
-                    </FormHelperText>
+                    {errors.segundoNombre && (
+                      <FormHelperText sx={{ gap: 1 }}>
+                        <TbAlertTriangle />
+                        <span>{errors.segundoNombre.message as string}</span>
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Box>
                 <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
-                  <FormControl sx={{ mb: 1 }}>
+                  <FormControl
+                    sx={{ mb: 1 }}
+                    error={errors.primerApellido ? true : false}
+                  >
                     <FormLabel>primer apellido</FormLabel>
                     <Input
                       type="text"
                       placeholder="ramirez"
                       variant="outlined"
                       size="sm"
+                      {...register("primerApellido", {
+                        required: {
+                          value: true,
+                          message: "el Apellido no puede estar vacio",
+                        },
+                        minLength: {
+                          value: 3,
+                          message: "el Apellido debe tener 3 letras minimo",
+                        },
+                        maxLength: {
+                          value: 12,
+                          message: "el Apellido puede tener 12 letras maximo",
+                        },
+                        pattern: {
+                          value: /^[a-zA-Z]+$/,
+                          message: "El Apellido solo puede contener letras",
+                        },
+                      })}
+                      name="primerApellido"
                     />
-                    <FormHelperText>
-                      <TbAlertTriangle />
-                      Validaciones
-                    </FormHelperText>
+                    {errors.primerApellido && (
+                      <FormHelperText sx={{ gap: 1 }}>
+                        <TbAlertTriangle />
+                        <span>{errors.primerApellido.message as string}</span>
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Box>
                 <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
-                  <FormControl sx={{ mb: 1 }}>
+                  <FormControl
+                    sx={{ mb: 1 }}
+                    error={errors.segundoApellido ? true : false}
+                  >
                     <FormLabel>segundo apellido</FormLabel>
                     <Input
                       type="text"
                       placeholder="sanchez"
                       variant="outlined"
                       size="sm"
+                      {...register("segundoApellido", {
+                        maxLength: {
+                          value: 12,
+                          message: "el Apellido puede tener 12 letras maximo",
+                        },
+                        pattern: {
+                          value: /^[a-zA-Z]+$/,
+                          message: "El Apellido solo puede contener letras",
+                        },
+                      })}
+                      name="segundoApellido"
                     />
-                    <FormHelperText>
-                      <TbAlertTriangle />
-                      Validaciones
-                    </FormHelperText>
+                    {errors.segundoApellido && (
+                      <FormHelperText sx={{ gap: 1 }}>
+                        <TbAlertTriangle />
+                        <span>{errors.segundoApellido.message as string}</span>
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Box>
                 {/* fila 2 */}
 
                 <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
-                  <FormControl sx={{ mb: 1 }}>
+                  <FormControl
+                    sx={{ mb: 1 }}
+                    error={errors.documento ? true : false}
+                  >
                     <FormLabel>documento</FormLabel>
                     <Input
                       type="text"
                       placeholder="1234567890"
                       variant="outlined"
                       size="sm"
+                      {...register("documento", {
+                        required: {
+                          value: true,
+                          message: "el documento no puede estar vacio",
+                        },
+                        minLength: {
+                          value: 6,
+                          message: "el documento debe tener 6 numeros minimo",
+                        },
+                        maxLength: {
+                          value: 12,
+                          message: "el documento puede tener 15 numeros maximo",
+                        },
+                        pattern: {
+                          value: /^[0-9]+$/,
+                          message: "El documento solo puede contener numeros",
+                        },
+                      })}
+                      name="documento"
                     />
-                    <FormHelperText>
-                      <TbAlertTriangle />
-                      Validaciones
-                    </FormHelperText>
+                    {errors.documento && (
+                      <FormHelperText sx={{ gap: 1 }}>
+                        <TbAlertTriangle />
+                        <span>{errors.documento.message as string}</span>
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Box>
                 <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
-                  <FormControl sx={{ mb: 1 }}>
+                  <FormControl
+                    sx={{ mb: 1 }}
+                    error={errors.fechaExp ? true : false}
+                  >
                     <FormLabel>fecha expedición</FormLabel>
                     <Input
                       type="date"
-                      placeholder="manuel"
+                      placeholder="01/01/2000"
                       variant="outlined"
                       size="sm"
+                      {...register("fechaExp", {
+                        required: {
+                          value: true,
+                          message:
+                            "La fecha de nacimiento no puede estar vacia",
+                        },
+                      })}
+                      name="fechaExp"
                     />
-                    <FormHelperText>
-                      <TbAlertTriangle />
-                      Validaciones
-                    </FormHelperText>
+                    {errors.fechaExp && (
+                      <FormHelperText sx={{ gap: 1 }}>
+                        <TbAlertTriangle />
+                        <span>{errors.fechaExp.message as string}</span>
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Box>
                 <Box gridColumn={{ xs: "span 12", md: "span 4", lg: "span 4" }}>
-                  <FormControl sx={{ mb: 1 }}>
+                  <FormControl
+                    sx={{ mb: 1 }}
+                    error={errors.lugarExp ? true : false}
+                  >
                     <FormLabel>lugar de expedición</FormLabel>
                     <Input
                       type="text"
                       placeholder="velez(santander)"
                       variant="outlined"
                       size="sm"
+                      {...register("lugarExp", {
+                        required: {
+                          value: true,
+                          message:
+                            "el lugar de expedición no puede estar vacio",
+                        },
+                        minLength: {
+                          value: 3,
+                          message:
+                            "el lugar de expedición debe tener 3 letras minimo",
+                        },
+                        maxLength: {
+                          value: 12,
+                          message:
+                            "el lugar de expedición puede tener 12 letras maximo",
+                        },
+                        pattern: {
+                          value: /^[a-zA-Z\-.,:;?!]+$/,
+                          message:
+                            "Solo se permiten letras, guiones y signos de puntuación.",
+                        },
+                      })}
+                      name="lugarExp"
                     />
-                    <FormHelperText>
-                      <TbAlertTriangle />
-                      Validaciones
-                    </FormHelperText>
+                    {errors.lugarExp && (
+                      <FormHelperText sx={{ gap: 1 }}>
+                        <TbAlertTriangle />
+                        <span>{errors.lugarExp.message as string}</span>
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Box>
                 <Box gridColumn={{ xs: "span 12", md: "span 2", lg: "span 2" }}>
@@ -909,6 +1071,7 @@ export default function MyProfile() {
                     size="sm"
                     variant="solid"
                     startDecorator={<TbUserPlus size={20} />}
+                    type="submit"
                   >
                     Crear
                   </Button>
