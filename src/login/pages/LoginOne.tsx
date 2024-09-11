@@ -28,6 +28,7 @@ import { FormHelperText } from "@mui/joy";
 import TooltipOne from "../components/modules/TooltipOne";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import LoginInfoTooltip from "../components/modules/LoginInfoTooltip";
 
 function ColorSchemeToggle(props: IconButtonProps) {
   const { onClick, ...other } = props;
@@ -180,7 +181,7 @@ export default function LoginOne() {
                   <Typography level="body-sm">
                     ¿Necesitas información o tienes algún problema?
                   </Typography>
-                  <TooltipOne />
+                  <LoginInfoTooltip />
                 </Stack>
               </Stack>
             </Stack>
