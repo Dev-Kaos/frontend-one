@@ -43,7 +43,7 @@ import UserTableOne from "./UserTableOne";
 // import CountrySelector from './CountrySelector';
 // import EditorToolbar from './EditorToolbar';
 
-export default function MyProfile() {
+export default function FormUserTwo() {
   // TODO: TABS
   const [Tabvalue, setTabValue] = useState(0);
   const handleTabChange = (
