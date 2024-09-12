@@ -21,7 +21,14 @@ import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import { SetStateAction, useState } from "react";
-import { CardContent, Chip, LinearProgress, TabPanel } from "@mui/joy";
+import {
+  Avatar,
+  CardContent,
+  Chip,
+  LinearProgress,
+  Link,
+  TabPanel,
+} from "@mui/joy";
 import {
   TbAlertTriangle,
   TbEyeglass,
@@ -44,6 +51,7 @@ import {
 import { useForm } from "react-hook-form";
 import React from "react";
 import NewsTableOne from "../components/modules/NewsTableOne";
+import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 // import UserTableOne from "./UserTableOne";
 
 // import DropZone from './DropZone';
@@ -256,95 +264,122 @@ export default function FormUserTwo() {
           >
             <TbHomePlus size={20} /> Crear
           </Tab>
-          <Tab
-            sx={{ borderRadius: "6px 6px 0 0" }}
-            indicatorInset
-            value={2}
-          >
-            <TbEyeglass size={20} /> Ver
-          </Tab>
         </TabList>
 
         <TabPanel value={0}>
           {/* news table  */}
           <NewsTableOne />
-          <Divider />
-
-          {/* //TODO: grid */}
-          <Box
-            sx={{
-              mt: 4,
-              display: "grid",
-              gridTemplateColumns: "repeat(12, 1fr)",
-              gap: 2,
-            }}
-          >
-            <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
-              <FormControl
-                sx={{ flex: 1 }}
-                size="sm"
-              >
-                <FormLabel>Buscar Noticia</FormLabel>
-                <Input
-                  size="sm"
-                  placeholder="titulo / autor / texto"
-                  startDecorator={
-                    <Button
-                      variant="plain"
-                      color="neutral"
-                      startDecorator={<TbSearch />}
-                    ></Button>
-                  }
-                  // onChange={(e) => setFiltering(e.target.value)}
-                />
-              </FormControl>
-            </Box>
-
-            <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
-              hola
-            </Box>
-
-            <Box gridColumn={{ xs: "span 12", md: "span 6", lg: "span 6" }}>
-              <FormControl sx={{ mb: 1 }}>
-                <FormLabel>rol</FormLabel>
-                <Select
-                  placeholder="..."
-                  variant="outlined"
-                  size="sm"
-                  startDecorator={<TbUserCog />}
-                  multiple
-                  renderValue={(selected) => (
-                    <Box sx={{ display: "flex", gap: "0.25rem" }}>
-                      {selected.map((selectedOption) => (
-                        <Chip
-                          variant="soft"
-                          color="primary"
-                        >
-                          {selectedOption.label}
-                        </Chip>
-                      ))}
-                    </Box>
-                  )}
-                  sx={{ minWidth: "15rem" }}
-                  slotProps={{
-                    listbox: {
-                      sx: {
-                        width: "100%",
-                      },
-                    },
-                  }}
+          <Divider sx={{ my: 4 }} />
+          <Box sx={{ width: "100%", px: { xs: 2, md: 4 } }}>
+            {/* ver */}
+            <Card
+              variant="outlined"
+              sx={{ width: "100%" }}
+            >
+              <CardOverflow>
+                <AspectRatio ratio="2">
+                  <img
+                    src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
+                    srcSet="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x"
+                    loading="lazy"
+                    alt=""
+                  />
+                </AspectRatio>
+              </CardOverflow>
+              <CardContent>
+                <div>
+                  <Typography
+                    level="title-lg"
+                    sx={{ my: 1, fontWeight: 400, fontSize: "xl4" }}
+                    textColor="orange"
+                    endDecorator={
+                      <Chip
+                        component="span"
+                        size="sm"
+                        variant="soft"
+                        color="success"
+                      >
+                        Aqui va el tag
+                      </Chip>
+                    }
+                  >
+                    Titulo de la noticia
+                  </Typography>
+                  <Typography
+                    level="title-lg"
+                    fontWeight={300}
+                  >
+                    subtitle
+                  </Typography>
+                </div>
+                <Typography
+                  level="body-md"
+                  sx={{ mt: 4 }}
                 >
-                  <Option value="1">administrador</Option>
-                  <Option value="2">docente</Option>
-                  <Option value="3">estudiante</Option>
-                  <Option value="4">acudiente</Option>
-                </Select>
-                <FormHelperText>
-                  <TbAlertTriangle />
-                  Validaciones
-                </FormHelperText>
-              </FormControl>
-            </Box>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Aspernatur, reiciendis nostrum dolore optio numquam magni et
+                  dolorem ipsam! Pariatur id illum recusandae aspernatur
+                  nesciunt perferendis laboriosam saepe nemo voluptatibus
+                  numquam!
+                </Typography>
+                <Typography
+                  level="body-sm"
+                  sx={{ mb: 4, color: "text.secondary" }}
+                >
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Aspernatur, reiciendis nostrum dolore optio numquam magni et
+                  dolorem ipsam! Pariatur id illum recusandae aspernatur
+                  nesciunt perferendis laboriosam saepe nemo voluptatibus
+                  numquam!
+                </Typography>
+              </CardContent>
+              <CardOverflow
+                variant="plain"
+                sx={{ bgcolor: "background.level1" }}
+              >
+                <Divider inset="context" />
+                <CardContent
+                  orientation="horizontal"
+                  sx={{ gap: 2, alignItems: "center" }}
+                >
+                  <Avatar
+                    src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
+                    size="sm"
+                  ></Avatar>
+                  <Typography
+                    level="body-xs"
+                    textColor="text.secondary"
+                    sx={{ fontWeight: "md" }}
+                  >
+                    manuel vela
+                  </Typography>
+                  <Divider orientation="vertical" />
+                  <Typography
+                    level="body-xs"
+                    textColor="text.secondary"
+                    sx={{ fontWeight: "md" }}
+                  >
+                    jueves 12 de septiembre
+                  </Typography>
+                  <Typography
+                    level="body-xs"
+                    textColor="text.secondary"
+                    sx={{ fontWeight: "md" }}
+                  >
+                    - 1 hour ago
+                  </Typography>
+                  <Divider orientation="vertical" />
+                  <Typography
+                    level="body-xs"
+                    textColor="text.secondary"
+                    sx={{ fontWeight: "md" }}
+                    startDecorator={<TbEyeglass size={16} />}
+                  >
+                    publico
+                  </Typography>
+                </CardContent>
+              </CardOverflow>
+            </Card>
           </Box>
         </TabPanel>
         <TabPanel value={1}>
@@ -1268,199 +1303,6 @@ export default function FormUserTwo() {
               </CardOverflow>
             </Card>
           </Stack>
-        </TabPanel>
-        <TabPanel value={2}>
-          <Stack
-            direction={"row"}
-            sx={{ justifyContent: "space-between", alignItems: "center" }}
-          >
-            <Typography
-              level="h4"
-              sx={{ textAlign: "center", my: 2 }}
-            >
-              {}
-            </Typography>
-
-            <Stack
-              direction={"row"}
-              sx={{
-                justifyContent: "space-between",
-                alignItems: "center",
-                gap: 1,
-              }}
-            >
-              <Typography
-                level="body-sm"
-                sx={{ textAlign: "center", my: 2 }}
-              >
-                Tienes alguna consulta?
-              </Typography>
-              {/* <TooltipOne /> */}
-            </Stack>
-          </Stack>
-          {/* //TODO: SearchAndFilters-mobile */}
-
-          {/* //TODO: SearchAndFilters-tabletUp */}
-
-          <Divider />
-
-          {/* //TODO: grid */}
-          <Box
-            sx={{
-              mt: 4,
-              display: "grid",
-              gridTemplateColumns: "repeat(12, 1fr)",
-              gap: 2,
-            }}
-          >
-            <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
-              <FormControl
-                sx={{ flex: 1 }}
-                size="sm"
-              >
-                <FormLabel>Buscar Noticia</FormLabel>
-                <Input
-                  size="sm"
-                  placeholder="titulo / autor / texto"
-                  startDecorator={
-                    <Button
-                      variant="plain"
-                      color="neutral"
-                      startDecorator={<TbSearch />}
-                    ></Button>
-                  }
-                  // onChange={(e) => setFiltering(e.target.value)}
-                />
-              </FormControl>
-            </Box>
-
-            <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
-              hola
-            </Box>
-
-            <Box gridColumn={{ xs: "span 12", md: "span 6", lg: "span 6" }}>
-              <FormControl sx={{ mb: 1 }}>
-                <FormLabel>rol</FormLabel>
-                <Select
-                  placeholder="..."
-                  variant="outlined"
-                  size="sm"
-                  startDecorator={<TbUserCog />}
-                  multiple
-                  renderValue={(selected) => (
-                    <Box sx={{ display: "flex", gap: "0.25rem" }}>
-                      {selected.map((selectedOption) => (
-                        <Chip
-                          variant="soft"
-                          color="primary"
-                        >
-                          {selectedOption.label}
-                        </Chip>
-                      ))}
-                    </Box>
-                  )}
-                  sx={{ minWidth: "15rem" }}
-                  slotProps={{
-                    listbox: {
-                      sx: {
-                        width: "100%",
-                      },
-                    },
-                  }}
-                >
-                  <Option value="1">administrador</Option>
-                  <Option value="2">docente</Option>
-                  <Option value="3">estudiante</Option>
-                  <Option value="4">acudiente</Option>
-                </Select>
-                <FormHelperText>
-                  <TbAlertTriangle />
-                  Validaciones
-                </FormHelperText>
-              </FormControl>
-            </Box>
-          </Box>
-          <Box
-            className="SearchAndFilters-tabletUp"
-            sx={{
-              borderRadius: "sm",
-              my: 2,
-              py: 2,
-              display: { xs: "none", sm: "flex" },
-              flexWrap: "wrap",
-              gap: 1.5,
-              "& > *": {
-                minWidth: { xs: "120px", md: "160px" },
-              },
-            }}
-          >
-            <FormControl
-              sx={{ flex: 1 }}
-              size="sm"
-            >
-              <FormLabel>Buscar Usuario</FormLabel>
-              <Input
-                size="sm"
-                placeholder="pedro // ramirez // 101234.."
-                startDecorator={
-                  <Button
-                    variant="plain"
-                    color="neutral"
-                    startDecorator={<TbSearch />}
-                  ></Button>
-                }
-                // onChange={(e) => setFiltering(e.target.value)}
-              />
-            </FormControl>
-
-            {renderFilters()}
-          </Box>
-          <Divider />
-          <Box sx={{ width: "100%", px: { xs: 2, md: 4 }, mt: 4 }}>
-            {/* ver */}
-            <Card
-              variant="outlined"
-              sx={{ width: "100%" }}
-            >
-              <CardOverflow>
-                <AspectRatio ratio="2">
-                  <img
-                    src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
-                    srcSet="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x"
-                    loading="lazy"
-                    alt=""
-                  />
-                </AspectRatio>
-              </CardOverflow>
-              <CardContent>
-                <Typography level="title-md">Yosemite National Park</Typography>
-                <Typography level="body-sm">California</Typography>
-              </CardContent>
-              <CardOverflow
-                variant="soft"
-                sx={{ bgcolor: "background.level1" }}
-              >
-                <Divider inset="context" />
-                <CardContent orientation="horizontal">
-                  <Typography
-                    level="body-xs"
-                    textColor="text.secondary"
-                    sx={{ fontWeight: "md" }}
-                  >
-                    6.3k views
-                  </Typography>
-                  <Divider orientation="vertical" />
-                  <Typography
-                    level="body-xs"
-                    textColor="text.secondary"
-                    sx={{ fontWeight: "md" }}
-                  >
-                    1 hour ago
-                  </Typography>
-                </CardContent>
-              </CardOverflow>
-            </Card>
-          </Box>
         </TabPanel>
       </Tabs>
     </Box>
