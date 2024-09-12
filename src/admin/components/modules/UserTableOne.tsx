@@ -37,7 +37,7 @@ import {
 } from "react-icons/tb";
 import { useState } from "react";
 import { Card, Checkbox, ListDivider, ListItem, Stack } from "@mui/joy";
-import TooltipOne from "../common/TooltipOne";
+import TooltipOne from "../common/NewsTooltip";
 import List from "@mui/joy/List";
 
 export function RowMenuTwo() {

@@ -37,8 +37,9 @@ import {
 } from "react-icons/tb";
 import { useState } from "react";
 import { Card, Checkbox, ListDivider, ListItem, Stack } from "@mui/joy";
-import TooltipOne from "../common/TooltipOne";
+
 import List from "@mui/joy/List";
+import NewsTableTooltip from "../common/NewsTooltip";
 
 export function RowMenuTwo() {
   const [selectedIndex, setSelectedIndex] = useState<number>(1);
@@ -342,9 +343,9 @@ export default function NewsTableOne() {
               level="body-sm"
               sx={{ textAlign: "center", my: 2 }}
             >
-              Tienes alguna consulta?
+              ¿Quieres mas informacion o necesitas ayuda?
             </Typography>
-            <TooltipOne />
+            <NewsTableTooltip />
           </Stack>
         </Stack>
         {/* //TODO: SearchAndFilters-mobile */}

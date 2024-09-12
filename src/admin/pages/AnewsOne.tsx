@@ -52,6 +52,7 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import NewsTableOne from "../components/modules/NewsTableOne";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import NewsTooltip from "../components/common/NewsTooltip";
 // import UserTableOne from "./UserTableOne";
 
 // import DropZone from './DropZone';
@@ -220,6 +221,7 @@ export default function FormUserTwo() {
           >
             Inicio
           </Typography>
+          <NewsTooltip />
           {/* <Button variant="outlined">Add user</Button> */}
         </Stack>
       </Box>
