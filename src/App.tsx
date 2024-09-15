@@ -4,9 +4,10 @@ import { Route, Routes } from "react-router-dom";
 import LoginOne from "./login/pages/LoginOne";
 import AdminOne from "./admin/pages/AdminOne";
 import AusersOne from "./admin/pages/AusersOne";
-import AnewsOne from "./admin/pages/AnewsOne";
+
 import ProtectedRoute from "./admin/utils/ProtectedRoute";
 import { useAuthStore } from "./store/authStore";
+import ANewsOne from "./admin/pages/AnewsOne";
 
 function App() {
   // TODO: Cargar la configuracion del backend
@@ -47,7 +48,7 @@ function App() {
             {/* <Route path="/*" element={<AdminOne />}> */}
             <Route
               path="inicio"
-              element={<AnewsOne />}
+              element={<ANewsOne />}
             ></Route>
             <Route
               path="usuarios"

@@ -20,15 +20,8 @@ import CardOverflow from "@mui/joy/CardOverflow";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import { SetStateAction, useState } from "react";
-import {
-  Avatar,
-  CardContent,
-  Chip,
-  LinearProgress,
-  Link,
-  TabPanel,
-} from "@mui/joy";
+import { SetStateAction, useCallback, useState } from "react";
+import { Avatar, CardContent, Chip, LinearProgress, TabPanel } from "@mui/joy";
 import {
   TbAlertTriangle,
   TbEyeglass,
@@ -43,16 +36,16 @@ import {
   TbTrash,
   TbUser,
   TbUserCog,
-  TbUserDown,
   TbUserPlus,
   TbUserQuestion,
-  TbUserSearch,
 } from "react-icons/tb";
 import { useForm } from "react-hook-form";
 import React from "react";
 import NewsTableOne from "../components/modules/NewsTableOne";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import NewsTooltip from "../components/common/NewsTooltip";
+import { useNewsStore } from "../store/newsStore";
+import Products from "../components/common/Products";
+import ProductTable from "../components/common/ProductTable";
 // import UserTableOne from "./UserTableOne";
 
 // import DropZone from './DropZone';
@@ -60,9 +53,9 @@ import NewsTooltip from "../components/common/NewsTooltip";
 // import CountrySelector from './CountrySelector';
 // import EditorToolbar from './EditorToolbar';
 
-export default function FormUserTwo() {
+export default function ANewsOne() {
   // TODO: TABS
-  const [Tabvalue, setTabValue] = useState(0);
+  const [tabValue, setTabValue] = useState(0);
   const handleTabChange = (
     event: React.ChangeEvent<HTMLBaseElement>,
     newValue: SetStateAction<number>
@@ -228,7 +221,7 @@ export default function FormUserTwo() {
       <Tabs
         defaultValue={0}
         sx={{ bgcolor: "transparent" }}
-        value={Tabvalue}
+        value={tabValue}
         onChange={handleTabChange}
       >
         <TabList
@@ -265,6 +258,13 @@ export default function FormUserTwo() {
             value={1}
           >
             <TbHomePlus size={20} /> Crear
+          </Tab>
+          <Tab
+            sx={{ borderRadius: "6px 6px 0 0" }}
+            indicatorInset
+            value={2}
+          >
+            <TbHomePlus size={20} /> prueba fetch
           </Tab>
         </TabList>
 
@@ -1305,6 +1305,10 @@ export default function FormUserTwo() {
               </CardOverflow>
             </Card>
           </Stack>
+        </TabPanel>
+        <TabPanel value={2}>
+          <Products />
+          {/* <ProductTable /> */}
         </TabPanel>
       </Tabs>
     </Box>
