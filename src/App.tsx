@@ -8,6 +8,7 @@ import AusersOne from "./admin/pages/AusersOne";
 import ProtectedRoute from "./admin/utils/ProtectedRoute";
 import { useAuthStore } from "./store/authStore";
 import ANewsOne from "./admin/pages/AnewsOne";
+import AcoursesOne from "./admin/pages/AcoursesOne";
 
 function App() {
   // TODO: Cargar la configuracion del backend
@@ -53,6 +54,10 @@ function App() {
             <Route
               path="usuarios"
               element={<AusersOne />}
+            ></Route>
+            <Route
+              path="cursos"
+              element={<AcoursesOne />}
             ></Route>
           </Route>
         </Route>

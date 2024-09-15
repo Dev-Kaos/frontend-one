@@ -30,6 +30,7 @@ import {
   TbArrowDown,
   TbArrowsUpDown,
   TbArrowUp,
+  TbBook,
   TbEyeOff,
   TbSearch,
 } from "react-icons/tb";
@@ -37,7 +38,11 @@ import { useState } from "react";
 import {
   AspectRatio,
   Card,
+  CardContent,
+  CardCover,
   Checkbox,
+  Chip,
+  Divider,
   ListDivider,
   ListItem,
   Skeleton,
@@ -45,15 +50,14 @@ import {
 } from "@mui/joy";
 
 import List from "@mui/joy/List";
-import { getProducts } from "../../api/productsAPI";
-import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useProductStore } from "../../store/productStore";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getCourses } from "../../api/coursesAPI";
 
-export default function NewsTableOne() {
+export default function CoursesTable() {
   const [loadData, setLoadData] = useState(false);
   const { isFetching, isLoading, error, isError, data, refetch } = useQuery({
-    queryKey: ["products"],
-    queryFn: getProducts,
+    queryKey: ["getAllCourses"],
+    queryFn: getCourses,
   });
 
   const productData = data;
@@ -81,20 +85,58 @@ export default function NewsTableOne() {
           />
         </div>
       ),
-      size: 50,
+      enableResizing: true, //disable resizing for just this column
+      size: 100, //starting column size
+      minSize: 50, //enforced during column resizing
+      maxSize: 400,
     },
     {
       header: "ID",
       accessorKey: "id",
-      size: 50,
+      enableResizing: true, //disable resizing for just this column
+      size: 100, //starting column size
+      minSize: 50, //enforced during column resizing
+      maxSize: 400, //enforced during column resizing
     },
     {
-      header: "title",
-      accessorKey: "title",
+      header: "curso",
+      accessorKey: "course",
+      enableResizing: true, //disable resizing for just this column
+      size: 100, //starting column size
+      minSize: 50, //enforced during column resizing
+      maxSize: 400, //enforced during column resizing
     },
     {
-      header: "price",
-      accessorKey: "price",
+      header: "descripción",
+      accessorKey: "description",
+      enableResizing: true, //disable resizing for just this column
+      size: 100, //starting column size
+      minSize: 50, //enforced during column resizing
+      maxSize: 400, //enforced during column resizing
+    },
+    {
+      header: "ciclo",
+      accessorKey: "cycle",
+      enableResizing: true, //disable resizing for just this column
+      size: 100, //starting column size
+      minSize: 50, //enforced during column resizing
+      maxSize: 400, //enforced during column resizing
+    },
+    {
+      header: "tipo",
+      accessorKey: "type",
+      enableResizing: true, //disable resizing for just this column
+      size: 100, //starting column size
+      minSize: 50, //enforced during column resizing
+      maxSize: 400, //enforced during column resizing
+    },
+    {
+      header: "estado",
+      accessorKey: "state",
+      enableResizing: true, //disable resizing for just this column
+      size: 100, //starting column size
+      minSize: 50, //enforced during column resizing
+      maxSize: 400, //enforced during column resizing
     },
   ];
   const [selectedIndex, setSelectedIndex] = useState<number>(1);
@@ -138,6 +180,10 @@ export default function NewsTableOne() {
     enableRowSelection: true,
     enableMultiRowSelection: false,
     columnResizeMode: "onChange",
+    useResizeColumns: {
+      resizeMethod: "expand", // O 'contract' para cambiar el comportamiento del redimensionamiento
+      canResize: true,
+    },
     // onColumnFiltersChange: (setColumnFilters) => setColumnFilters,
   });
 
@@ -171,81 +217,6 @@ export default function NewsTableOne() {
   return (
     <>
       <Card variant="outlined">
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(12, 1fr)",
-            gap: 2,
-          }}
-        >
-          <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
-            <FormControl
-              sx={{ flex: 1 }}
-              size="sm"
-            >
-              <FormLabel>Buscar Usuario</FormLabel>
-              <Input
-                size="sm"
-                placeholder="pedro // ramirez // 101234.."
-                startDecorator={
-                  <Button
-                    variant="plain"
-                    color="neutral"
-                    startDecorator={<TbSearch />}
-                  ></Button>
-                }
-                onChange={(e) => setFiltering(e.target.value)}
-              />
-            </FormControl>
-          </Box>
-          <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
-            <FormControl size="sm">
-              <FormLabel>Estado</FormLabel>
-              <Select
-                size="sm"
-                placeholder="Cualquiera"
-                slotProps={{ button: { sx: { whiteSpace: "nowrap" } } }}
-              >
-                <Option value="1">activo</Option>
-                <Option value="2">inactivo</Option>
-                <Option value="3">suspendido</Option>
-                <Option value="4">certificado</Option>
-              </Select>
-            </FormControl>
-          </Box>
-          <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
-            <FormControl size="sm">
-              <FormLabel>Rol</FormLabel>
-              <Select
-                size="sm"
-                placeholder="Cualquiera"
-              >
-                <Option value="1">administrador</Option>
-                <Option value="2">docente</Option>
-                <Option value="3">estudiante</Option>
-                <Option value="4">Debit</Option>
-              </Select>
-            </FormControl>
-          </Box>
-          <Box
-            gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}
-            sx={{
-              display: { xs: "none", sm: "flex" },
-              alignItems: "flex-end",
-              justifyContent: "flex-end",
-            }}
-          >
-            <Button
-              size="sm"
-              startDecorator={<TbSearch />}
-              variant="outlined"
-              //   onClick={() => table.setGlobalFilter(filtering)}
-              onClick={getAllProducts}
-            >
-              Buscar
-            </Button>
-          </Box>
-        </Box>
         {isLoading ? (
           <>
             <div>Cargando...</div>
@@ -277,6 +248,81 @@ export default function NewsTableOne() {
           <div>Solicitando</div>
         ) : (
           <>
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "repeat(12, 1fr)",
+                gap: 2,
+              }}
+            >
+              <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
+                <FormControl
+                  sx={{ flex: 1 }}
+                  size="sm"
+                >
+                  <FormLabel>Buscar Usuario</FormLabel>
+                  <Input
+                    size="sm"
+                    placeholder="pedro // ramirez // 101234.."
+                    startDecorator={
+                      <Button
+                        variant="plain"
+                        color="neutral"
+                        startDecorator={<TbSearch />}
+                      ></Button>
+                    }
+                    onChange={(e) => setFiltering(e.target.value)}
+                  />
+                </FormControl>
+              </Box>
+              <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
+                <FormControl size="sm">
+                  <FormLabel>Estado</FormLabel>
+                  <Select
+                    size="sm"
+                    placeholder="Cualquiera"
+                    slotProps={{ button: { sx: { whiteSpace: "nowrap" } } }}
+                  >
+                    <Option value="1">activo</Option>
+                    <Option value="2">inactivo</Option>
+                    <Option value="3">suspendido</Option>
+                    <Option value="4">certificado</Option>
+                  </Select>
+                </FormControl>
+              </Box>
+              <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
+                <FormControl size="sm">
+                  <FormLabel>Rol</FormLabel>
+                  <Select
+                    size="sm"
+                    placeholder="Cualquiera"
+                  >
+                    <Option value="1">administrador</Option>
+                    <Option value="2">docente</Option>
+                    <Option value="3">estudiante</Option>
+                    <Option value="4">Debit</Option>
+                  </Select>
+                </FormControl>
+              </Box>
+              <Box
+                gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}
+                sx={{
+                  display: { xs: "none", sm: "flex" },
+                  alignItems: "flex-end",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <Button
+                  size="sm"
+                  startDecorator={<TbSearch />}
+                  variant="outlined"
+                  //   onClick={() => table.setGlobalFilter(filtering)}
+                  onClick={getAllProducts}
+                >
+                  Buscar
+                </Button>
+              </Box>
+            </Box>
             {/* TODO:  HeadTable start here */}
             <Box
               className="Pagination-laptopUp"
@@ -309,9 +355,9 @@ export default function NewsTableOne() {
                 </Stack>
                 <Stack sx={{ minWidth: "100px" }}>
                   <Typography level="body-sm">
-                    {selectedRowsCount === 0
+                    {/* {selectedRowsCount === 0
                       ? "No hay registros seleccionados"
-                      : "Se ha seleccionado un registro"}
+                      : "Se ha seleccionado un registro"} */}
                   </Typography>
                 </Stack>
                 <Stack
@@ -412,9 +458,14 @@ export default function NewsTableOne() {
                       {headerGroup.headers.map((header) => (
                         <th
                           key={header.id}
+                          //   style={{
+                          //     width: header.getSize(),
+                          //     height: "50px",
+                          //     textAlign: "center",
+                          //     padding: "6px 6px",
+                          //   }}
                           style={{
-                            width: header.getSize(),
-                            height: "50px",
+                            width: `${header.getSize()}px`,
                             textAlign: "center",
                             padding: "6px 6px",
                           }}
@@ -473,13 +524,13 @@ export default function NewsTableOne() {
                               </Menu>
                             </Dropdown>
                             <Box
-                              className="Resizer"
-                              onMouseDown={() => {
-                                header.getResizeHandler();
-                              }}
-                              onTouchStart={() => {
-                                header.getResizeHandler();
-                              }}
+                              className={`resizer ${
+                                header.column.getIsResizing()
+                                  ? "isResizing"
+                                  : ""
+                              }`}
+                              onMouseDown={header.getResizeHandler()}
+                              onTouchStart={header.getResizeHandler()}
                               sx={{
                                 position: "absolute",
 
@@ -610,6 +661,73 @@ export default function NewsTableOne() {
                   Ultima
                 </Button>
               </Stack>
+            </Box>
+            {/* TODO:  card start here */}
+
+            <Divider sx={{ my: 5 }} />
+            <Box
+              sx={{
+                width: "100%",
+                px: { xs: 2, md: 4 },
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Card sx={{ minHeight: "600px", width: "600px" }}>
+                <CardCover>
+                  <img
+                    src="https://images.unsplash.com/photo-1542773998-9325f0a098d7?auto=format&fit=crop&w=320"
+                    srcSet="https://images.unsplash.com/photo-1542773998-9325f0a098d7?auto=format&fit=crop&w=320&dpr=2 2x"
+                    loading="lazy"
+                    alt=""
+                  />
+                </CardCover>
+                <CardCover
+                  sx={{
+                    background:
+                      "linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)",
+                  }}
+                />
+                <CardContent sx={{ justifyContent: "flex-end" }}>
+                  <Typography
+                    fontStyle={{ color: "white" }}
+                    sx={{ fontWeight: 400, fontSize: "xl4" }}
+                    startDecorator={<TbBook />}
+                    endDecorator={
+                      <Chip
+                        component="span"
+                        size="sm"
+                        variant="soft"
+                        color="success"
+                      >
+                        estado
+                      </Chip>
+                    }
+                  >
+                    Nombre curso
+                  </Typography>
+                  <Typography
+                    level="body-md"
+                    sx={{ mb: 2, color: "#f8bbd0" }}
+                  >
+                    Tipo - Ciclo
+                  </Typography>
+
+                  <Typography
+                    level="body-md"
+                    fontStyle={{ color: "white" }}
+                  >
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Exercitationem repudiandae perspiciatis dolorem doloribus
+                    voluptatibus vel nisi at nihil tempore enim eaque iure, a in
+                    illo voluptatem! Asperiores error quia et. Lorem ipsum dolor
+                    sit amet consectetur adipisicing elit. Dolorem similique,
+                    obcaecati iure eum, dolore perspiciatis blanditiis ea esse
+                    soluta aliquid deleniti illo fuga. Odio culpa dicta,
+                    distinctio est quibusdam ipsa.
+                  </Typography>
+                </CardContent>
+              </Card>
             </Box>
           </>
         )}
