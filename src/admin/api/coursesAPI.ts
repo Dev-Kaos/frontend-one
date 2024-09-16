@@ -1,30 +1,34 @@
 import axios from "axios";
+import { ICourse } from "../../types/coursesTypes";
 
- const coursesAPI = axios.create({
-        baseURL: 'http://localhost:8080',
-        headers: {
-            'Content-Type': 'application/json',
-            // Otros headers si es necesario
-            
-        }
+const BASE_URL = 'http://localhost:8080'; // Considera usar variables de entorno para una solución más robusta
 
-    });
+const coursesAPI = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+    // Agrega otros encabezados por defecto aquí (ej., Authorization)
+  },
+});
 
-    coursesAPI.interceptors.request.use((config) => {
-        return config
-    })
+// Mejora el manejo de errores con un interceptor centralizado
+coursesAPI.interceptors.response.use((response) => response, (error) => {
+  console.error('Error en la solicitud API:', error); // Registra el error para depuración
+  // Opcionalmente, maneja códigos de error específicos o redirige a una página de error
+  return Promise.reject(error);
+});
 
-    coursesAPI.interceptors.response.use((response) => {
-        return response
-    })
+export const getCourses = async () => {
+  const response = await coursesAPI.get('/api/course/all');
+  return response.data;
+};
 
-    // const getProducts = async () => {
-    //     const { data } = await productsAPI.get('/products')
-    //     return data
-    // }
-    
-    export const getCourses = async () => {
-        const res = await coursesAPI.get('/api/course/all')
-        return res.data;
-    }
-    export default coursesAPI
+
+// ... (resto de las funciones, traducidas de manera similar)
+
+export const createCourse = async (course: ICourse) => {
+  const response = await coursesAPI.post('/api/course/create', course);
+  return response.data;
+};
+
+export default coursesAPI; // Exporta la instancia para posible uso global (opcional)

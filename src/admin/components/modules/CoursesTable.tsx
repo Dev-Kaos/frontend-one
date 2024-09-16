@@ -250,15 +250,15 @@ export default function CoursesTable() {
                 gap: 2,
               }}
             >
-              <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
+              <Box gridColumn={{ xs: "span 12", md: "span 4", lg: "span 4" }}>
                 <FormControl
                   sx={{ flex: 1 }}
                   size="sm"
                 >
-                  <FormLabel>Buscar Usuario</FormLabel>
+                  <FormLabel>Buscar curso</FormLabel>
                   <Input
                     size="sm"
-                    placeholder="pedro // ramirez // 101234.."
+                    placeholder="sexto // secretariado // ingles"
                     startDecorator={
                       <Button
                         variant="plain"
@@ -275,32 +275,32 @@ export default function CoursesTable() {
                   <FormLabel>Estado</FormLabel>
                   <Select
                     size="sm"
-                    placeholder="Cualquiera"
+                    defaultValue={"1"}
                     slotProps={{ button: { sx: { whiteSpace: "nowrap" } } }}
                   >
                     <Option value="1">activo</Option>
                     <Option value="2">inactivo</Option>
                     <Option value="3">suspendido</Option>
-                    <Option value="4">certificado</Option>
                   </Select>
                 </FormControl>
               </Box>
               <Box gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}>
                 <FormControl size="sm">
-                  <FormLabel>Rol</FormLabel>
+                  <FormLabel>tipo</FormLabel>
                   <Select
                     size="sm"
-                    placeholder="Cualquiera"
+                    defaultValue="1"
                   >
-                    <Option value="1">administrador</Option>
-                    <Option value="2">docente</Option>
-                    <Option value="3">estudiante</Option>
-                    <Option value="4">Debit</Option>
+                    <Option value="1">bachillerato</Option>
+                    <Option value="2">tecnico</Option>
+                    <Option value="3">diplomado</Option>
+                    <Option value="4">curso libre</Option>
+                    <Option value="5">curso corto</Option>
                   </Select>
                 </FormControl>
               </Box>
               <Box
-                gridColumn={{ xs: "span 12", md: "span 3", lg: "span 3" }}
+                gridColumn={{ xs: "span 12", md: "span 2", lg: "span 2" }}
                 sx={{
                   display: { xs: "none", sm: "flex" },
                   alignItems: "flex-end",
