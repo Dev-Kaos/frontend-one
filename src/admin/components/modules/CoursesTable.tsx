@@ -28,11 +28,13 @@ import {
 
 import {
   TbArrowDown,
-  TbArrowsUpDown,
+  TbArrowsSort,
   TbArrowUp,
   TbBook,
   TbEyeOff,
   TbSearch,
+  TbSortAscending,
+  TbSortDescending,
 } from "react-icons/tb";
 import { useState } from "react";
 import {
@@ -54,7 +56,6 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCourses } from "../../api/coursesAPI";
 
 export default function CoursesTable() {
-  const [loadData, setLoadData] = useState(false);
   const { isFetching, isLoading, error, isError, data, refetch } = useQuery({
     queryKey: ["getAllCourses"],
     queryFn: getCourses,
@@ -139,16 +140,6 @@ export default function CoursesTable() {
       maxSize: 400, //enforced during column resizing
     },
   ];
-  const [selectedIndex, setSelectedIndex] = useState<number>(1);
-
-  const iconMap: { [key: number]: any } = {
-    0: <TbArrowUp />,
-    1: <TbArrowDown />,
-    2: <TbArrowsUpDown />,
-  };
-
-  const [selected, setSelected] = useState<readonly string[]>([]);
-  const [open, setOpen] = useState(false);
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
@@ -156,7 +147,14 @@ export default function CoursesTable() {
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const [selectedRow, setSelectedRow] = useState(null);
+  //   sorting collumn
+  const [headerSelectedIndex, setHeaderSelectedIndex] = useState<number>(2);
+
+  const iconMap: { [key: number]: any } = {
+    0: <TbArrowUp />,
+    1: <TbArrowDown />,
+    2: <TbArrowsSort />,
+  };
 
   const table = useReactTable({
     data: productData || [],
@@ -180,10 +178,7 @@ export default function CoursesTable() {
     enableRowSelection: true,
     enableMultiRowSelection: false,
     columnResizeMode: "onChange",
-    useResizeColumns: {
-      resizeMethod: "expand", // O 'contract' para cambiar el comportamiento del redimensionamiento
-      canResize: true,
-    },
+
     // onColumnFiltersChange: (setColumnFilters) => setColumnFilters,
   });
 
@@ -473,7 +468,12 @@ export default function CoursesTable() {
                           <Box>
                             <Dropdown>
                               <MenuButton
-                                startDecorator={iconMap[selectedIndex]}
+                                startDecorator={
+                                  // Verificamos si la columna está ordenada y en qué dirección
+                                  header.column.getIsSorted()
+                                    ? iconMap[headerSelectedIndex]
+                                    : iconMap[3]
+                                }
                                 variant="plain"
                               >
                                 {flexRender(
@@ -483,32 +483,32 @@ export default function CoursesTable() {
                               </MenuButton>{" "}
                               <Menu>
                                 <MenuItem
-                                  {...(selectedIndex === 0 && {
+                                  {...(headerSelectedIndex === 0 && {
                                     selected: true,
                                     variant: "soft",
                                   })}
-                                  selected={selectedIndex === 0}
+                                  selected={headerSelectedIndex === 0}
                                   onClick={() => {
                                     header.column.toggleSorting(false);
-                                    setSelectedIndex(0);
+                                    setHeaderSelectedIndex(0);
                                   }}
                                 >
                                   {iconMap[0]} Asc
                                 </MenuItem>
                                 <MenuItem
-                                  selected={selectedIndex === 1}
+                                  selected={headerSelectedIndex === 1}
                                   onClick={() => {
                                     header.column.toggleSorting(true);
-                                    setSelectedIndex(1);
+                                    setHeaderSelectedIndex(1);
                                   }}
                                 >
                                   {iconMap[1]} Desc
                                 </MenuItem>
                                 <MenuItem
-                                  selected={selectedIndex === 2}
+                                  selected={headerSelectedIndex === 2}
                                   onClick={() => {
                                     header.column.clearSorting();
-                                    setSelectedIndex(2);
+                                    setHeaderSelectedIndex(3);
                                   }}
                                 >
                                   {iconMap[2]} Ninguno
@@ -533,7 +533,7 @@ export default function CoursesTable() {
                               onTouchStart={header.getResizeHandler()}
                               sx={{
                                 position: "absolute",
-
+                                opacity: 0,
                                 top: 0,
                                 right: 0,
                                 width: 5,
@@ -543,7 +543,12 @@ export default function CoursesTable() {
                                 userSelect: "none",
                                 touchAction: "none",
                                 borderRadius: "6px",
-                                "&.isResizing": {},
+                                "&.isResizing": {
+                                  opacity: 1,
+                                },
+                                "&:hover": {
+                                  opacity: 1,
+                                },
                               }}
                             ></Box>
                           </Box>
