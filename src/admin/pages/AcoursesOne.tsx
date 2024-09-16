@@ -16,14 +16,13 @@ import Card from "@mui/joy/Card";
 import CardActions from "@mui/joy/CardActions";
 import CardOverflow from "@mui/joy/CardOverflow";
 import { SetStateAction, useState } from "react";
-import { TabPanel, Textarea } from "@mui/joy";
+import { TabPanel, Textarea, useTheme } from "@mui/joy";
 import {
   TbAlertTriangle,
   TbBookDownload,
   TbBooks,
   TbBookUpload,
   TbHomePlus,
-  TbSearch,
   TbTrash,
   TbUserPlus,
 } from "react-icons/tb";
@@ -35,6 +34,9 @@ import CoursesTable from "../components/modules/CoursesTable";
 import { useMutation } from "@tanstack/react-query";
 import { createCourse } from "../api/coursesAPI";
 import { ICourse } from "../../types/coursesTypes";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import CourseCardOne from "../components/modules/CourseCardOne";
 
 export default function AcoursesOne() {
   // TODO: TABS
@@ -59,20 +61,56 @@ export default function AcoursesOne() {
     setTextAreaValue(`${textAreaValue}${emoji}`);
 
   // react query
+  const [isCourseCreated, setIsCourseCreated] = useState(false);
+
+  // Utiliza el tipo de datos ICoursecreatedCourseInfo
+  const [createdCourseInfo, setCreatedCourseInfo] = useState<ICourse>({
+    id: null,
+    course: "",
+    description: "",
+    cycle: "",
+    type: "",
+    state: "",
+  } as ICourse);
 
   const addCourseMutation = useMutation({
+    // mutationKey: ["createCourse"],
+
     mutationFn: createCourse,
     onSuccess: (data) => {
+      // Aquí tienes acceso a los datos de la respuesta
       // Actualizar la cache o realizar otras acciones después de crear el curso
-      console.log("Curso creado:", data);
+
+      console.log("Curso creado exitosamente:", data);
+
+      // Puedes actualizar el estado local, mostrar una notificación, o realizar cualquier otra acción
+      // setCourses([...courses, data]); // Ejemplo: Agregar el nuevo curso a un array local
+      toast.success("Curso creado exitosamente");
+      setIsCourseCreated(true);
+      setCreatedCourseInfo(data);
     },
-    // mutationFn: () => {
-    //   // TODO: API call
-    // },
-    // onSuccess: () => {
-    //   // TODO: onSuccess
-    // },
+
+    // ... resto de la configuración
   });
+
+  // const [courses, setCourses] = useState<ICourse[]>([]);
+
+  // TODO: notify
+
+  const notify = () =>
+    toast("🦄 Wow so easy!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: theme.palette.mode === "dark" ? "dark" : "light",
+      transition: Bounce,
+    });
+
+  const theme = useTheme();
 
   // TODO: react-hook-form
   const {
@@ -93,7 +131,7 @@ export default function AcoursesOne() {
     // ...
     // navigate("/administrador");
     addCourseMutation.mutate(data as ICourse);
-    console.log(data);
+    // toast.success("Curso creado correctamente");
   });
 
   return (
@@ -515,12 +553,26 @@ export default function AcoursesOne() {
               </CardOverflow>
             </Card>
           </Stack>
+          <Divider sx={{ my: 4 }} />
+          {isCourseCreated ? <CourseCardOne {...createdCourseInfo} /> : <></>}
         </TabPanel>
         <TabPanel value={2}>
           <Products />
           {/* <ProductTable /> */}
         </TabPanel>
       </Tabs>
+      <ToastContainer
+        position="top-center"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme={theme.palette.mode === "dark" ? "dark" : "light"}
+      />
     </Box>
   );
 }

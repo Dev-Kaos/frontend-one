@@ -14,7 +14,7 @@
     course: string;
     description: string;
     cycle: string;
-    type: number;
+    type: string;
     state: string;
     
   }
