@@ -64,7 +64,7 @@ export default function CoursesTable() {
   const productData = data;
   const queryClient = useQueryClient();
 
-  const getAllProducts = () => {
+  const getAllCourses = () => {
     // queryClient.invalidateQueries({ queryKey: ["products"] });
     refetch();
   };
@@ -81,7 +81,14 @@ export default function CoursesTable() {
               checked: row.getIsSelected(),
               disabled: !row.getCanSelect(),
               indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler(),
+              onChange: () => {
+                // Deseleccionar todas las filas antes de seleccionar la nueva
+
+                // Seleccionar la fila actual
+                row.toggleSelected();
+                // Actualizar el estado con los datos de la fila seleccionada
+                setSelectedRowData(row.original);
+              },
             }}
           />
         </div>
@@ -182,6 +189,7 @@ export default function CoursesTable() {
     // onColumnFiltersChange: (setColumnFilters) => setColumnFilters,
   });
 
+  // TODO: Pagination
   const pageSize = [5, 10, 25, table.getFilteredRowModel().rows.length];
   const selectedRowsCount = table.getSelectedRowModel().flatRows.length;
 
@@ -208,6 +216,10 @@ export default function CoursesTable() {
   //     // ... otros valores
   //   }
   // };
+
+  // TODO: selection
+
+  const [selectedRowData, setSelectedRowData] = useState(null);
 
   return (
     <>
@@ -312,7 +324,7 @@ export default function CoursesTable() {
                   startDecorator={<TbSearch />}
                   variant="outlined"
                   //   onClick={() => table.setGlobalFilter(filtering)}
-                  onClick={getAllProducts}
+                  onClick={getAllCourses}
                 >
                   Buscar
                 </Button>
@@ -678,61 +690,19 @@ export default function CoursesTable() {
                 justifyContent: "center",
               }}
             >
-              <Card sx={{ minHeight: "600px", width: "600px" }}>
-                <CardCover>
-                  <img
-                    src="https://images.unsplash.com/photo-1542773998-9325f0a098d7?auto=format&fit=crop&w=320"
-                    srcSet="https://images.unsplash.com/photo-1542773998-9325f0a098d7?auto=format&fit=crop&w=320&dpr=2 2x"
-                    loading="lazy"
-                    alt=""
-                  />
-                </CardCover>
-                <CardCover
-                  sx={{
-                    background:
-                      "linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)",
-                  }}
-                />
-                <CardContent sx={{ justifyContent: "flex-end" }}>
-                  <Typography
-                    fontStyle={{ color: "white" }}
-                    sx={{ fontWeight: 400, fontSize: "xl4" }}
-                    startDecorator={<TbBook />}
-                    endDecorator={
-                      <Chip
-                        component="span"
-                        size="sm"
-                        variant="soft"
-                        color="success"
-                      >
-                        estado
-                      </Chip>
-                    }
-                  >
-                    Nombre curso
-                  </Typography>
-                  <Typography
-                    level="body-md"
-                    sx={{ mb: 2, color: "#f8bbd0" }}
-                  >
-                    Tipo - Ciclo
-                  </Typography>
-
-                  <Typography
-                    level="body-md"
-                    fontStyle={{ color: "white" }}
-                  >
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Exercitationem repudiandae perspiciatis dolorem doloribus
-                    voluptatibus vel nisi at nihil tempore enim eaque iure, a in
-                    illo voluptatem! Asperiores error quia et. Lorem ipsum dolor
-                    sit amet consectetur adipisicing elit. Dolorem similique,
-                    obcaecati iure eum, dolore perspiciatis blanditiis ea esse
-                    soluta aliquid deleniti illo fuga. Odio culpa dicta,
-                    distinctio est quibusdam ipsa.
-                  </Typography>
-                </CardContent>
-              </Card>
+              <div>
+                {selectedRowData && (
+                  <div>
+                    <p>Datos de la fila seleccionada:</p>
+                    {/* Mostrar los datos de selectedRowData aquí */}
+                    <ul>
+                      {Object.entries(selectedRowData).map(([key, value]) => (
+                        <li key={key}>{`${key}: ${value}`}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
             </Box>
           </>
         )}
