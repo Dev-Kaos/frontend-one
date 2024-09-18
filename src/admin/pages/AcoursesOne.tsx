@@ -32,7 +32,7 @@ import NewsTooltip from "../components/common/NewsTooltip";
 import Products from "../components/common/Products";
 import CoursesTable from "../components/modules/CoursesTable";
 import { useMutation } from "@tanstack/react-query";
-import { createCourse } from "../api/coursesAPI";
+import { createCourse, deleteCourse } from "../api/coursesAPI";
 import { ICourse } from "../../types/coursesTypes";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -81,13 +81,38 @@ export default function AcoursesOne() {
       // Aquí tienes acceso a los datos de la respuesta
       // Actualizar la cache o realizar otras acciones después de crear el curso
 
-      console.log("Curso creado exitosamente:", data);
-
       // Puedes actualizar el estado local, mostrar una notificación, o realizar cualquier otra acción
       // setCourses([...courses, data]); // Ejemplo: Agregar el nuevo curso a un array local
       toast.success("Curso creado exitosamente");
       setIsCourseCreated(true);
       setCreatedCourseInfo(data);
+    },
+
+    onError: (error) => {
+      // Aquí puedes manejar los errores de la respuesta
+
+      toast.error("Error al crear el curso " + error);
+    },
+
+    // ... resto de la configuración
+  });
+  const deleteCourseMutation = useMutation({
+    // mutationKey: ["createCourse"],
+
+    mutationFn: deleteCourse,
+    onSuccess: () => {
+      // Aquí tienes acceso a los datos de la respuesta
+      // Actualizar la cache o realizar otras acciones después de crear el curso
+
+      // Puedes actualizar el estado local, mostrar una notificación, o realizar cualquier otra acción
+      // setCourses([...courses, data]); // Ejemplo: Agregar el nuevo curso a un array local
+      toast.success("Curso eliminado exitosamente");
+    },
+
+    onError: (error) => {
+      // Aquí puedes manejar los errores de la respuesta
+
+      toast.error("Error al eliminar el curso " + error);
     },
 
     // ... resto de la configuración
@@ -110,6 +135,7 @@ export default function AcoursesOne() {
       transition: Bounce,
     });
 
+  // TODO: notify-toast theme
   const theme = useTheme();
 
   // TODO: react-hook-form

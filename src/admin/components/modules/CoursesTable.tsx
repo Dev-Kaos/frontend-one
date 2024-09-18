@@ -30,20 +30,17 @@ import {
   TbArrowDown,
   TbArrowsSort,
   TbArrowUp,
-  TbBook,
+  TbEdit,
+  TbEyeglass,
   TbEyeOff,
   TbSearch,
-  TbSortAscending,
-  TbSortDescending,
+  TbTrash,
 } from "react-icons/tb";
 import { useState } from "react";
 import {
   AspectRatio,
   Card,
-  CardContent,
-  CardCover,
   Checkbox,
-  Chip,
   Divider,
   ListDivider,
   ListItem,
@@ -52,13 +49,40 @@ import {
 } from "@mui/joy";
 
 import List from "@mui/joy/List";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getCourses } from "../../api/coursesAPI";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteCourse, getCourses } from "../../api/coursesAPI";
+import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
+import { toast } from "react-toastify";
+import { color } from "@mui/system";
 
 export default function CoursesTable() {
   const { isFetching, isLoading, error, isError, data, refetch } = useQuery({
     queryKey: ["getAllCourses"],
     queryFn: getCourses,
+    refetchOnWindowFocus: false,
+  });
+
+  const deleteCourseMutation = useMutation({
+    // mutationKey: ["createCourse"],
+
+    mutationFn: deleteCourse,
+    onSuccess: () => {
+      // Aquí tienes acceso a los datos de la respuesta
+      // Actualizar la cache o realizar otras acciones después de crear el curso
+
+      // Puedes actualizar el estado local, mostrar una notificación, o realizar cualquier otra acción
+      // setCourses([...courses, data]); // Ejemplo: Agregar el nuevo curso a un array local
+      queryClient.invalidateQueries({ queryKey: ["getAllCourses"] });
+      toast.success("Curso eliminado exitosamente");
+    },
+
+    onError: (error) => {
+      // Aquí puedes manejar los errores de la respuesta
+
+      toast.error("Error al eliminar el curso " + error);
+    },
+
+    // ... resto de la configuración
   });
 
   const productData = data;
@@ -69,7 +93,60 @@ export default function CoursesTable() {
     refetch();
   };
 
+  const handleCourseDelete = (id: number) => {
+    // toast.info("Eliminando el curso..." + id);
+    deleteCourseMutation.mutate(id);
+  };
+
   const columns = [
+    {
+      id: "selection",
+      header: (
+        <TbEdit
+          size={20}
+          style={{ color: "var(--joy-palette-primary-500)" }}
+        />
+      ),
+      enableHiding: false,
+      enableSorting: false,
+      cell: ({ row }) => (
+        <Dropdown>
+          <MenuButton
+            slots={{ root: IconButton }}
+            slotProps={{
+              root: { variant: "plain", color: "neutral", size: "sm" },
+            }}
+          >
+            <MoreHorizRoundedIcon />
+          </MenuButton>
+          <Menu
+            size="sm"
+            sx={{ minWidth: 140 }}
+          >
+            <MenuItem>
+              <TbEyeglass />
+              Ver
+            </MenuItem>
+            <MenuItem>
+              <TbEdit />
+              Editar
+            </MenuItem>
+            <Divider />
+            <MenuItem
+              color="danger"
+              onClick={() => handleCourseDelete(row.original.id)}
+            >
+              <TbTrash />
+              Borrar
+            </MenuItem>
+          </Menu>
+        </Dropdown>
+      ),
+      enableResizing: true, //disable resizing for just this column
+      size: 100, //starting column size
+      minSize: 50, //enforced during column resizing
+      maxSize: 400,
+    },
     {
       header: "Acciones",
       enableHiding: false,
@@ -700,6 +777,7 @@ export default function CoursesTable() {
                         <li key={key}>{`${key}: ${value}`}</li>
                       ))}
                     </ul>
+                    <pre>{JSON.stringify(selectedRowData, null, 2)}</pre>
                   </div>
                 )}
               </div>

@@ -31,4 +31,9 @@ export const createCourse = async (course: ICourse) => {
   return response.data;
 };
 
+export const deleteCourse = async (id: number) => {
+  const response = await coursesAPI.delete(`/api/course/delete/${id}`);
+  return response.data;
+};
+
 export default coursesAPI; // Exporta la instancia para posible uso global (opcional)
