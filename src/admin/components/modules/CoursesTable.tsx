@@ -53,7 +53,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteCourse, getCourses } from "../../api/coursesAPI";
 import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
 import { toast } from "react-toastify";
-import { color } from "@mui/system";
+
+import { ICourse } from "../../../types/coursesTypes";
 
 export default function CoursesTable() {
   const { isFetching, isLoading, error, isError, data, refetch } = useQuery({
@@ -97,16 +98,26 @@ export default function CoursesTable() {
     // toast.info("Eliminando el curso..." + id);
     deleteCourseMutation.mutate(id);
   };
+  const handleCourseEdit = (courseData: ICourse) => {
+    console.log("handleCourseEdit", courseData);
+
+    // const id = courseData.id;
+
+    setEditCourseInfo(courseData);
+    setIsEditing(true);
+
+    console.log("handleCourseEdit", editCourseInfo);
+
+    // toast.info("Editando el curso..." + id);
+  };
+
+  const handleCourseView = () => {
+    // toast.info("Visualizando el curso..." + id);
+  };
 
   const columns = [
     {
-      id: "selection",
-      header: (
-        <TbEdit
-          size={20}
-          style={{ color: "var(--joy-palette-primary-500)" }}
-        />
-      ),
+      header: "Acciones",
       enableHiding: false,
       enableSorting: false,
       cell: ({ row }) => (
@@ -127,7 +138,7 @@ export default function CoursesTable() {
               <TbEyeglass />
               Ver
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={() => handleCourseEdit(row.original)}>
               <TbEdit />
               Editar
             </MenuItem>
@@ -147,34 +158,7 @@ export default function CoursesTable() {
       minSize: 50, //enforced during column resizing
       maxSize: 400,
     },
-    {
-      header: "Acciones",
-      enableHiding: false,
-      enableSorting: false,
-      cell: ({ row }) => (
-        <div className="px-1">
-          <Checkbox
-            {...{
-              checked: row.getIsSelected(),
-              disabled: !row.getCanSelect(),
-              indeterminate: row.getIsSomeSelected(),
-              onChange: () => {
-                // Deseleccionar todas las filas antes de seleccionar la nueva
 
-                // Seleccionar la fila actual
-                row.toggleSelected();
-                // Actualizar el estado con los datos de la fila seleccionada
-                setSelectedRowData(row.original);
-              },
-            }}
-          />
-        </div>
-      ),
-      enableResizing: true, //disable resizing for just this column
-      size: 100, //starting column size
-      minSize: 50, //enforced during column resizing
-      maxSize: 400,
-    },
     {
       header: "ID",
       accessorKey: "id",
@@ -297,6 +281,16 @@ export default function CoursesTable() {
   // TODO: selection
 
   const [selectedRowData, setSelectedRowData] = useState(null);
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editCourseInfo, setEditCourseInfo] = useState<ICourse>({
+    id: 0,
+    course: "",
+    description: "",
+    cycle: "",
+    type: "",
+    state: "",
+  });
 
   return (
     <>
@@ -759,6 +753,29 @@ export default function CoursesTable() {
             {/* TODO:  card start here */}
 
             <Divider sx={{ my: 5 }} />
+            <Box
+              sx={{
+                width: "100%",
+                px: { xs: 2, md: 4 },
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <div>
+                {selectedRowData && (
+                  <div>
+                    <p>Datos de la fila seleccionada:</p>
+                    {/* Mostrar los datos de selectedRowData aquí */}
+                    <ul>
+                      {Object.entries(selectedRowData).map(([key, value]) => (
+                        <li key={key}>{`${key}: ${value}`}</li>
+                      ))}
+                    </ul>
+                    <pre>{JSON.stringify(selectedRowData, null, 2)}</pre>
+                  </div>
+                )}
+              </div>
+            </Box>
             <Box
               sx={{
                 width: "100%",

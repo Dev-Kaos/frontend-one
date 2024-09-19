@@ -31,6 +31,11 @@ export const createCourse = async (course: ICourse) => {
   return response.data;
 };
 
+export const updateCourse = async (course: ICourse) => {
+  const response = await coursesAPI.put(`/api/course/update/${course.id}`, course);
+  return response.data;
+};
+
 export const deleteCourse = async (id: number) => {
   const response = await coursesAPI.delete(`/api/course/delete/${id}`);
   return response.data;

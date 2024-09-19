@@ -22,6 +22,7 @@ import {
   TbBookDownload,
   TbBooks,
   TbBookUpload,
+  TbEdit,
   TbHomePlus,
   TbTrash,
   TbUserPlus,
@@ -32,7 +33,7 @@ import NewsTooltip from "../components/common/NewsTooltip";
 import Products from "../components/common/Products";
 import CoursesTable from "../components/modules/CoursesTable";
 import { useMutation } from "@tanstack/react-query";
-import { createCourse, deleteCourse } from "../api/coursesAPI";
+import { createCourse, deleteCourse, updateCourse } from "../api/coursesAPI";
 import { ICourse } from "../../types/coursesTypes";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -96,17 +97,17 @@ export default function AcoursesOne() {
 
     // ... resto de la configuración
   });
-  const deleteCourseMutation = useMutation({
+  const editCourseMutation = useMutation({
     // mutationKey: ["createCourse"],
 
-    mutationFn: deleteCourse,
+    mutationFn: updateCourse,
     onSuccess: () => {
       // Aquí tienes acceso a los datos de la respuesta
       // Actualizar la cache o realizar otras acciones después de crear el curso
 
       // Puedes actualizar el estado local, mostrar una notificación, o realizar cualquier otra acción
       // setCourses([...courses, data]); // Ejemplo: Agregar el nuevo curso a un array local
-      toast.success("Curso eliminado exitosamente");
+      toast.success("Curso editado exitosamente");
     },
 
     onError: (error) => {
@@ -143,6 +144,7 @@ export default function AcoursesOne() {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm();
 
   const onSubmit = handleSubmit((data) => {
@@ -159,6 +161,42 @@ export default function AcoursesOne() {
     addCourseMutation.mutate(data as ICourse);
     // toast.success("Curso creado correctamente");
   });
+
+  // TODO:  edit PART
+
+  const [editCourseInfo, setEditCourseInfo] = useState<ICourse>({
+    id: 0,
+    course: "",
+    description: "",
+    cycle: "",
+    type: "",
+    state: "",
+  } as ICourse);
+
+  const handleCourseEdit = () => {
+    const formData = getValues();
+    const editData = { ...formData, id: 1 };
+    console.log("handleCourseEdit", editData);
+    editCourseMutation.mutate(editData as ICourse);
+  };
+
+  // const handleCourseEdit = handleSubmit((data) => {
+  //   // Aquí puedes hacer lo que quieras con los datos del formulario
+  //   // Coregir la redireccion
+
+  //   // console.log(data);
+  //   // const { username, password } = data;
+  //   // const dataToSend = { username, password };
+  //   // console.log(JSON.stringify(dataToSend));
+  //   // Aquí podrías hacer una llamada a tu API o realizar otras acciones
+  //   // ...
+  //   // navigate("/administrador");
+
+  //   setEditCourseInfo(data as ICourse);
+
+  //   // editCourseMutation.mutate(editCourseInfo as ICourse);
+  //   // toast.success("Curso creado correctamente");
+  // });
 
   return (
     <Box sx={{ flex: 1, width: "100%" }}>
@@ -567,6 +605,15 @@ export default function AcoursesOne() {
           >
             abrir tab
           </Button> */}
+
+                  <Button
+                    size="sm"
+                    variant="solid"
+                    startDecorator={<TbEdit size={20} />}
+                    onClick={() => handleCourseEdit()}
+                  >
+                    Editar
+                  </Button>
                   <Button
                     size="sm"
                     variant="solid"
