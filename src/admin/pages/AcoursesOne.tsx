@@ -33,7 +33,7 @@ import NewsTooltip from "../components/common/NewsTooltip";
 import Products from "../components/common/Products";
 import CoursesTable from "../components/modules/CoursesTable";
 import { useMutation } from "@tanstack/react-query";
-import { createCourse, deleteCourse, updateCourse } from "../api/coursesAPI";
+import { createCourse, deleteCourse, updateCourse } from "../api/CoursesAPI";
 import { ICourse } from "../../types/coursesTypes";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

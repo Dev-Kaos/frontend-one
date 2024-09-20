@@ -50,7 +50,7 @@ import {
 
 import List from "@mui/joy/List";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteCourse, getCourses } from "../../api/coursesAPI";
+import { deleteCourse, getCourses } from "../../api/CoursesAPI";
 import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
 import { toast } from "react-toastify";
 

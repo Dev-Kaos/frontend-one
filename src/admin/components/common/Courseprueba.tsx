@@ -6,7 +6,7 @@ import {
   ReactNode,
   ReactPortal,
 } from "react";
-import { getCourses } from "../../api/coursesAPI";
+import { getCourses } from "../../api/CoursesAPI";
 
 export default function Courseprueba() {
   const { isLoading, error, isError, data } = useQuery({

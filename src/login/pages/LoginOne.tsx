@@ -60,14 +60,46 @@ function ColorSchemeToggle(props: IconButtonProps) {
 }
 
 export default function LoginOne() {
-  // TODO: react-query
+  //toast notification theme
+  const theme = useTheme();
+
+  //  Password
+  const [showPassword, setShowPassword] = useState(false);
+
+  //  routes
+  const navigate = useNavigate();
+
+  //authStore
+  const { setIsAuthenticated, setToken, token, isAuthenticated } = useAuthStore(
+    (state) => state
+  );
+
+  // TODO: react-hook-form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  // TODO: actions and handlers
+
+  const handlePasswordClick = () => {
+    setShowPassword((prev) => !prev);
+  };
+  //  react-query
   const loginRequestMutation = useMutation({
-    // mutationKey: ["createCourse"],
+    // mutationKey: ["loginRequestMutation"],
 
     mutationFn: loginRequest,
     onSuccess: (data) => {
       // Aquí tienes acceso a los datos de la respuesta
+      setIsAuthenticated(true);
+      // console.log("isAuthenticated", isAuthenticated);
+      setToken(data.token);
+      // console.log("token", token);
+
       toast.success("Sesion iniciada exitosamente");
+      navigate("/administrador/inicio");
     },
 
     onError: (error) => {
@@ -77,46 +109,16 @@ export default function LoginOne() {
     // ... resto de la configuración
   });
 
-  //toast notification theme
-  const theme = useTheme();
-
-  //  Password
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handlePasswordClick = () => {
-    setShowPassword((prev) => !prev);
-  };
-
-  // TODO: react-hook-form
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const navigate = useNavigate();
-  const { setIsAuthenticated } = useAuthStore((state) => state);
-
+  // Aquí form submit
   const onSubmit = handleSubmit((data) => {
     // Aquí puedes hacer lo que quieras con los datos del formulario
+    // hacer una llamada a tu API o realizar otras acciones
 
-    loginRequestMutation.mutate(data as ILoginRequestData);
+    return loginRequestMutation.mutate(data as ILoginRequestData);
 
     // const { username, password } = data;
-
     // const dataToSend = { username, password };
     // console.log(JSON.stringify(dataToSend));
-
-    // Aquí podrías hacer una llamada a tu API o realizar otras acciones
-
-    // ...
-    // if (data.cuenta === "administrador" && data.contra === "administrador123") {
-    //   // const dataToSend = { username: data.cuenta, password: data.contra };
-    //   setIsAuthenticated(true);
-    //   navigate("/administrador/inicio");
-    // } else {
-    //   toast.error("Usuario o contraseña incorrectos");
-    // }
   });
 
   return (
