@@ -1,6 +1,6 @@
 import axios from "axios";
-import { ICourse } from "../../types/coursesTypes";
-import { useAuthStore } from "../../store/authStore";
+import { ICourseCreate, ICourseEdit } from "../../types/coursesTypes";
+
 
 const BASE_URL = 'http://localhost:8080'; // Use environment variables for production-ready URL
 
@@ -8,7 +8,8 @@ const CoursesAPI = axios.create({
   baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6W10sInN1YiI6Imthb3NBZG1pbiIsImlhdCI6MTcyNjg1NzQ3NywiZXhwIjoxNzI2ODU4OTE3fQ.w37-TaGo-YoyhAhiHdHbwVSz1PGxSCCiwZ6VzaNnims`,
+    // Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    //Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6W10sInN1YiI6Imthb3NBZG1pbiIsImlhdCI6MTcyNjg2MDE1MSwiZXhwIjoxNzI2ODYxNTkxfQ.DNrmVs4jua0H0DO_tc2dT3G0O-LlpuzD6D-r8iL6pJY`,
   },
   withCredentials: true, // Include credentials (cookies, etc.) in requests
 });
@@ -25,7 +26,13 @@ CoursesAPI.interceptors.response.use(
 );
 
 // Add authorization token interceptor
-
+CoursesAPI.interceptors.request.use((config) => {
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+})
 
 
 export const getCourses = async () => {
@@ -33,12 +40,12 @@ export const getCourses = async () => {
   return response.data;
 };
 
-export const createCourse = async (course: ICourse) => {
+export const createCourse = async (course: ICourseCreate) => {
   const response = await CoursesAPI.post('/api/course/create', course);
   return response.data;
 };
 
-export const updateCourse = async (course: ICourse) => {
+export const updateCourse = async (course: ICourseEdit) => {
   const response = await CoursesAPI.put(`/api/course/update/${course.id}`, course);
   return response.data;
 };

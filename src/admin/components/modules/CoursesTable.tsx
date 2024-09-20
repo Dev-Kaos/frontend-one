@@ -46,17 +46,23 @@ import {
   ListItem,
   Skeleton,
   Stack,
+  useTheme,
 } from "@mui/joy";
 
 import List from "@mui/joy/List";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteCourse, getCourses } from "../../api/CoursesAPI";
-import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
-import { toast } from "react-toastify";
 
-import { ICourse } from "../../../types/coursesTypes";
+import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
+import { toast, ToastContainer } from "react-toastify";
+
+import CoursesFormEdit from "./CoursesFormEdit";
+import { deleteCourse, getCourses } from "../../api/CoursesAPI";
+import { ICourseEdit } from "../../../types/coursesTypes";
+import { set } from "react-hook-form";
 
 export default function CoursesTable() {
+  // TODO: notify-toast theme
+  const theme = useTheme();
   const { isFetching, isLoading, error, isError, data, refetch } = useQuery({
     queryKey: ["getAllCourses"],
     queryFn: getCourses,
@@ -86,33 +92,12 @@ export default function CoursesTable() {
     // ... resto de la configuración
   });
 
-  const productData = data;
+  const tableData = data;
   const queryClient = useQueryClient();
 
   const getAllCourses = () => {
     // queryClient.invalidateQueries({ queryKey: ["products"] });
     refetch();
-  };
-
-  const handleCourseDelete = (id: number) => {
-    // toast.info("Eliminando el curso..." + id);
-    deleteCourseMutation.mutate(id);
-  };
-  const handleCourseEdit = (courseData: ICourse) => {
-    console.log("handleCourseEdit", courseData);
-
-    // const id = courseData.id;
-
-    setEditCourseInfo(courseData);
-    setIsEditing(true);
-
-    console.log("handleCourseEdit", editCourseInfo);
-
-    // toast.info("Editando el curso..." + id);
-  };
-
-  const handleCourseView = () => {
-    // toast.info("Visualizando el curso..." + id);
   };
 
   const columns = [
@@ -225,7 +210,7 @@ export default function CoursesTable() {
   };
 
   const table = useReactTable({
-    data: productData || [],
+    data: tableData || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -283,7 +268,7 @@ export default function CoursesTable() {
   const [selectedRowData, setSelectedRowData] = useState(null);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [editCourseInfo, setEditCourseInfo] = useState<ICourse>({
+  const [editCourseInfo, setEditCourseInfo] = useState<ICourseEdit>({
     id: 0,
     course: "",
     description: "",
@@ -291,6 +276,19 @@ export default function CoursesTable() {
     type: "",
     state: "",
   });
+
+  const handleCourseDelete = (id: number) => {
+    // toast.info("Eliminando el curso..." + id);
+    deleteCourseMutation.mutate(id);
+  };
+  const handleCourseEdit = (courseData: ICourseEdit) => {
+    setEditCourseInfo(courseData);
+    setIsEditing(true);
+  };
+
+  const handleCourseView = () => {
+    // toast.info("Visualizando el curso..." + id);
+  };
 
   return (
     <>
@@ -756,52 +754,35 @@ export default function CoursesTable() {
             <Box
               sx={{
                 width: "100%",
-                px: { xs: 2, md: 4 },
+                px: { xs: 2, md: 2 },
                 display: "flex",
                 justifyContent: "center",
               }}
             >
               <div>
-                {selectedRowData && (
-                  <div>
-                    <p>Datos de la fila seleccionada:</p>
-                    {/* Mostrar los datos de selectedRowData aquí */}
-                    <ul>
-                      {Object.entries(selectedRowData).map(([key, value]) => (
-                        <li key={key}>{`${key}: ${value}`}</li>
-                      ))}
-                    </ul>
-                    <pre>{JSON.stringify(selectedRowData, null, 2)}</pre>
-                  </div>
-                )}
-              </div>
-            </Box>
-            <Box
-              sx={{
-                width: "100%",
-                px: { xs: 2, md: 4 },
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <div>
-                {selectedRowData && (
-                  <div>
-                    <p>Datos de la fila seleccionada:</p>
-                    {/* Mostrar los datos de selectedRowData aquí */}
-                    <ul>
-                      {Object.entries(selectedRowData).map(([key, value]) => (
-                        <li key={key}>{`${key}: ${value}`}</li>
-                      ))}
-                    </ul>
-                    <pre>{JSON.stringify(selectedRowData, null, 2)}</pre>
-                  </div>
+                {isEditing && (
+                  <CoursesFormEdit
+                    key={editCourseInfo.id}
+                    courseData={editCourseInfo as ICourseEdit}
+                  />
                 )}
               </div>
             </Box>
           </>
         )}
       </Card>
+      <ToastContainer
+        position="top-center"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme={theme.palette.mode === "dark" ? "dark" : "light"}
+      />
     </>
   );
 }

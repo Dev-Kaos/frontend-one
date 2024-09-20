@@ -9,12 +9,18 @@
 //     duration: string;
 //     level: string;
 //   }
- export interface ICourse {
-    id: number| null;
+ export interface ICourseCreate {    
     course: string;
     description: string;
     cycle: string;
     type: string;
-    state: string;
-    
+    state: string;    
+  }
+ export interface ICourseEdit {
+    id: number;    
+    course: string;
+    description: string;
+    cycle: string;
+    type: string;
+    state: string;    
   }

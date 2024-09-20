@@ -17,6 +17,7 @@ import NewsTooltip from "../components/common/NewsTooltip";
 import CoursesTable from "../components/modules/CoursesTable";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CoursesFormOne from "../components/modules/CoursesFormOne";
 
 export default function AcoursesOne() {
   // TODO: TABS
@@ -100,32 +101,14 @@ export default function AcoursesOne() {
           >
             <TbBookUpload size={20} /> Crear
           </Tab>
-          <Tab
-            sx={{ borderRadius: "6px 6px 0 0" }}
-            indicatorInset
-            value={2}
-          >
-            <TbHomePlus size={20} /> prueba fetch
-          </Tab>
         </TabList>
-
         <TabPanel value={0}>
           <CoursesTable />
         </TabPanel>
-        <TabPanel value={1}></TabPanel>
+        <TabPanel value={1}>
+          <CoursesFormOne />
+        </TabPanel>
       </Tabs>
-      <ToastContainer
-        position="top-center"
-        autoClose={4000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme={theme.palette.mode === "dark" ? "dark" : "light"}
-      />
     </Box>
   );
 }

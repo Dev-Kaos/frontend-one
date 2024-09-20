@@ -96,6 +96,7 @@ export default function LoginOne() {
       setIsAuthenticated(true);
       // console.log("isAuthenticated", isAuthenticated);
       setToken(data.token);
+      localStorage.setItem("authToken", data.token);
       // console.log("token", token);
 
       toast.success("Sesion iniciada exitosamente");
