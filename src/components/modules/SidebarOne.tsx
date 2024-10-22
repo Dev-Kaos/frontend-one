@@ -16,15 +16,15 @@ import Typography from "@mui/joy/Typography";
 import Sheet from "@mui/joy/Sheet";
 import Stack from "@mui/joy/Stack";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import { AdminSidebarItems as data } from "../../constants/sidebarItems";
+import { AdminSidebarItems as data } from "../../shared/constants/sidebarItems";
 import ColorSchemeToggle from "./ColorSchemeToggle";
-import { closeSidebar } from "../../utils/utils";
+import { closeSidebar } from "../../shared/utils/utils";
 import { TbLogout, TbSearch, TbUserShield } from "react-icons/tb";
 
 import { Link as RouterLink } from "react-router-dom";
 import Link from "@mui/joy/Link";
 import { useState } from "react";
-import { useAuthStore } from "../../store/authStore";
+import { useAuthStore } from "../../shared/store/authStore";
 
 function Toggler({
   defaultExpanded = false,

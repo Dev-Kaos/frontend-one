@@ -27,7 +27,7 @@ import {
   getFilteredRowModel,
   RowSelectionState,
 } from "@tanstack/react-table";
-import data from "../../../mocks/UserDataOne.json";
+import data from "../../../shared/mocks/UserDataOne.json";
 import {
   TbArrowDown,
   TbArrowsUpDown,

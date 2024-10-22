@@ -3,7 +3,7 @@ import Typography from "@mui/joy/Typography";
 
 import { TbBook } from "react-icons/tb";
 import { Card, CardContent, CardCover, Chip } from "@mui/joy";
-import { ICourse } from "../../../types/coursesTypes";
+import { ICourse } from "../../../shared/types/coursesTypes";
 
 function CourseCardOne(data: ICourse) {
   // TODO: CARD data

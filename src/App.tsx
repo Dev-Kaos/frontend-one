@@ -6,11 +6,13 @@ import AdminOne from "./admin/pages/AdminOne";
 import AusersOne from "./admin/pages/AusersOne";
 
 import ProtectedRoute from "./admin/utils/ProtectedRoute";
-import { useAuthStore } from "./store/authStore";
+import { useAuthStore } from "./shared/store/authStore";
 
 import AcoursesOne from "./admin/pages/AcoursesOne";
 import AcoursesTwo from "./admin/pages/AcoursesTwo";
 import ANewsOne from "./admin/pages/ANewsOne";
+import LoginTwo from "./login/pages/LoginTwo";
+import TeacherOne from "./teacher/pages/TeacherOne";
 
 function App() {
   // TODO: Cargar la configuracion del backend
@@ -33,7 +35,7 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<LoginOne />}
+          element={<LoginTwo />}
         />
         <Route
           element={
@@ -47,6 +49,38 @@ function App() {
           <Route
             path="/administrador/"
             element={<AdminOne />}
+          >
+            {/* <Route path="/*" element={<AdminOne />}> */}
+            <Route
+              path="inicio"
+              element={<ANewsOne />}
+            ></Route>
+            <Route
+              path="usuarios"
+              element={<AusersOne />}
+            ></Route>
+            <Route
+              path="cursos"
+              element={<AcoursesOne />}
+            ></Route>
+            <Route
+              path="matriculas"
+              element={<AcoursesTwo />}
+            ></Route>
+          </Route>
+        </Route>
+        <Route
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              role={role}
+              allowedRoles={["administrador"]}
+            />
+          }
+        >
+          <Route
+            path="/docente/"
+            element={<TeacherOne />}
           >
             {/* <Route path="/*" element={<AdminOne />}> */}
             <Route

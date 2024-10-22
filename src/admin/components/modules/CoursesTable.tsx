@@ -57,7 +57,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 import CoursesFormEdit from "./CoursesFormEdit";
 import { deleteCourse, getCourses } from "../../api/CoursesAPI";
-import { ICourseEdit } from "../../../types/coursesTypes";
+import { ICourseEdit } from "../../../shared/types/coursesTypes";
 import { set } from "react-hook-form";
 
 export default function CoursesTable() {
@@ -278,8 +278,8 @@ export default function CoursesTable() {
   });
 
   const handleCourseDelete = (id: number) => {
-    // toast.info("Eliminando el curso..." + id);
     deleteCourseMutation.mutate(id);
+    toast.success("Curso eliminado exitosamente");
   };
   const handleCourseEdit = (courseData: ICourseEdit) => {
     setEditCourseInfo(courseData);
@@ -754,19 +754,14 @@ export default function CoursesTable() {
             <Box
               sx={{
                 width: "100%",
-                px: { xs: 2, md: 2 },
-                display: "flex",
-                justifyContent: "center",
               }}
             >
-              <div>
-                {isEditing && (
-                  <CoursesFormEdit
-                    key={editCourseInfo.id}
-                    courseData={editCourseInfo as ICourseEdit}
-                  />
-                )}
-              </div>
+              {isEditing && (
+                <CoursesFormEdit
+                  key={editCourseInfo.id}
+                  courseData={editCourseInfo as ICourseEdit}
+                />
+              )}
             </Box>
           </>
         )}

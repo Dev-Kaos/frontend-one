@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import { ILoginRequestData } from "../types/authTypes";
+import { useAuthStore } from "../store/authStore";
 
 
 const BASE_URL = 'http://localhost:8080'; // Considera usar variables de entorno para una solución más robusta
@@ -17,12 +18,12 @@ const authAPI = axios.create({
 });
 
 // Agrega el token de encabezado de autenticación
-// authAPI.interceptors.request.use((config) => {
-//    const token = useAuthStore((state) => state.token);
-//   if (token===null) return config
-//   config.headers.Authorization = `Bearer ${token}`
-//   return config
-// })
+authAPI.interceptors.request.use((config) => {
+   const token = useAuthStore((state) => state.token);
+  if (token===null) return config
+  config.headers.Authorization = `Bearer ${token}`
+  return config
+})
 
 // Mejora el manejo de errores con un interceptor centralizado
 // authAPI.interceptors.response.use((response) => response, (error) => {

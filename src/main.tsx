@@ -5,7 +5,7 @@ import "./index.css";
 import { CssVarsProvider, ThemeProvider } from "@mui/joy/styles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import { BrowserRouter } from "react-router-dom";
-import theme from "./utils/themeOne.ts";
+import theme from "./shared/utils/themeOne.ts";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 

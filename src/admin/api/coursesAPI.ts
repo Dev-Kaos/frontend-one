@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ICourseCreate, ICourseEdit } from "../../types/coursesTypes";
+import { ICourseCreate, ICourseEdit } from "../../shared/types/coursesTypes";
 
 
 const BASE_URL = 'http://localhost:8080'; // Use environment variables for production-ready URL

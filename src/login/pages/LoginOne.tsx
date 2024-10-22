@@ -29,11 +29,12 @@ import { FormHelperText } from "@mui/joy";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import LoginInfoTooltip from "../components/modules/LoginInfoTooltip";
-import { toast, ToastContainer } from "react-toastify";
-import { useAuthStore } from "../../store/authStore";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import { useAuthStore } from "../../shared/store/authStore";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { loginRequest } from "../../api/authAPI";
-import { ILoginRequestData } from "../../types/authTypes";
+import { loginRequest } from "../../shared/api/authAPI";
+import { ILoginRequestData } from "../../shared/types/authTypes";
+import theme from "../../shared/utils/themeOne";
 
 function ColorSchemeToggle(props: IconButtonProps) {
   const { onClick, ...other } = props;
@@ -115,8 +116,9 @@ export default function LoginOne() {
     // Aquí puedes hacer lo que quieras con los datos del formulario
     // hacer una llamada a tu API o realizar otras acciones
 
-    return loginRequestMutation.mutate(data as ILoginRequestData);
-
+    //TODO: mutate invocation
+    // return loginRequestMutation.mutate(data as ILoginRequestData);
+    toast.success("Sesion iniciada exitosamente");
     // const { username, password } = data;
     // const dataToSend = { username, password };
     // console.log(JSON.stringify(dataToSend));

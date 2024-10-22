@@ -20,7 +20,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ICourseCreate } from "../../../types/coursesTypes";
+import { ICourseCreate } from "../../../shared/types/coursesTypes";
 import { createCourse } from "../../api/CoursesAPI";
 import CourseCardOne from "./CourseCardOne";
 

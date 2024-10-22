@@ -14,13 +14,13 @@ import CardActions from "@mui/joy/CardActions";
 import CardOverflow from "@mui/joy/CardOverflow";
 import { useState } from "react";
 import { Textarea, useTheme } from "@mui/joy";
-import { TbAlertTriangle, TbUserPlus } from "react-icons/tb";
+import { TbAlertTriangle, TbEdit, TbUserPlus } from "react-icons/tb";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, refetch } from "@tanstack/react-query";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ICourseEdit } from "../../../types/coursesTypes";
+import { ICourseEdit } from "../../../shared/types/coursesTypes";
 
 import CourseCardOne from "./CourseCardOne";
 import { updateCourse } from "../../api/CoursesAPI";
@@ -74,10 +74,13 @@ function CoursesFormEdit({ courseData }: { courseData: ICourseEdit }) {
   } = useForm();
 
   const onSubmit = handleSubmit((data) => {
-    const formData = getValues();
+    editCourseInfo.course = data.course;
+    editCourseInfo.description = data.description;
+    editCourseInfo.cycle = data.cycle;
+    editCourseInfo.type = data.type;
+    editCourseInfo.state = data.state;
 
-    console.log("handleCourseEdit", formData);
-    // editCourseMutation.mutate(editData as ICourse)
+    editCourseMutation.mutate(editCourseInfo);
   });
 
   return (
@@ -90,8 +93,6 @@ function CoursesFormEdit({ courseData }: { courseData: ICourseEdit }) {
           display: "flex",
           maxWidth: "100%",
           mx: "auto",
-          px: { xs: 2, md: 2 },
-          py: { xs: 2, md: 2 },
         }}
       >
         <Card>
@@ -350,10 +351,10 @@ function CoursesFormEdit({ courseData }: { courseData: ICourseEdit }) {
               <Button
                 size="sm"
                 variant="solid"
-                startDecorator={<TbUserPlus size={20} />}
+                startDecorator={<TbEdit size={20} />}
                 type="submit"
               >
-                Crear
+                Editar
               </Button>
             </CardActions>
           </CardOverflow>
