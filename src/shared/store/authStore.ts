@@ -33,9 +33,9 @@ export const useAuthStore = create (
             setIsAuthenticated: (isAuthenticated: boolean) => set({isAuthenticated: isAuthenticated}),
             // Se inicializa en false para pruebas true
             // profile
-            role: " ",
+            role: "administrador",
             // Se inicializa en vacio " " para pruebas se agrega el rol
-            name: " ",
+            name: "manuel vela",
             email: " ",
             setRole: (role: string) => set({role: role}),
             setName: (name: string) => set({name: name}),

@@ -13,6 +13,7 @@ import AcoursesTwo from "./admin/pages/AcoursesTwo";
 import ANewsOne from "./admin/pages/ANewsOne";
 import LoginTwo from "./login/pages/LoginTwo";
 import TeacherOne from "./teacher/pages/TeacherOne";
+import AdminTwo from "./admin/pages/AdminTwo";
 
 function App() {
   // TODO: Cargar la configuracion del backend
@@ -49,6 +50,28 @@ function App() {
           <Route
             path="/administrador/"
             element={<AdminOne />}
+          >
+            {/* <Route path="/*" element={<AdminOne />}> */}
+            <Route
+              path="inicio"
+              element={<ANewsOne />}
+            ></Route>
+            <Route
+              path="usuarios"
+              element={<AusersOne />}
+            ></Route>
+            <Route
+              path="cursos"
+              element={<AcoursesOne />}
+            ></Route>
+            <Route
+              path="matriculas"
+              element={<AcoursesTwo />}
+            ></Route>
+          </Route>
+          <Route
+            path="/administradorDos/"
+            element={<AdminTwo />}
           >
             {/* <Route path="/*" element={<AdminOne />}> */}
             <Route

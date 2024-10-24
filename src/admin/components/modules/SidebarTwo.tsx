@@ -29,10 +29,10 @@ import { motion } from "framer-motion";
 
 import { Link as RouterLink } from "react-router-dom";
 
-import { useAuthStore } from "../../shared/store/authStore";
+import { useAuthStore } from "../../../shared/store/authStore";
 
-import { AdminSidebarItems as data } from "../../shared/constants/sidebarItems";
-import ColorSchemeToggle from "../../components/modules/ColorSchemeToggle";
+import { AdminSidebarItems as data } from "../../../shared/constants/sidebarItems";
+import ColorSchemeToggle from "../../../components/modules/ColorSchemeToggle";
 
 export default function DrawerFilters() {
   const [open, setOpen] = useState(false);
