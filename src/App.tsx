@@ -15,6 +15,7 @@ import LoginTwo from "./login/pages/LoginTwo";
 import TeacherOne from "./teacher/pages/TeacherOne";
 import AdminTwo from "./admin/pages/AdminTwo";
 import AdminFour from "./admin/pages/AdminFour";
+import ANewsTwo from "./admin/pages/ANewsTwo";
 
 function App() {
   // TODO: Cargar la configuracion del backend
@@ -77,7 +78,7 @@ function App() {
             {/* <Route path="/*" element={<AdminOne />}> */}
             <Route
               path="inicio"
-              element={<ANewsOne />}
+              element={<ANewsTwo />}
             ></Route>
             <Route
               path="usuarios"
