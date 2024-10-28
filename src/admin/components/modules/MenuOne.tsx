@@ -49,7 +49,7 @@ export default function DrawerFilters() {
         size="sm"
         variant="outlined"
         color="primary"
-        // sx={{ position: "fixed", top: 32, right: 32 }}
+        sx={{ position: "fixed", top: 32, right: 32 }}
         onClick={() => setOpen(true)}
       >
         <TbMenu2 />

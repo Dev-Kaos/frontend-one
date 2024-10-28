@@ -1,8 +1,7 @@
 import { Box, CssBaseline, CssVarsProvider, Stack } from "@mui/joy";
 import { Outlet } from "react-router-dom";
-import SidebarOne from "../../components/modules/SidebarOne";
+
 import SidebarTwo from "../components/modules/SidebarTwo";
-import { SiD } from "react-icons/si";
 
 function AdminTwo() {
   return (

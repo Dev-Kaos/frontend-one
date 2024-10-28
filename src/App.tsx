@@ -1,7 +1,7 @@
 import "./App.css";
 import "@fontsource/inter";
 import { Route, Routes } from "react-router-dom";
-import LoginOne from "./login/pages/LoginOne";
+
 import AdminOne from "./admin/pages/AdminOne";
 import AusersOne from "./admin/pages/AusersOne";
 
@@ -14,6 +14,7 @@ import ANewsOne from "./admin/pages/ANewsOne";
 import LoginTwo from "./login/pages/LoginTwo";
 import TeacherOne from "./teacher/pages/TeacherOne";
 import AdminTwo from "./admin/pages/AdminTwo";
+import AdminFour from "./admin/pages/AdminFour";
 
 function App() {
   // TODO: Cargar la configuracion del backend
@@ -71,7 +72,7 @@ function App() {
           </Route>
           <Route
             path="/administradorDos/"
-            element={<AdminTwo />}
+            element={<AdminFour />}
           >
             {/* <Route path="/*" element={<AdminOne />}> */}
             <Route
