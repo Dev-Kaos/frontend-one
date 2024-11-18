@@ -58,7 +58,6 @@ import { toast, ToastContainer } from "react-toastify";
 import CoursesFormEdit from "./CoursesFormEdit";
 import { deleteCourse, getCourses } from "../../api/CoursesAPI";
 import { ICourseEdit } from "../../../shared/types/coursesTypes";
-import { set } from "react-hook-form";
 
 export default function CoursesTable() {
   // TODO: notify-toast theme
@@ -169,8 +168,24 @@ export default function CoursesTable() {
       maxSize: 400, //enforced during column resizing
     },
     {
-      header: "ciclo",
-      accessorKey: "cycle",
+      header: "detalles",
+      accessorKey: "details",
+      enableResizing: true, //disable resizing for just this column
+      size: 100, //starting column size
+      minSize: 50, //enforced during column resizing
+      maxSize: 400, //enforced during column resizing
+    },
+    {
+      header: "duracion",
+      accessorKey: "duration",
+      enableResizing: true, //disable resizing for just this column
+      size: 100, //starting column size
+      minSize: 50, //enforced during column resizing
+      maxSize: 400, //enforced during column resizing
+    },
+    {
+      header: "titulo",
+      accessorKey: "title",
       enableResizing: true, //disable resizing for just this column
       size: 100, //starting column size
       minSize: 50, //enforced during column resizing
@@ -484,7 +499,7 @@ export default function CoursesTable() {
                               >
                                 <Checkbox
                                   key={column.id}
-                                  label={column.id}
+                                  label={column.columnDef.header}
                                   color="primary"
                                   overlay
                                   checked={column.getIsVisible()}

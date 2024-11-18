@@ -16,6 +16,11 @@ import TeacherOne from "./teacher/pages/TeacherOne";
 import AdminTwo from "./admin/pages/AdminTwo";
 import AdminFour from "./admin/pages/AdminFour";
 import ANewsTwo from "./admin/pages/ANewsTwo";
+import PlanM from "./planM/pages/PlanM";
+import PModules from "./planM/pages/PModules";
+import PRoles from "./planM/pages/PRoles";
+import PUsers from "./planM/pages/PUsers";
+import PProfile from "./planM/pages/PProfile";
 
 function App() {
   // TODO: Cargar la configuracion del backend
@@ -49,11 +54,11 @@ function App() {
             />
           }
         >
+          {/* <Route path="/*" element={<AdminOne />}> */}
           <Route
             path="/administrador/"
             element={<AdminOne />}
           >
-            {/* <Route path="/*" element={<AdminOne />}> */}
             <Route
               path="inicio"
               element={<ANewsOne />}
@@ -93,24 +98,14 @@ function App() {
               element={<AcoursesTwo />}
             ></Route>
           </Route>
-        </Route>
-        <Route
-          element={
-            <ProtectedRoute
-              isAuthenticated={isAuthenticated}
-              role={role}
-              allowedRoles={["administrador"]}
-            />
-          }
-        >
           <Route
-            path="/docente/"
-            element={<TeacherOne />}
+            path="/recuperacion/"
+            element={<PlanM />}
           >
             {/* <Route path="/*" element={<AdminOne />}> */}
             <Route
-              path="inicio"
-              element={<ANewsOne />}
+              path="modules"
+              element={<PModules />}
             ></Route>
             <Route
               path="usuarios"

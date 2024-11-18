@@ -23,7 +23,7 @@ import {
   TbInfoSquareFilled,
   TbNews,
 } from "react-icons/tb";
-import NewsCreateOne from "../components/modules/newsCreateOne";
+import NewsCreateOne from "../components/modules/NewsCreateOne";
 
 function ANewsTwo() {
   // card states
@@ -113,7 +113,7 @@ function ANewsTwo() {
   // };
   return (
     <>
-      {/* <Box sx={{ flex: 1, width: "100%", height: "100vh", px: 2 }}>
+      <Box sx={{ flex: 1, width: "100%", height: "100vh", px: 2 }}>
         <motion.div
           animate={isLarge ? "large" : "small"}
           variants={variants}
@@ -127,7 +127,7 @@ function ANewsTwo() {
           )}
         </motion.div>
         <button onClick={() => setIsLarge(!isLarge)}>cambiar</button>
-      </Box> */}
+      </Box>
       <Box sx={{ flex: 1, width: "100%", height: "100vh", px: 2 }}>
         <Stack
           direction="row"

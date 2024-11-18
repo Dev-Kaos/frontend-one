@@ -1,10 +1,10 @@
 import axios from "axios";
-import { ICourseCreate, ICourseEdit } from "../../shared/types/coursesTypes";
+// import { ICourseCreate, ICourseEdit } from "../../shared/types/coursesTypes";
 
 
 const BASE_URL = 'http://localhost:8080'; // Use environment variables for production-ready URL
 
-const CoursesAPI = axios.create({
+const ModulesAPI = axios.create({
   baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -35,8 +35,8 @@ const CoursesAPI = axios.create({
 // })
 
 
-export const getCourses = async () => {
-  const response = await CoursesAPI.get('/api/course/all');
+export const getModules = async () => {
+  const response = await ModulesAPI.get('/api/modules/all');
 
 
   const { data } = response.data;
@@ -44,19 +44,19 @@ export const getCourses = async () => {
 return data;
 };
 
-export const createCourse = async (course: ICourseCreate) => {
-  const response = await CoursesAPI.post('/api/course/create', course);
-  return response.data;
-};
+// export const createCourse = async (course: ICourseCreate) => {
+//   const response = await CoursesAPI.post('/api/course/create', course);
+//   return response.data;
+// };
 
-export const updateCourse = async (course: ICourseEdit) => {
-  const response = await CoursesAPI.put(`/api/course/update/${course.id}`, course);
-  return response.data;
-};
+// export const updateCourse = async (course: ICourseEdit) => {
+//   const response = await CoursesAPI.put(`/api/course/update/${course.id}`, course);
+//   return response.data;
+// };
 
-export const deleteCourse = async (id: number) => {
-  const response = await CoursesAPI.delete(`/api/course/delete/${id}`);
-  return response.data;
-};
+// export const deleteCourse = async (id: number) => {
+//   const response = await CoursesAPI.delete(`/api/course/delete/${id}`);
+//   return response.data;
+// };
 
-export default CoursesAPI; // Optional for global usage
+export default ModulesAPI; // Optional for global usage
