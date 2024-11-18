@@ -31,7 +31,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 import { useAuthStore } from "../../../shared/store/authStore";
 
-import { AdminSidebarItems as data } from "../../constants/sidebarItems";
+import { NavbarItems as data } from "../../constants/navbarItems";
 import ColorSchemeToggle from "../../../components/modules/ColorSchemeToggle";
 
 export default function NavOne() {

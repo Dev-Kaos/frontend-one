@@ -98,26 +98,26 @@ function App() {
               element={<AcoursesTwo />}
             ></Route>
           </Route>
+          {/* recuperacion */}
           <Route
             path="/recuperacion/"
             element={<PlanM />}
           >
-            {/* <Route path="/*" element={<AdminOne />}> */}
             <Route
               path="modules"
               element={<PModules />}
             ></Route>
             <Route
-              path="usuarios"
-              element={<AusersOne />}
+              path="roles"
+              element={<PRoles />}
             ></Route>
             <Route
-              path="cursos"
-              element={<AcoursesOne />}
+              path="users"
+              element={<PUsers />}
             ></Route>
             <Route
-              path="matriculas"
-              element={<AcoursesTwo />}
+              path="profile"
+              element={<PProfile />}
             ></Route>
           </Route>
         </Route>

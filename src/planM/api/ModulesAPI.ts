@@ -1,4 +1,5 @@
 import axios from "axios";
+import { IModuleCreate, IModuleEdit } from "../../shared/types/moduleTypes";
 // import { ICourseCreate, ICourseEdit } from "../../shared/types/coursesTypes";
 
 
@@ -39,24 +40,24 @@ export const getModules = async () => {
   const response = await ModulesAPI.get('/api/modules/all');
 
 
-  const { data } = response.data;
-  console.log(data)
-return data;
+  // const { data } = response.data;
+  // console.log(data)
+return response.data;
 };
 
-// export const createCourse = async (course: ICourseCreate) => {
-//   const response = await CoursesAPI.post('/api/course/create', course);
-//   return response.data;
-// };
+ export const createModules = async (module: IModuleCreate) => {
+   const response = await ModulesAPI.post('/api/modules/create', module);
+   return response.data;
+ };
 
-// export const updateCourse = async (course: ICourseEdit) => {
-//   const response = await CoursesAPI.put(`/api/course/update/${course.id}`, course);
-//   return response.data;
-// };
+export const updateModules = async (module: IModuleEdit) => {
+  const response = await ModulesAPI.put(`/api/modules/update/${module.id}`, module);
+  return response.data;
+};
 
-// export const deleteCourse = async (id: number) => {
-//   const response = await CoursesAPI.delete(`/api/course/delete/${id}`);
-//   return response.data;
-// };
+export const deleteModules = async (id: number) => {
+  const response = await ModulesAPI.delete(`/api/modules/delete/${id}`);
+  return response.data;
+};
 
 export default ModulesAPI; // Optional for global usage
