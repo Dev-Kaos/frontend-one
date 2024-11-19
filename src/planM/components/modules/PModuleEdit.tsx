@@ -60,6 +60,8 @@ import { toast, ToastContainer } from "react-toastify";
 import { deleteModules, getModules } from "../../api/ModulesAPI";
 
 import { IModuleEdit } from "../../../shared/types/moduleTypes";
+import { set } from "react-hook-form";
+import PModuleEditForm from "./PModuleEditForm";
 
 export default function PModuleEdit() {
   // TODO: notify-toast theme
@@ -120,7 +122,7 @@ export default function PModuleEdit() {
             size="sm"
             sx={{ minWidth: 140 }}
           >
-            <MenuItem>
+            <MenuItem onClick={() => handleModuleView(row.original)}>
               <TbEyeglass />
               Ver
             </MenuItem>
@@ -221,7 +223,15 @@ export default function PModuleEdit() {
   const [selectedRowData, setSelectedRowData] = useState(null);
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isViewing, setIsViewing] = useState(false);
+
+  const [editCount, setEditCount] = useState(0); // Contador para forzar re-render
   const [editModuleInfo, setEditModuleInfo] = useState<IModuleEdit>({
+    id: 0,
+    module: "",
+    description: "",
+  });
+  const [viewModuleInfo, setViewModuleInfo] = useState<IModuleEdit>({
     id: 0,
     module: "",
     description: "",
@@ -231,8 +241,16 @@ export default function PModuleEdit() {
     deleteModulesMutation.mutate(id);
   };
   const handleModuleEdit = (moduleData: IModuleEdit) => {
-    setEditModuleInfo(moduleData);
+    setIsViewing(false);
     setIsEditing(true);
+    setEditModuleInfo(moduleData);
+    setEditCount(editCount + 1); // Incrementa el contador para forzar un re-render
+  };
+  const handleModuleView = (moduleData: IModuleEdit) => {
+    setIsEditing(false);
+    setIsViewing(true);
+    setEditModuleInfo(moduleData);
+    setEditCount(editCount + 1); // Incrementa el contador para forzar un re-render
   };
 
   const handleCourseView = () => {
@@ -711,6 +729,18 @@ export default function PModuleEdit() {
                   courseData={editCourseInfo as ICourseEdit}
                 />
               )} */}
+              {/* <card render */}
+              {/* {isCreating ? <p>probar</p> : <p>Creando</p>}
+          {isEditing ? <p>probar</p> : <p>Editando</p>} */}
+              <div key={editCount}>
+                {isViewing === false && isEditing === false ? (
+                  <Card>no esta viendo ni editando</Card>
+                ) : isViewing ? (
+                  <Card>estas viendo</Card>
+                ) : (
+                  <PModuleEditForm {...editModuleInfo} />
+                )}
+              </div>
             </Box>
           </>
         )}

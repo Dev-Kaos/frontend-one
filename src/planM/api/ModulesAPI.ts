@@ -47,11 +47,14 @@ return response.data;
 
  export const createModules = async (module: IModuleCreate) => {
    const response = await ModulesAPI.post('/api/modules/create', module);
+
    return response.data;
  };
 
 export const updateModules = async (module: IModuleEdit) => {
+  console.log(module)
   const response = await ModulesAPI.put(`/api/modules/update/${module.id}`, module);
+  
   return response.data;
 };
 
