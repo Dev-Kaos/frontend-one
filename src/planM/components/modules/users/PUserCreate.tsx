@@ -11,52 +11,90 @@ import Typography from "@mui/joy/Typography";
 import Card from "@mui/joy/Card";
 import CardActions from "@mui/joy/CardActions";
 import CardOverflow from "@mui/joy/CardOverflow";
-import { useState } from "react";
-import { Textarea, useTheme } from "@mui/joy";
-import { TbAlertTriangle, TbUserPlus } from "react-icons/tb";
+import { useEffect, useState } from "react";
+import { LinearProgress, Select, useTheme } from "@mui/joy";
+import Option from "@mui/joy/Option";
+
+import { TbAlertTriangle, TbKey, TbUserPlus } from "react-icons/tb";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { useRolesStore } from "../../../store/rolesStore";
-import { IRoleCreate } from "../../../../shared/types/roleTypes";
-import { createRoles } from "../../../api/RolesAPI";
+import { IRoleEdit } from "../../../../shared/types/roleTypes";
+import { getRoles } from "../../../api/RolesAPI";
+import { IUserCreate } from "../../../../shared/types/userTypes";
+import { createUsers } from "../../../api/UsersAPI";
+import { useRusersStore } from "../../../store/rusersStore";
 
 // import CourseCardOne from "./CourseCardOne";
 
 function PUserCreate() {
-  const [textAreaValue, setTextAreaValue] = useState("");
-  const { isCreated, setIsCreated } = useRolesStore((state) => state);
+  // TODO: Password
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handlePasswordClick = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  // TODO: password meter
+
+  const [passwordMeter, setPasswordMeter] = useState("");
+
+  // TODO: password meter
+
+  const [passwordMeterConfirm, setPasswordMeterConfirm] = useState("");
+
+  const minLength = 8;
+  const { isFetching, isLoading, error, isError, data, refetch } = useQuery({
+    queryKey: ["getAllRoles"],
+    queryFn: getRoles,
+    refetchOnWindowFocus: false,
+  });
+
+  const [options, setOptions] = useState<IRoleEdit[]>([]);
+  useEffect(() => {
+    if (data) {
+      setOptions(data);
+    }
+  }, [data]);
+
+  const { isCreated, setIsCreated } = useRusersStore((state) => state);
 
   // Utiliza el tipo de datos ICoursecreatedCourseInfo
-  const [createdRoleInfo, setCreatedRoleInfo] = useState<IRoleCreate>({
-    id: 0,
+  const [createdUserInfo, setCreatedUserInfo] = useState<IUserCreate>({
+    name: "",
+    lastname: "",
+    email: "",
+    phone: "",
+    username: "",
+    password: "",
     role: "",
-    description: "",
-  } as IRoleCreate);
+  } as IUserCreate);
 
   // react query
-  const addRoleMutation = useMutation({
-    // mutationKey: ["createmodules"],
+  const addUserMutation = useMutation({
+    // mutationKey: ["createRusers"],
 
-    mutationFn: createRoles,
+    mutationFn: createUsers,
     onSuccess: (data) => {
       // Aquí tienes acceso a los datos de la respuesta
       // Actualizar la cache o realizar otras acciones después de crear el curso
 
       // Puedes actualizar el estado local, mostrar una notificación, o realizar cualquier otra acción
       // setCourses([...courses, data]); // Ejemplo: Agregar el nuevo curso a un array local
-      toast.success("Curso creado exitosamente");
+
       setIsCreated(true);
-      setCreatedRoleInfo(data);
+      setCreatedUserInfo(data);
+      console.log("createdUserInfo", createdUserInfo);
+      toast.success("usuario creado exitosamente");
     },
 
     onError: (error) => {
       // Aquí puedes manejar los errores de la respuesta
 
-      toast.error("Error al crear el module " + error);
+      toast.error("Error al crear el usuario " + error);
     },
 
     // ... resto de la configuración
@@ -72,18 +110,8 @@ function PUserCreate() {
   } = useForm();
 
   const onSubmit = handleSubmit((data) => {
-    // Aquí puedes hacer lo que quieras con los datos del formulario
-    // Coregir la redireccion
-
-    // console.log(data);
-    // const { username, password } = data;
-    // const dataToSend = { username, password };
-    // console.log(JSON.stringify(dataToSend));
-    // Aquí podrías hacer una llamada a tu API o realizar otras acciones
-    // ...
-    // navigate("/administrador");
-    addRoleMutation.mutate(data as IRoleCreate);
-    // toast.success("Curso creado correctamente");
+    console.log("data", data);
+    addUserMutation.mutate(data as IUserCreate);
   });
 
   return (
@@ -102,7 +130,7 @@ function PUserCreate() {
       >
         <Card>
           <Box>
-            <Typography level="title-md">Información del Rol</Typography>
+            <Typography level="title-md">Información del Usuario</Typography>
           </Box>
           <Divider />
 
@@ -117,18 +145,18 @@ function PUserCreate() {
           >
             {/* fila 1 */}
 
-            <Box gridColumn={{ xs: "span 12", md: "span 12", lg: "span 12" }}>
+            <Box gridColumn={{ xs: "span 12", md: "span 4", lg: "span 4" }}>
               <FormControl
                 sx={{ mb: 1 }}
-                error={errors.role ? true : false}
+                error={errors.name ? true : false}
               >
-                <FormLabel>Rol</FormLabel>
+                <FormLabel>Nombre</FormLabel>
                 <Input
                   type="text"
-                  placeholder="Nombre del Modulo"
+                  placeholder="Nombre del usuario"
                   variant="outlined"
                   size="sm"
-                  {...register("role", {
+                  {...register("name", {
                     required: {
                       value: true,
                       message: "el nombre del modulo no puede estar vacio",
@@ -149,62 +177,291 @@ function PUserCreate() {
                         "El nombre del modulo solo puede contener letras, acentos, espacios y signos de puntuación básicos",
                     },
                   })}
-                  name="role"
+                  name="name"
                 />
-                {errors.role && (
+                {errors.name && (
                   <FormHelperText sx={{ gap: 1 }}>
                     <TbAlertTriangle />
-                    <span>{errors.role.message as string}</span>
+                    <span>{errors.name.message as string}</span>
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Box>
+            <Box gridColumn={{ xs: "span 12", md: "span 4", lg: "span 4" }}>
+              <FormControl
+                sx={{ mb: 1 }}
+                error={errors.lastname ? true : false}
+              >
+                <FormLabel>Apellido</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="apellido del usuario"
+                  variant="outlined"
+                  size="sm"
+                  {...register("lastname", {
+                    required: {
+                      value: true,
+                      message: "el nombre del modulo no puede estar vacio",
+                    },
+                    minLength: {
+                      value: 3,
+                      message:
+                        "el nombre del modulo debe tener 5 letras minimo",
+                    },
+                    maxLength: {
+                      value: 100,
+                      message:
+                        "el nombre del modulo puede tener 100 letras maximo",
+                    },
+                    pattern: {
+                      value: /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ.,;:!?¡¿\s]+$/,
+                      message:
+                        "El nombre del modulo solo puede contener letras, acentos, espacios y signos de puntuación básicos",
+                    },
+                  })}
+                  name="lastname"
+                />
+                {errors.lastname && (
+                  <FormHelperText sx={{ gap: 1 }}>
+                    <TbAlertTriangle />
+                    <span>{errors.lastname.message as string}</span>
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Box>
+            <Box gridColumn={{ xs: "span 12", md: "span 4", lg: "span 4" }}>
+              <FormControl
+                sx={{ mb: 1 }}
+                error={errors.phone ? true : false}
+              >
+                <FormLabel>Telefono</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="telefono"
+                  variant="outlined"
+                  size="sm"
+                  {...register("phone", {
+                    required: {
+                      value: true,
+                      message: "el nombre del modulo no puede estar vacio",
+                    },
+                    minLength: {
+                      value: 3,
+                      message:
+                        "el nombre del modulo debe tener 5 letras minimo",
+                    },
+                    maxLength: {
+                      value: 100,
+                      message:
+                        "el nombre del modulo puede tener 100 letras maximo",
+                    },
+                    pattern: {
+                      value: /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ.,;:!?¡¿\s]+$/,
+                      message:
+                        "El nombre del modulo solo puede contener letras, acentos, espacios y signos de puntuación básicos",
+                    },
+                  })}
+                  name="phone"
+                />
+                {errors.phone && (
+                  <FormHelperText sx={{ gap: 1 }}>
+                    <TbAlertTriangle />
+                    <span>{errors.phone.message as string}</span>
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Box>
+
+            {/* fila 2 */}
+            <Box gridColumn={{ xs: "span 12", md: "span 6", lg: "span 6" }}>
+              <FormControl
+                sx={{ mb: 1 }}
+                error={errors.email ? true : false}
+              >
+                <FormLabel>Correo</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Correo del usuario"
+                  variant="outlined"
+                  size="sm"
+                  {...register("email", {
+                    required: {
+                      value: true,
+                      message: "el nombre del modulo no puede estar vacio",
+                    },
+                    minLength: {
+                      value: 3,
+                      message:
+                        "el nombre del modulo debe tener 5 letras minimo",
+                    },
+                    maxLength: {
+                      value: 100,
+                      message:
+                        "el nombre del modulo puede tener 100 letras maximo",
+                    },
+                    // pattern: {
+                    //   value: /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ.,;:!?¡¿\s]+$/,
+                    //   message:
+                    //     "El nombre del modulo solo puede contener letras, acentos, espacios y signos de puntuación básicos",
+                    // },
+                  })}
+                  name="email"
+                />
+                {errors.email && (
+                  <FormHelperText sx={{ gap: 1 }}>
+                    <TbAlertTriangle />
+                    <span>{errors.email.message as string}</span>
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Box>
+            <Box gridColumn={{ xs: "span 12", md: "span 6", lg: "span 6" }}>
+              <FormControl
+                sx={{ mb: 1 }}
+                error={errors.username ? true : false}
+              >
+                <FormLabel>Apodo</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Apodo del usuario"
+                  variant="outlined"
+                  size="sm"
+                  {...register("username", {
+                    required: {
+                      value: true,
+                      message: "el nombre del modulo no puede estar vacio",
+                    },
+                    minLength: {
+                      value: 3,
+                      message:
+                        "el nombre del modulo debe tener 5 letras minimo",
+                    },
+                    maxLength: {
+                      value: 100,
+                      message:
+                        "el nombre del modulo puede tener 100 letras maximo",
+                    },
+                    pattern: {
+                      value: /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ.,;:!?¡¿\s]+$/,
+                      message:
+                        "El nombre del modulo solo puede contener letras, acentos, espacios y signos de puntuación básicos",
+                    },
+                  })}
+                  name="username"
+                />
+                {errors.username && (
+                  <FormHelperText sx={{ gap: 1 }}>
+                    <TbAlertTriangle />
+                    <span>{errors.username.message as string}</span>
                   </FormHelperText>
                 )}
               </FormControl>
             </Box>
 
             {/* fila 3 */}
-
-            <Box gridColumn={{ xs: "span 12", md: "span 12", lg: "span 12" }}>
+            <Box gridColumn={{ xs: "span 12", md: "span 6", lg: "span 6" }}>
               <FormControl
                 sx={{ mb: 1 }}
-                error={errors.description ? true : false}
+                error={errors.password ? true : false}
               >
-                <FormLabel>Descripción</FormLabel>
-                <Textarea
-                  placeholder="Describe las caracteristicas del curso"
-                  {...register("description", {
-                    required: {
-                      value: true,
-                      message: "La descripción del curso no puede estar vacia",
-                    },
-                    minLength: {
-                      value: 10,
-                      message:
-                        "La descripción del curso debe tener 50 letras minimo",
-                    },
-                    maxLength: {
-                      value: 500,
-                      message:
-                        "La descripción del curso puede tener 1000 letras maximo",
-                    },
-                  })}
-                  name="description"
-                  value={textAreaValue}
-                  onChange={(event) => setTextAreaValue(event.target.value)}
-                  minRows={2}
-                  endDecorator={
-                    <Typography
-                      level="body-xs"
-                      sx={{ ml: "auto" }}
-                    >
-                      {textAreaValue.length} / 500 caracteres
-                    </Typography>
-                  }
-                  sx={{ minWidth: 300 }}
-                />
-
-                {errors.description && (
+                <FormLabel>contraseña</FormLabel>
+                <Stack
+                  spacing={0.5}
+                  sx={{
+                    "--hue": Math.min(passwordMeter.length * 10, 120),
+                  }}
+                >
+                  <Input
+                    size="sm"
+                    type="password"
+                    placeholder="contraseña"
+                    startDecorator={<TbKey />}
+                    value={passwordMeter}
+                    {...register("password", {
+                      required: {
+                        value: true,
+                        message: "el nombre del modulo no puede estar vacio",
+                      },
+                      minLength: {
+                        value: 3,
+                        message:
+                          "el nombre del modulo debe tener 5 letras minimo",
+                      },
+                      maxLength: {
+                        value: 100,
+                        message:
+                          "el nombre del modulo puede tener 100 letras maximo",
+                      },
+                      pattern: {
+                        value: /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ.,;:!?¡¿\s]+$/,
+                        message:
+                          "El nombre del modulo solo puede contener letras, acentos, espacios y signos de puntuación básicos",
+                      },
+                    })}
+                    name="password"
+                    onChange={(event) => setPasswordMeter(event.target.value)}
+                  />
+                  <LinearProgress
+                    determinate
+                    size="sm"
+                    value={Math.min(
+                      (passwordMeter.length * 100) / minLength,
+                      100
+                    )}
+                    sx={{
+                      bgcolor: "background.level3",
+                      color: "hsl(var(--hue) 80% 40%)",
+                    }}
+                  />
+                  <Typography
+                    level="body-xs"
+                    sx={{
+                      alignSelf: "flex-end",
+                      color: "hsl(var(--hue) 80% 30%)",
+                    }}
+                  >
+                    {passwordMeter.length < 3 && "Muy débil"}
+                    {passwordMeter.length >= 3 &&
+                      passwordMeter.length < 6 &&
+                      "débil"}
+                    {passwordMeter.length >= 6 &&
+                      passwordMeter.length < 10 &&
+                      "fuerte"}
+                    {passwordMeter.length >= 10 && "Muy fuerte"}
+                  </Typography>
+                </Stack>
+                {errors.password && (
                   <FormHelperText sx={{ gap: 1 }}>
                     <TbAlertTriangle />
-                    <span>{errors.description.message as string}</span>
+                    <span>{errors.password.message as string}</span>
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Box>
+            <Box gridColumn={{ xs: "span 12", md: "span 6", lg: "span 6" }}>
+              <FormControl
+                sx={{ mb: 1 }}
+                error={errors.role ? true : false}
+              >
+                <FormLabel>Rol</FormLabel>
+                <Select
+                  placeholder="Elige un rol"
+                  {...register("role", {})}
+                  name="role"
+                >
+                  {options.map((option) => (
+                    <Option
+                      key={option.id}
+                      value={option.role}
+                    >
+                      {option.role}
+                    </Option>
+                  ))}
+                </Select>
+                {errors.role && (
+                  <FormHelperText sx={{ gap: 1 }}>
+                    <TbAlertTriangle />
+                    <span>{errors.role.message as string}</span>
                   </FormHelperText>
                 )}
               </FormControl>

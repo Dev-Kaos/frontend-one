@@ -58,24 +58,26 @@ import { toast, ToastContainer } from "react-toastify";
 import { deleteRoles, getRoles } from "../../../api/RolesAPI";
 import { IRoleEdit } from "../../../../shared/types/roleTypes";
 import PRoleEditForm from "./PUserEditForm";
+import { deleteUsers, getUsers } from "../../../api/UsersAPI";
+import { IUserEdit } from "../../../../shared/types/userTypes";
 
 export default function PUserEdit() {
   // TODO: notify-toast theme
   const theme = useTheme();
   const { isFetching, isLoading, error, isError, data, refetch } = useQuery({
-    queryKey: ["getAllRoles"],
-    queryFn: getRoles,
+    queryKey: ["getAllUsers"],
+    queryFn: getUsers,
     refetchOnWindowFocus: false,
   });
 
-  const deleteRolesMutation = useMutation({
+  const deleteUsersMutation = useMutation({
     // mutationKey: ["createCourse"],
 
-    mutationFn: deleteRoles,
+    mutationFn: deleteUsers,
     onSuccess: () => {
       console.log("onSuccess");
-      toast.success("Rol eliminado exitosamente");
-      queryClient.invalidateQueries({ queryKey: ["getAllRoles"] });
+      toast.success("usuario eliminado exitosamente");
+      queryClient.invalidateQueries({ queryKey: ["getAllUsers"] });
     },
 
     onError: (error) => {
@@ -114,18 +116,18 @@ export default function PUserEdit() {
             size="sm"
             sx={{ minWidth: 140 }}
           >
-            <MenuItem onClick={() => handleRoleView(row.original)}>
+            <MenuItem onClick={() => handleUserView(row.original)}>
               <TbEyeglass />
               Ver
             </MenuItem>
-            <MenuItem onClick={() => handleRoleEdit(row.original)}>
+            <MenuItem onClick={() => handleUserEdit(row.original)}>
               <TbEdit />
               Editar
             </MenuItem>
             <Divider />
             <MenuItem
               color="danger"
-              onClick={() => handleRoleDelete(row.original.id)}
+              onClick={() => handleUserDelete(row.original.id)}
             >
               <TbTrash />
               Borrar
@@ -149,15 +151,59 @@ export default function PUserEdit() {
     },
     {
       header: "rol",
-      accessorKey: "role",
+      accessorKey: "name",
       enableResizing: true, //disable resizing for just this column
       size: 100, //starting column size
       minSize: 50, //enforced during column resizing
       maxSize: 400, //enforced during column resizing
     },
     {
-      header: "descripción",
-      accessorKey: "description",
+      header: "apellido",
+      accessorKey: "lastname",
+      enableResizing: true, //disable resizing for just this column
+      size: 100, //starting column size
+      minSize: 50, //enforced during column resizing
+      maxSize: 400, //enforced during column resizing
+    },
+    {
+      header: "email",
+      accessorKey: "email",
+      enableResizing: true, //disable resizing for just this column
+      size: 100, //starting column size
+      minSize: 50, //enforced during column resizing
+      maxSize: 400, //enforced during column resizing
+    },
+    {
+      header: "telefono",
+      accessorKey: "phone",
+      enableResizing: true, //disable resizing for just this column
+      size: 100, //starting column size
+      minSize: 50, //enforced during column resizing
+      maxSize: 400, //enforced during column resizing
+    },
+    {
+      header: "apodo",
+      accessorKey: "username",
+      enableResizing: true, //disable resizing for just this column
+      size: 100, //starting column size
+      minSize: 50, //enforced during column resizing
+      maxSize: 400, //enforced during column resizing
+    },
+    // {
+    //   header: "Acciones",
+    //   enableHiding: false,
+    //   enableSorting: false,
+    //   cell: ({ row }) => <Input type="password"></Input>,
+    //   enableResizing: true, //disable resizing for just this column
+    //   size: 100, //starting column size
+    //   minSize: 50, //enforced during column resizing
+    //   maxSize: 400,
+    // },
+
+    // ... other columns
+    {
+      header: "rol",
+      accessorKey: "role",
       enableResizing: true, //disable resizing for just this column
       size: 100, //starting column size
       minSize: 50, //enforced during column resizing
@@ -218,35 +264,42 @@ export default function PUserEdit() {
   const [isViewing, setIsViewing] = useState(false);
 
   const [editCount, setEditCount] = useState(0); // Contador para forzar re-render
-  const [editRoleInfo, setEditRoleInfo] = useState<IRoleEdit>({
+  const [editUserInfo, setEditUserInfo] = useState<IUserEdit>({
     id: 0,
+    name: "",
+    lastname: "",
+    email: "",
+    phone: "",
+    username: "",
+    password: "",
     role: "",
-    description: "",
   });
-  const [viewRoleInfo, setViewRoleInfo] = useState<IRoleEdit>({
+  const [viewUsernfo, setViewUserInfo] = useState<IUserEdit>({
     id: 0,
+    name: "",
+    lastname: "",
+    email: "",
+    phone: "",
+    username: "",
+    password: "",
     role: "",
-    description: "",
   });
 
-  const handleRoleDelete = (id: number) => {
-    deleteRolesMutation.mutate(id);
+  const handleUserDelete = (id: number) => {
+    deleteUsersMutation.mutate(id);
   };
-  const handleRoleEdit = (roleData: IRoleEdit) => {
+  const handleUserEdit = (userData: IUserEdit) => {
     setIsViewing(false);
     setIsEditing(true);
-    setEditRoleInfo(roleData);
+    setEditUserInfo(userData);
     setEditCount(editCount + 1); // Incrementa el contador para forzar un re-render
   };
-  const handleModuleView = (roleData: IRoleEdit) => {
+  const handleUserView = (userData: IUserEdit) => {
     setIsEditing(false);
     setIsViewing(true);
-    setEditRoleInfo(roleData);
-    setEditCount(editCount + 1); // Incrementa el contador para forzar un re-render
-  };
+    setViewUserInfo(userData);
 
-  const handleCourseView = () => {
-    // toast.info("Visualizando el curso..." + id);
+    setEditCount(editCount + 1); // Incrementa el contador para forzar un re-render
   };
 
   return (
@@ -730,8 +783,8 @@ export default function PUserEdit() {
                 ) : isViewing ? (
                   <Card>estas viendo</Card>
                 ) : (
-                  //   <PModuleEditForm {...editModuleInfo} />
-                  <PRoleEditForm {...editRoleInfo} />
+                  <Card>estas editando</Card>
+                  // <PRoleEditForm {...editRoleInfo} />
                 )}
               </div>
             </Box>
