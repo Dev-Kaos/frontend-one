@@ -122,8 +122,14 @@ export default function LoginTwo() {
     // const { username, password } = data;
     // const dataToSend = { username, password };
     // console.log(JSON.stringify(dataToSend));
-
-    navigate("/docente/");
+    if (
+      data.username === "Administrador1" ||
+      data.password === "Administrador1"
+    ) {
+      navigate("/recuperacion");
+    } else {
+      toast.error("Inicio de sesion fallido");
+    }
   });
 
   return (

@@ -19,15 +19,20 @@ import { useMutation, refetch } from "@tanstack/react-query";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { IModuleCreate, IModuleEdit } from "../../../shared/types/moduleTypes";
+import {
+  IModuleCreate,
+  IModuleEdit,
+} from "../../../../shared/types/moduleTypes";
 
-import { createModules, updateModules } from "../../api/ModulesAPI";
+import { createModules, updateModules } from "../../../api/ModulesAPI";
+import { IRoleEdit } from "../../../../shared/types/roleTypes";
+import { updateRoles } from "../../../api/RolesAPI";
 
 // import CourseCardOne from "./CourseCardOne";
 
-function PModuleEditForm(moduleData: IModuleEdit) {
+function PRoleEditForm(roleData: IRoleEdit) {
   const [textAreaValue, setTextAreaValue] = useState("");
-  const [isModuleEdited, setIsModuleEdited] = useState(false);
+  const [isRoleEdited, setIsRoleEdited] = useState(false);
 
   // TODO: notify-toast theme
   const theme = useTheme();
@@ -41,46 +46,41 @@ function PModuleEditForm(moduleData: IModuleEdit) {
   } = useForm();
 
   // Utiliza el tipo de datos ICoursecreatedCourseInfo
-  const [editModuleInfo, setEditModuleInfo] = useState<IModuleEdit>({
-    id: moduleData.id,
-    module: moduleData.module,
-    description: moduleData.description,
-  } as IModuleEdit);
+  const [editRoleInfo, setEditRoleInfo] = useState<IRoleEdit>({
+    id: roleData.id,
+    role: roleData.role,
+    description: roleData.description,
+  } as IRoleEdit);
 
   const onSubmit = handleSubmit((data) => {
-    const moduleInfo: IModuleEdit = {
-      id: editModuleInfo.id,
-      module: data.module,
+    const roleInfo: IRoleEdit = {
+      id: editRoleInfo.id,
+      role: data.role,
       description: data.description,
     };
 
-    editModuleMutation.mutate(moduleInfo);
-    setIsModuleEdited(true);
-    setEditModuleInfo(moduleInfo);
+    editRoleMutation.mutate(roleInfo);
+    setIsRoleEdited(true);
+    setEditRoleInfo(roleInfo);
   });
 
   // react query
-  const editModuleMutation = useMutation({
+  const editRoleMutation = useMutation({
     // mutationKey: ["editModules"],
 
-    mutationFn: updateModules,
+    mutationFn: updateRoles,
     onSuccess: (data) => {
-      toast.success("Curso editado exitosamente");
+      toast.success("Rol editado exitosamente");
     },
 
     onError: (error) => {
       // Aquí puedes manejar los errores de la respuesta
 
-      toast.error("Error al editar el module " + error);
+      toast.error("Error al editar el rol " + error);
     },
 
     // ... resto de la configuración
   });
-
-  const handleEdit = () => {
-    setEditModuleInfo(editModuleInfo);
-    console.log("|| editModuleInfo", editModuleInfo);
-  };
 
   return (
     <>
@@ -98,7 +98,7 @@ function PModuleEditForm(moduleData: IModuleEdit) {
       >
         <Card>
           <Box>
-            <Typography level="title-md">Información del Modulo</Typography>
+            <Typography level="title-md">Información del Rol</Typography>
           </Box>
           <Divider />
 
@@ -120,11 +120,11 @@ function PModuleEditForm(moduleData: IModuleEdit) {
               >
                 <FormLabel>Modulo</FormLabel>
                 <Input
-                  placeholder={moduleData.module}
+                  placeholder={roleData.role}
                   type="text"
                   variant="outlined"
                   size="sm"
-                  {...register("module", {
+                  {...register("role", {
                     required: {
                       value: true,
                       message: "el nombre del modulo no puede estar vacio",
@@ -140,17 +140,17 @@ function PModuleEditForm(moduleData: IModuleEdit) {
                         "el nombre del modulo puede tener 100 letras maximo",
                     },
                     pattern: {
-                      value: /^[a-zA-Z\s.,;:!?]+$/,
+                      value: /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ.,;:!?¡¿\s]+$/,
                       message:
                         "El nombre del modulo solo puede contener letras, espacios y signos de puntuación básicos",
                     },
                   })}
-                  name="module"
+                  name="role"
                 />
-                {errors.module && (
+                {errors.role && (
                   <FormHelperText sx={{ gap: 1 }}>
                     <TbAlertTriangle />
-                    <span>{errors.module.message as string}</span>
+                    <span>{errors.role.message as string}</span>
                   </FormHelperText>
                 )}
               </FormControl>
@@ -182,7 +182,7 @@ function PModuleEditForm(moduleData: IModuleEdit) {
                     },
                   })}
                   name="description"
-                  placeholder={moduleData.description}
+                  placeholder={roleData.description}
                   value={textAreaValue}
                   onChange={(event) => setTextAreaValue(event.target.value)}
                   minRows={2}
@@ -241,4 +241,4 @@ function PModuleEditForm(moduleData: IModuleEdit) {
   );
 }
 
-export default PModuleEditForm;
+export default PRoleEditForm;

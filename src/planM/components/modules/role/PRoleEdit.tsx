@@ -55,41 +55,33 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
 import { toast, ToastContainer } from "react-toastify";
 
-// import CoursesFormEdit from "./CoursesFormEdit";
-// import { deleteCourse, getCourses } from "../../api/CoursesAPI";
-import { deleteModules, getModules } from "../../api/ModulesAPI";
+import { deleteRoles, getRoles } from "../../../api/RolesAPI";
+import { IRoleEdit } from "../../../../shared/types/roleTypes";
+import PRoleEditForm from "./PRoleEditForm";
 
-import { IModuleEdit } from "../../../shared/types/moduleTypes";
-import { set } from "react-hook-form";
-import PModuleEditForm from "./PModuleEditForm";
-
-export default function PModuleEdit() {
+export default function PRoleEdit() {
   // TODO: notify-toast theme
   const theme = useTheme();
   const { isFetching, isLoading, error, isError, data, refetch } = useQuery({
-    queryKey: ["getAllModules"],
-    queryFn: getModules,
+    queryKey: ["getAllRoles"],
+    queryFn: getRoles,
     refetchOnWindowFocus: false,
   });
 
-  const deleteModulesMutation = useMutation({
+  const deleteRolesMutation = useMutation({
     // mutationKey: ["createCourse"],
 
-    mutationFn: deleteModules,
+    mutationFn: deleteRoles,
     onSuccess: () => {
-      // Aquí tienes acceso a los datos de la respuesta
-      // Actualizar la cache o realizar otras acciones después de crear el curso
-
-      // Puedes actualizar el estado local, mostrar una notificación, o realizar cualquier otra acción
-      // setCourses([...courses, data]); // Ejemplo: Agregar el nuevo curso a un array local
-      toast.success("Modulo eliminado exitosamente");
-      queryClient.invalidateQueries({ queryKey: ["getAllModules"] });
+      console.log("onSuccess");
+      toast.success("Rol eliminado exitosamente");
+      queryClient.invalidateQueries({ queryKey: ["getAllRoles"] });
     },
 
     onError: (error) => {
       // Aquí puedes manejar los errores de la respuesta
 
-      toast.error("Error al eliminar el modulo " + error);
+      toast.error("Error al eliminar el rol " + error);
     },
 
     // ... resto de la configuración
@@ -98,7 +90,7 @@ export default function PModuleEdit() {
   const tableData = data;
   const queryClient = useQueryClient();
 
-  const getAllModules = () => {
+  const getAllRoles = () => {
     // queryClient.invalidateQueries({ queryKey: ["products"] });
     refetch();
   };
@@ -122,18 +114,18 @@ export default function PModuleEdit() {
             size="sm"
             sx={{ minWidth: 140 }}
           >
-            <MenuItem onClick={() => handleModuleView(row.original)}>
+            <MenuItem onClick={() => handleRoleView(row.original)}>
               <TbEyeglass />
               Ver
             </MenuItem>
-            <MenuItem onClick={() => handleModuleEdit(row.original)}>
+            <MenuItem onClick={() => handleRoleEdit(row.original)}>
               <TbEdit />
               Editar
             </MenuItem>
             <Divider />
             <MenuItem
               color="danger"
-              onClick={() => handleModuleDelete(row.original.id)}
+              onClick={() => handleRoleDelete(row.original.id)}
             >
               <TbTrash />
               Borrar
@@ -156,8 +148,8 @@ export default function PModuleEdit() {
       maxSize: 400, //enforced during column resizing
     },
     {
-      header: "modulo",
-      accessorKey: "module",
+      header: "rol",
+      accessorKey: "role",
       enableResizing: true, //disable resizing for just this column
       size: 100, //starting column size
       minSize: 50, //enforced during column resizing
@@ -226,30 +218,30 @@ export default function PModuleEdit() {
   const [isViewing, setIsViewing] = useState(false);
 
   const [editCount, setEditCount] = useState(0); // Contador para forzar re-render
-  const [editModuleInfo, setEditModuleInfo] = useState<IModuleEdit>({
+  const [editRoleInfo, setEditRoleInfo] = useState<IRoleEdit>({
     id: 0,
-    module: "",
+    role: "",
     description: "",
   });
-  const [viewModuleInfo, setViewModuleInfo] = useState<IModuleEdit>({
+  const [viewRoleInfo, setViewRoleInfo] = useState<IRoleEdit>({
     id: 0,
-    module: "",
+    role: "",
     description: "",
   });
 
-  const handleModuleDelete = (id: number) => {
-    deleteModulesMutation.mutate(id);
+  const handleRoleDelete = (id: number) => {
+    deleteRolesMutation.mutate(id);
   };
-  const handleModuleEdit = (moduleData: IModuleEdit) => {
+  const handleRoleEdit = (roleData: IRoleEdit) => {
     setIsViewing(false);
     setIsEditing(true);
-    setEditModuleInfo(moduleData);
+    setEditRoleInfo(roleData);
     setEditCount(editCount + 1); // Incrementa el contador para forzar un re-render
   };
-  const handleModuleView = (moduleData: IModuleEdit) => {
+  const handleModuleView = (roleData: IRoleEdit) => {
     setIsEditing(false);
     setIsViewing(true);
-    setEditModuleInfo(moduleData);
+    setEditRoleInfo(roleData);
     setEditCount(editCount + 1); // Incrementa el contador para forzar un re-render
   };
 
@@ -303,7 +295,7 @@ export default function PModuleEdit() {
                   sx={{ flex: 1 }}
                   size="sm"
                 >
-                  <FormLabel>Buscar Modulo</FormLabel>
+                  <FormLabel>Buscar Rol</FormLabel>
                   <Input
                     size="sm"
                     placeholder="sexto // secretariado // ingles"
@@ -360,7 +352,7 @@ export default function PModuleEdit() {
                   startDecorator={<TbSearch />}
                   variant="outlined"
                   //   onClick={() => table.setGlobalFilter(filtering)}
-                  onClick={getAllModules}
+                  onClick={getAllRoles}
                 >
                   Buscar
                 </Button>
@@ -738,7 +730,8 @@ export default function PModuleEdit() {
                 ) : isViewing ? (
                   <Card>estas viendo</Card>
                 ) : (
-                  <PModuleEditForm {...editModuleInfo} />
+                  //   <PModuleEditForm {...editModuleInfo} />
+                  <PRoleEditForm {...editRoleInfo} />
                 )}
               </div>
             </Box>

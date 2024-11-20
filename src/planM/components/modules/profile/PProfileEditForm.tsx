@@ -14,52 +14,26 @@ import CardOverflow from "@mui/joy/CardOverflow";
 import { useState } from "react";
 import { Textarea, useTheme } from "@mui/joy";
 import { TbAlertTriangle, TbUserPlus } from "react-icons/tb";
-import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useForm, set } from "react-hook-form";
+import { useMutation, refetch } from "@tanstack/react-query";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { IModuleCreate } from "../../../shared/types/moduleTypes";
+import {
+  IModuleCreate,
+  IModuleEdit,
+} from "../../../../shared/types/moduleTypes";
 
-import { createModules } from "../../api/ModulesAPI";
+import { createModules, updateModules } from "../../../api/ModulesAPI";
+import { IRoleEdit } from "../../../../shared/types/roleTypes";
+import { updateRoles } from "../../../api/RolesAPI";
 
 // import CourseCardOne from "./CourseCardOne";
 
-function PModuleCreate() {
+function PRoleEditForm(roleData: IRoleEdit) {
   const [textAreaValue, setTextAreaValue] = useState("");
-  const [isModuleCreated, setIsModuleCreated] = useState(false);
+  const [isRoleEdited, setIsRoleEdited] = useState(false);
 
-  // Utiliza el tipo de datos ICoursecreatedCourseInfo
-  const [createdModuleInfo, setCreatedModuleInfo] = useState<IModuleCreate>({
-    id: 0,
-    module: "",
-    description: "",
-  } as IModuleCreate);
-
-  // react query
-  const addModuleMutation = useMutation({
-    // mutationKey: ["createmodules"],
-
-    mutationFn: createModules,
-    onSuccess: (data) => {
-      // Aquí tienes acceso a los datos de la respuesta
-      // Actualizar la cache o realizar otras acciones después de crear el curso
-
-      // Puedes actualizar el estado local, mostrar una notificación, o realizar cualquier otra acción
-      // setCourses([...courses, data]); // Ejemplo: Agregar el nuevo curso a un array local
-      toast.success("Curso creado exitosamente");
-      setIsModuleCreated(true);
-      setCreatedModuleInfo(data);
-    },
-
-    onError: (error) => {
-      // Aquí puedes manejar los errores de la respuesta
-
-      toast.error("Error al crear el module " + error);
-    },
-
-    // ... resto de la configuración
-  });
   // TODO: notify-toast theme
   const theme = useTheme();
 
@@ -71,19 +45,41 @@ function PModuleCreate() {
     getValues,
   } = useForm();
 
-  const onSubmit = handleSubmit((data) => {
-    // Aquí puedes hacer lo que quieras con los datos del formulario
-    // Coregir la redireccion
+  // Utiliza el tipo de datos ICoursecreatedCourseInfo
+  const [editRoleInfo, setEditRoleInfo] = useState<IRoleEdit>({
+    id: roleData.id,
+    role: roleData.role,
+    description: roleData.description,
+  } as IRoleEdit);
 
-    // console.log(data);
-    // const { username, password } = data;
-    // const dataToSend = { username, password };
-    // console.log(JSON.stringify(dataToSend));
-    // Aquí podrías hacer una llamada a tu API o realizar otras acciones
-    // ...
-    // navigate("/administrador");
-    addModuleMutation.mutate(data as IModuleCreate);
-    // toast.success("Curso creado correctamente");
+  const onSubmit = handleSubmit((data) => {
+    const roleInfo: IRoleEdit = {
+      id: editRoleInfo.id,
+      role: data.role,
+      description: data.description,
+    };
+
+    editRoleMutation.mutate(roleInfo);
+    setIsRoleEdited(true);
+    setEditRoleInfo(roleInfo);
+  });
+
+  // react query
+  const editRoleMutation = useMutation({
+    // mutationKey: ["editModules"],
+
+    mutationFn: updateRoles,
+    onSuccess: (data) => {
+      toast.success("Rol editado exitosamente");
+    },
+
+    onError: (error) => {
+      // Aquí puedes manejar los errores de la respuesta
+
+      toast.error("Error al editar el rol " + error);
+    },
+
+    // ... resto de la configuración
   });
 
   return (
@@ -102,7 +98,7 @@ function PModuleCreate() {
       >
         <Card>
           <Box>
-            <Typography level="title-md">Información del Modulo</Typography>
+            <Typography level="title-md">Información del Rol</Typography>
           </Box>
           <Divider />
 
@@ -124,11 +120,11 @@ function PModuleCreate() {
               >
                 <FormLabel>Modulo</FormLabel>
                 <Input
+                  placeholder={roleData.role}
                   type="text"
-                  placeholder="Nombre del Modulo"
                   variant="outlined"
                   size="sm"
-                  {...register("module", {
+                  {...register("role", {
                     required: {
                       value: true,
                       message: "el nombre del modulo no puede estar vacio",
@@ -144,17 +140,17 @@ function PModuleCreate() {
                         "el nombre del modulo puede tener 100 letras maximo",
                     },
                     pattern: {
-                      value: /^[a-zA-Z\s.,;:!?]+$/,
+                      value: /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ.,;:!?¡¿\s]+$/,
                       message:
                         "El nombre del modulo solo puede contener letras, espacios y signos de puntuación básicos",
                     },
                   })}
-                  name="module"
+                  name="role"
                 />
-                {errors.module && (
+                {errors.role && (
                   <FormHelperText sx={{ gap: 1 }}>
                     <TbAlertTriangle />
-                    <span>{errors.module.message as string}</span>
+                    <span>{errors.role.message as string}</span>
                   </FormHelperText>
                 )}
               </FormControl>
@@ -169,7 +165,6 @@ function PModuleCreate() {
               >
                 <FormLabel>Descripción</FormLabel>
                 <Textarea
-                  placeholder="Describe las caracteristicas del curso"
                   {...register("description", {
                     required: {
                       value: true,
@@ -187,41 +182,10 @@ function PModuleCreate() {
                     },
                   })}
                   name="description"
+                  placeholder={roleData.description}
                   value={textAreaValue}
                   onChange={(event) => setTextAreaValue(event.target.value)}
                   minRows={2}
-                  // startDecorator={
-                  //   <Box sx={{ display: "flex", gap: 0.5, flex: 1 }}>
-                  //     <IconButton
-                  //       variant="outlined"
-                  //       color="neutral"
-                  //       onClick={addEmoji("👍")}
-                  //     >
-                  //       👍
-                  //     </IconButton>
-                  //     <IconButton
-                  //       variant="outlined"
-                  //       color="neutral"
-                  //       onClick={addEmoji("🏖")}
-                  //     >
-                  //       🏖
-                  //     </IconButton>
-                  //     <IconButton
-                  //       variant="outlined"
-                  //       color="neutral"
-                  //       onClick={addEmoji("😍")}
-                  //     >
-                  //       😍
-                  //     </IconButton>
-                  //     <Button
-                  //       variant="outlined"
-                  //       color="neutral"
-                  //       sx={{ ml: "auto" }}
-                  //     >
-                  //       See all
-                  //     </Button>
-                  //   </Box>
-                  // }
                   endDecorator={
                     <Typography
                       level="body-xs"
@@ -252,7 +216,7 @@ function PModuleCreate() {
                 startDecorator={<TbUserPlus size={20} />}
                 type="submit"
               >
-                Crear
+                Editar
               </Button>
             </CardActions>
           </CardOverflow>
@@ -277,4 +241,4 @@ function PModuleCreate() {
   );
 }
 
-export default PModuleCreate;
+export default PRoleEditForm;

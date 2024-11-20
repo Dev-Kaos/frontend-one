@@ -1,55 +1,17 @@
 import { Box, Card, Divider, IconButton, Stack, Typography } from "@mui/joy";
 import { useState } from "react";
 
-import { motion, useAnimate } from "framer-motion";
+import { motion } from "framer-motion";
 
 import { TbEdit, TbFileInfo, TbNews } from "react-icons/tb";
-import PModuleCreate from "../components/modules/PModuleCreate";
-import PModuleEdit from "../components/modules/PModuleEdit";
+import PModuleCreate from "../components/modules/module/PModuleCreate";
+import PModuleEdit from "../components/modules/module/PModuleEdit";
 
 function PModules() {
   // card states
 
   const [isCreating, setIsCreating] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-
-  const [scope, animate] = useAnimate();
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleOpen = () => {
-    setIsOpen(true);
-  };
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleResize = () => {
-    setIsLoaded(true);
-  };
-
-  const variants = {
-    small: { width: 200, height: 100 },
-    large: { width: "100%", height: "90%" },
-  };
-
-  const [isLarge, setIsLarge] = useState(false);
-
-  const handleSizeChange = (newSize: { width: string; height: string }) => {
-    animate(
-      scope.current,
-      { width: newSize.width, height: newSize.height },
-      {
-        type: "spring",
-        duration: 1,
-      }
-    );
-  };
 
   const handleCreateModule = () => {
     setIsEditing(false);
